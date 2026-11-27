@@ -96,17 +96,17 @@ hu_in01,95,322,3	script	Redhead#abyss04	4_F_JOB_BLACKSMITH,{
 		setarray .@plate$[1], "DragonA_Red", "DragonA_Green", "DragonA_Gold", "DragonA_Purple", "DragonA_Blue", "DragonA_Silver";
 		setarray .@orb$[1], "Dragenergy_Red", "Dragenergy_Green", "Dragenergy_Gold", "Dragenergy_Purple", "Dragenergy_Blue", "Dragenergy_Silver";
 		.@give$ = .@plate$[.@s];
-		setarray .@req$[0], .@orb$[.@s], "Drabone_L", "Drabone_S", "Dragon_Canine", "Dragon_Scale", "Dragon_Train", "Dragon's_Skin", "Dragonball_Green", "Dragonball_Blue", "Dragonball_Red", "Dragonball_Yellow";
+		setarray .@req$[0], .@orb$[.@s], "Drabone_L", "Drabone_S", "Dragon_Canine", "Dragon_Scale", "Dragon_Train", "Dragons_Skin", "Dragonball_Green", "Dragonball_Blue", "Dragonball_Red", "Dragonball_Yellow";
 		setarray .@qty[0], 50, 3, 15, 75, 100, 50, 100, 35, 35, 35, 35;
 	}
 	else if (.@s == 7) {
 		.@give$ = "Drag_Manteau";
-		setarray .@req$[0], "Drabone_L", "Drabone_S", "Dragon_Canine", "Dragon_Scale", "Dragon_Train", "Dragon's_Skin", "Dragonball_Green", "Dragonball_Blue", "Dragonball_Red", "Dragonball_Yellow";
+		setarray .@req$[0], "Drabone_L", "Drabone_S", "Dragon_Canine", "Dragon_Scale", "Dragon_Train", "Dragons_Skin", "Dragonball_Green", "Dragonball_Blue", "Dragonball_Red", "Dragonball_Yellow";
 		setarray .@qty[0], 2, 6, 15, 75, 15, 75, 25, 25, 25, 25;
 	}
 	else {
 		.@give$ = "Dragon_Boots";
-		setarray .@req$[0], "Drabone_L", "Drabone_S", "Dragon_Canine", "Dragon_Scale", "Dragon_Train", "Dragon's_Skin", "Dragonball_Green", "Dragonball_Blue", "Dragonball_Red", "Dragonball_Yellow";
+		setarray .@req$[0], "Drabone_L", "Drabone_S", "Dragon_Canine", "Dragon_Scale", "Dragon_Train", "Dragons_Skin", "Dragonball_Green", "Dragonball_Blue", "Dragonball_Red", "Dragonball_Yellow";
 		setarray .@qty[0], 1, 8, 30, 60, 40, 60, 25, 25, 25, 25;
 	}
 	.@amount = 1;

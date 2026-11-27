@@ -221,7 +221,7 @@ alberta,119,221,6	script	Charlron	107,{
 					next;
 					delitem 1019,50; //Wooden_Block
 					delitem 998,10; //Iron
-					delitem 919,20; //Animal's_Skin
+					delitem 919,20; //Animals_Skin
 					skill "MC_CHANGECART",1,SKILL_PERM;
 					mes "[Charlron]";
 					mes "Congratulations.";

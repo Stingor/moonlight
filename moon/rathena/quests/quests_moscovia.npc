@@ -1459,7 +1459,7 @@ mosk_fild01,86,104,3	script	Aged Stranger#npc	4_M_GUSLIMAN,{
 			next;
 			delitem 7201,30; //Log
 			delitem 7197,20; //Tough_Vines
-			delitem 7106,20; //Goat's_Horn
+			delitem 7106,20; //Goats_Horn
 			delitem 7065,10; //Sea_Otter_Leather
 			mos_whale_edq = 34;
 			if (isbegin_quest(18117))

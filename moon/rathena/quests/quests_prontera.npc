@@ -186,7 +186,7 @@ prt_in,38,108,4	script	Teacher	53,{
 				delitem 703,1;  //Hinalle
 				delitem 704,1;  //Aloe
 				delitem 708,1;  //Ment
-				getitem 5012,1;	//Ph.D_Hat
+				getitem 5012,1;	//PhD_Hat
 				mes "[Teacher]";
 				mes "I really really appreciate you what you've done for me. I'm truly grateful. I will give my precious item to you as promised.";
 				next;

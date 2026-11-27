@@ -427,7 +427,7 @@ Body:
     Drops:
       - Item: Raccoon_Leaf
         Rate: 2750
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 2750
       - Item: Sweet_Potato
         Rate: 400
@@ -523,11 +523,11 @@ Body:
     DamageMotion: 192
     Ai: 04
     Drops:
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 4500
       - Item: Poo_Poo_Hat
         Rate: 3
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 2500
       - Item: Wing_Of_Fly
         Rate: 500
@@ -626,9 +626,9 @@ Body:
         Rate: 5
       - Item: Wing_Of_Fly
         Rate: 500
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 525
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 2750
       - Item: Strawberry
         Rate: 300
@@ -1105,7 +1105,7 @@ Body:
     Drops:
       - Item: Boody_Red
         Rate: 35
-      - Item: Scorpion's_Tail
+      - Item: Scorpions_Tail
         Rate: 2750
       - Item: Elunium_Stone
         Rate: 29
@@ -1204,7 +1204,7 @@ Body:
     Drops:
       - Item: Boody_Red
         Rate: 30
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 3250
       - Item: Scell
         Rate: 200
@@ -1262,7 +1262,7 @@ Body:
         Rate: 100
       - Item: Katar_Of_Thornbush
         Rate: 1
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 3
       - Item: Sand_Man_Card
         Rate: 1
@@ -1401,7 +1401,7 @@ Body:
         Rate: 500
       - Item: Green_Herb
         Rate: 500
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Aloebera
         Rate: 5
@@ -1822,7 +1822,7 @@ Body:
     Ai: 04
     Class: Boss
     Drops:
-      - Item: Big_Sis'_Ribbon
+      - Item: Big_Sis_Ribbon
         Rate: 25
       - Item: Shattered_Rune
         Rate: 10000
@@ -1879,7 +1879,7 @@ Body:
         Rate: 750
       - Item: Star_Dust_Blade
         Rate: 50
-      - Item: Angel's_Warmth
+      - Item: Angels_Warmth
         Rate: 500
       - Item: Light_Granule
         Rate: 250
@@ -1922,15 +1922,15 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Oldman's_Romance
+      - Item: Oldmans_Romance
         Rate: 25
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 4000
       - Item: Azure_Jewel
         Rate: 500
       - Item: Shattered_Rune
         Rate: 10000
-      - Item: Angel's_Arrival
+      - Item: Angels_Arrival
         Rate: 500
       - Item: Light_Granule
         Rate: 250
@@ -1983,7 +1983,7 @@ Body:
         Rate: 1
       - Item: Rainbow_Carrot
         Rate: 25
-      - Item: Angel's_Protection
+      - Item: Angels_Protection
         Rate: 500
       - Item: IFN_Eclipse_Card
         Rate: 1
@@ -2071,7 +2071,7 @@ Body:
     Modes:
       Mvp: true
     MvpDrops:
-      - Item: Tiger's_Skin
+      - Item: Tigers_Skin
         Rate: 5000
       - Item: Tiger_Footskin
         Rate: 1000
@@ -2196,7 +2196,7 @@ Body:
       - Item: Star_Crumb
         Rate: 4000
     Drops:
-      - Item: Thin_N'_Long_Tongue
+      - Item: Thin_N_Long_Tongue
         Rate: 4850
       - Item: Forturn_Sword
         Rate: 250

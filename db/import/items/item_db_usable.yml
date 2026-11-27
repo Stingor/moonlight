@@ -1504,7 +1504,7 @@ Body:
     Weight: 30
     Script: "percentheal 50,50; sc_start SC_CONFUSION,10000,0,1000,0;\n"
   - Id: 12136
-    AegisName: Women's_Bundle
+    AegisName: Womens_Bundle
     Name: Women's Bundle
     Type: Usable
     Weight: 100
@@ -3105,7 +3105,7 @@ Body:
       BuyingStore: true
     Script: "getitem 7940,100;\n"
   - Id: 12342
-    AegisName: Manuk's_Opportunity
+    AegisName: Manuks_Opportunity
     Name: Manuk's Opportunity
     Type: Usable
     Weight: 50
@@ -3118,7 +3118,7 @@ Body:
       NoGuildStorage: true
     Script: "specialeffect2 EF_POTION_BERSERK; sc_start SC_MANU_ATK,600000,10;\n"
   - Id: 12343
-    AegisName: Manuk's_Courage
+    AegisName: Manuks_Courage
     Name: Manuk's Courage
     Type: Usable
     Weight: 50
@@ -3131,7 +3131,7 @@ Body:
       NoGuildStorage: true
     Script: "specialeffect2 EF_GUARD; sc_start SC_MANU_DEF,600000,10;\n"
   - Id: 12344
-    AegisName: Pinguicula's_fruit_Jam
+    AegisName: Pinguiculas_fruit_Jam
     Name: Pinguicula's Fruit Jam
     Type: Usable
     Weight: 50
@@ -3144,7 +3144,7 @@ Body:
       NoGuildStorage: true
     Script: "specialeffect2 EF_POTION_BERSERK; sc_start SC_SPL_ATK,600000,10;\n"
   - Id: 12345
-    AegisName: Luciola's_Honey_Jam
+    AegisName: Luciolas_Honey_Jam
     Name: Luciola's Honey Jam
     Type: Usable
     Weight: 50
@@ -3171,7 +3171,7 @@ Body:
       BuyingStore: true
     Script: "itemskill \"ALL_REVERSEORCISH\",1;\n"
   - Id: 12348
-    AegisName: Manuk's_Faith
+    AegisName: Manuks_Faith
     Name: Manuk's Faith
     Type: Usable
     Weight: 50
@@ -3184,7 +3184,7 @@ Body:
       NoGuildStorage: true
     Script: "specialeffect2 EF_POTION_BERSERK; sc_start SC_MANU_MATK,600000,10;\n"
   - Id: 12349
-    AegisName: Cornus'_Tears
+    AegisName: Cornus_Tears
     Name: Cornus' Tears
     Type: Usable
     Weight: 50
@@ -3368,7 +3368,7 @@ Body:
       BuyingStore: true
     Script: "pet;\n"
   - Id: 12370
-    AegisName: Gril's_Naivety
+    AegisName: Grils_Naivety
     Name: Girl's Naivety
     Type: Usable
     Buy: 20000
@@ -3392,7 +3392,7 @@ Body:
       BuyingStore: true
     Script: "pet;\n"
   - Id: 12373
-    AegisName: Boy's_Naivety
+    AegisName: Boys_Naivety
     Name: Boy's Pure Heart
     Type: Usable
     Buy: 20000
@@ -3441,7 +3441,7 @@ Body:
     Weight: 100
     Script: "percentheal 50,50;\n"
   - Id: 12379
-    AegisName: Pope's_Cookie
+    AegisName: Popes_Cookie
     Name: Pope Cookie
     Type: Usable
     Buy: 10
@@ -7097,7 +7097,7 @@ Body:
     Weight: 10
     Script: "rentitem 13308,86400;\n"
   - Id: 14432
-    AegisName: Odin's_Blessing_Box
+    AegisName: Odins_Blessing_Box
     Name: Neo Odin's Blessing Box
     Type: Usable
     Buy: 20
@@ -7125,7 +7125,7 @@ Body:
     Weight: 10
     Script: "rentitem 5492,86400;\n"
   - Id: 14436
-    AegisName: Ulle's_Cap_Box
+    AegisName: Ulle_Cap_Box_I
     Name: Neo Ulle's Cap Box
     Type: Usable
     Buy: 20
@@ -7663,7 +7663,7 @@ Body:
     Weight: 10
     Script: "specialeffect2 EF_SPELLBREAKER; bonus_script \"{ bonus bUseSPrate,-10; bonus bMaxSPrate,10; }\",1800;\n"
   - Id: 14601
-    AegisName: Tyr's_Blessing
+    AegisName: Tyrs_Blessing
     Name: Tyr's Blessing
     Type: Usable
     Weight: 10
@@ -8091,7 +8091,7 @@ Body:
     Weight: 1
     Script: "rentitem 5280,604800;\n"
   - Id: 16423
-    AegisName: Episode_13.1_Key_Package
+    AegisName: F_Pet_Egg_Scroll3
     Name: Episode 13.1 Key Package
     Type: Usable
     Buy: 20
@@ -10276,7 +10276,7 @@ Body:
     Weight: 100
     Script: "sc_start SC_SLOWDOWN,5000,100;\n"
   - Id: 22547
-    AegisName: Anti-Payne_Moment
+    AegisName: Anodyne_B
     Name: Anti-Payne Moment
     Type: Usable
     Buy: 10
@@ -10797,7 +10797,7 @@ Body:
     Weight: 10
     Script: "getitem callfunc(\"F_Rand\",6228,6232,22813,19937,17314, 6635),1;\n"
   - Id: 22813
-    AegisName: Bearer's_Shadow_Box
+    AegisName: Bearers_Shadow_Box
     Name: Bearer's Shadow Box
     Type: Usable
     Buy: 10
@@ -11086,21 +11086,21 @@ Body:
     Weight: 100
     Script: "getitem 22869,10;\n"
   - Id: 22887
-    AegisName: PC-Room_Box
+    AegisName: 2015GoldPCBox
     Name: PC-Room Box
     Type: Usable
     Buy: 20
     Weight: 10
     Script: "getitem 12531,1; getitem callfunc(\"F_Rand\",6230,6234,22654),1;\n"
   - Id: 22888
-    AegisName: New_Year's_Scroll
+    AegisName: 2015_New_Year_Scroll
     Name: New Year's Scroll
     Type: Usable
     Buy: 10
     Weight: 10
     Script: "getitem callfunc(\"F_Rand\",6238,6239,6228,6232,24240,24241,24242,17474),1;\n"
   - Id: 22893
-    AegisName: New_Year's_Shadow_Cube
+    AegisName: New_Year_Shadow_Cube
     Name: New Year's Shadow Cube
     Type: Usable
     Buy: 20

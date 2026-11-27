@@ -455,7 +455,7 @@
 			mes "know this recipe now. That's";
 			mes "all for today, so please go";
 			mes "and practice on your own now.";
-			delitem 940,5; //Grasshopper's_Leg
+			delitem 940,5; //Grasshoppers_Leg
 			delitem 7031,1; //Old_Frying_Pan
 			delitem 7457,1; //Cooking_Oil
 			set cooking_q,7;

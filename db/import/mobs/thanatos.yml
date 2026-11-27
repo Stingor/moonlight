@@ -42,7 +42,7 @@ Body:
         Rate: 50
       - Item: Bloody_Page
         Rate: 500
-      - Item: Vidar's_Boots
+      - Item: Vidars_Boots
         Rate: 10
       - Item: Cookbook08
         Rate: 2
@@ -330,7 +330,7 @@ Body:
         Rate: 10000
       - Item: Old_Card_Album
         Rate: 10
-      - Item: Goibne's_Shoulder_Arms
+      - Item: Goibnes_Shoulder_Arms
         Rate: 1000
       - Item: Tha_Odium_Card
         Rate: 10
@@ -377,7 +377,7 @@ Body:
         Rate: 10000
       - Item: Old_Card_Album
         Rate: 10
-      - Item: Goibne's_Combat_Boots
+      - Item: Goibnes_Combat_Boots
         Rate: 1000
       - Item: Tha_Despero_Card
         Rate: 10
@@ -424,7 +424,7 @@ Body:
         Rate: 10000
       - Item: Old_Card_Album
         Rate: 10
-      - Item: Goibne's_Armor
+      - Item: Goibnes_Armor
         Rate: 1000
       - Item: Tha_Maero_Card
         Rate: 10
@@ -471,7 +471,7 @@ Body:
         Rate: 10000
       - Item: Old_Card_Album
         Rate: 10
-      - Item: Goibne's_Helmet
+      - Item: Goibnes_Helmet
         Rate: 1000
       - Item: Tha_Dolor_Card
         Rate: 10

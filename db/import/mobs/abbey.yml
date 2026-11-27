@@ -133,7 +133,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 5000
       - Item: Tooth_Blade
         Rate: 10
@@ -143,7 +143,7 @@ Body:
         Rate: 4500
       - Item: Well_Dried_Bone
         Rate: 20
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Pet_Food
         Rate: 400

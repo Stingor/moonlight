@@ -61,7 +61,7 @@ aldeba_in,152,166,4	script	Trader#01	86,{
 		}
 	case 2:
 		if ((countitem(2247) > 0) && (countitem(916) > 299) && (Zeny > 499)) {
-			delitem 2247,1; //Oldman's_Romance
+			delitem 2247,1; //Oldmans_Romance
 			delitem 916,300; //Feather_Of_Birds
 			set Zeny, Zeny-500;
 			mes "[Trader]";

@@ -669,12 +669,12 @@ in_rogue,376,23,1	script	Mr. Smith#rg	57,{
 				delitem 1002,5; //Iron_Ore
 				delitem 953,5; //Stone_Heart
 				delitem 507,5; //Red_Herb
-				delitem 919,5; //Animal's_Skin
+				delitem 919,5; //Animals_Skin
 				delitem 715,5; //Yellow_Gemstone
 				delitem 913,5; //Tooth_Of_Bat
-				delitem 904,5; //Scorpion's_Tail
+				delitem 904,5; //Scorpions_Tail
 				delitem 942,5; //Yoyo_Tail
-				delitem 528,5; //Monster's_Feed
+				delitem 528,5; //Monsters_Feed
 				delitem 914,5; //Fluff
 				delitem 705,5; //Clover
 				delitem 916,5; //Feather_Of_Birds

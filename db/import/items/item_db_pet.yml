@@ -204,7 +204,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9024
-    AegisName: Bapho_Jr._Egg
+    AegisName: Bapho_Jr_Egg
     Name: Bapho Jr. Egg
     Type: Petegg
     Buy: 20
@@ -699,7 +699,7 @@ Body:
     Type: Petarmor
     Buy: 20000
   - Id: 10006
-    AegisName: Queen's_Hair_Ornament
+    AegisName: Queens_Hair_Ornament
     Name: Queen's Hair Ornament
     Type: Petarmor
     Buy: 20000
@@ -829,7 +829,7 @@ Body:
     Type: Petarmor
     Buy: 20000
   - Id: 10032
-    AegisName: Queen's_Coronet
+    AegisName: Queens_Coronet
     Name: Queen's Coronet
     Type: Petarmor
     Buy: 20000

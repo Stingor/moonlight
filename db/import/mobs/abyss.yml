@@ -87,7 +87,7 @@ Body:
         Rate: 2200
       - Item: Dragon_Canine
         Rate: 1000
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 1000
       - Item: Dragon_Scale
         Rate: 2000
@@ -310,15 +310,15 @@ Body:
     Ai: 21
     Class: Boss
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 4000
       - Item: Dragon_Canine
         Rate: 4000
       - Item: Tri_Headed_Dragon_Head
         Rate: 3880
-      - Item: Morpheus's_Hood
+      - Item: Morpheuss_Hood
         Rate: 500
-      - Item: Morrigane's_Helm
+      - Item: Morriganes_Helm
         Rate: 500
       - Item: Vit_Dish10
         Rate: 300

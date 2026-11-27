@@ -36,7 +36,7 @@ Body:
     Drops:
       - Item: Shadowdecon
         Rate: 6
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 750
       - Item: Dragon_Train
         Rate: 500

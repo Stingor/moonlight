@@ -1391,7 +1391,7 @@ Body:
           - Index: 667
             Item: C_Dog_Officer
           - Index: 668
-            Item: C_Dokebi's_Wig
+            Item: C_Afro_Wig
           - Index: 669
             Item: C_Dokkebi_Mask
           - Index: 670
@@ -1853,7 +1853,7 @@ Body:
           - Index: 898
             Item: C_Freyja_Crown_J
           - Index: 899
-            Item: C_Fricca's_Circlet
+            Item: C_Fricca_Circlet
           - Index: 900
             Item: C_Fried_Egg_Hat
           - Index: 901
@@ -2017,7 +2017,7 @@ Body:
           - Index: 980
             Item: C_Gods_Rabbit_Pet
           - Index: 981
-            Item: C_Goibne's_Helm
+            Item: C_Goibne_Helmet
           - Index: 982
             Item: C_GoldButterfly_Wing
           - Index: 983
@@ -3079,9 +3079,9 @@ Body:
           - Index: 1511
             Item: C_Moonlight_Flower_Hat
           - Index: 1512
-            Item: C_Morpheus's_Hood
+            Item: C_Morpheus_Hood
           - Index: 1513
-            Item: C_Morrigane's_Helm
+            Item: C_Morriganes_Helm
           - Index: 1514
             Item: C_Mosquito_Coil
           - Index: 1515
@@ -3319,7 +3319,7 @@ Body:
           - Index: 1631
             Item: C_Petit_Choco_Hat
           - Index: 1632
-            Item: C_Ph.D_Hat
+            Item: C_PhD_Hat
           - Index: 1633
             Item: C_Ph_Ro_10th_Cap
           - Index: 1634
@@ -3929,7 +3929,7 @@ Body:
           - Index: 1936
             Item: C_Sandalphon_Wing_TW
           - Index: 1937
-            Item: C_Santa's_Hat
+            Item: C_Santas_Hat
           - Index: 1938
             Item: C_SantaHairband
           - Index: 1939
@@ -4023,7 +4023,7 @@ Body:
           - Index: 1983
             Item: C_Shalosh_Head_Dress
           - Index: 1984
-            Item: C_Shaman's_Hair_Orna
+            Item: C_Shamans_Hair_Orna
           - Index: 1985
             Item: C_Shaman_Hat
           - Index: 1986
@@ -4729,7 +4729,7 @@ Body:
           - Index: 2336
             Item: C_Welding_Mask
           - Index: 2337
-            Item: C_Well-Chewed_Pencil
+            Item: C_Pencil_In_Mouth
           - Index: 2338
             Item: C_Well_Baked_Toast
           - Index: 2339
@@ -4803,7 +4803,7 @@ Body:
           - Index: 2373
             Item: C_Will_O_Wisp
           - Index: 2374
-            Item: C_Wind-Up_Key
+            Item: C_Drama_Clockwork
           - Index: 2375
             Item: C_Wind_Fan
           - Index: 2376

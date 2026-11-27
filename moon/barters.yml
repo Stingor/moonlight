@@ -441,7 +441,7 @@ Body:
         Item: Morrigane_Helm_IL
         RequiredItems:
           - Index: 0
-            Item: Morrigane's_Helm
+            Item: Morriganes_Helm
             Refine: 9
           - Index: 1
             Item: Deep_Sea_Crab
@@ -456,7 +456,7 @@ Body:
         Item: Morrigane_Manyeau_IL
         RequiredItems:
           - Index: 0
-            Item: Morrigane's_Manteau
+            Item: Morriganes_Manteau
             Refine: 9
           - Index: 1
             Item: Rotten_Deepseafish
@@ -471,7 +471,7 @@ Body:
         Item: Morrigane_Belt_IL
         RequiredItems:
           - Index: 0
-            Item: Morrigane's_Belt
+            Item: Morriganes_Belt
           - Index: 1
             Item: Deepsea_Fish_Tail
             Amount: 100
@@ -488,7 +488,7 @@ Body:
         Item: Morrigane_Pendant_IL
         RequiredItems:
           - Index: 0
-            Item: Morrigane's_Pendant
+            Item: Morriganes_Pendant
           - Index: 1
             Item: Abysmal_Clam
             Amount: 100
@@ -699,7 +699,7 @@ Body:
         Item: Goibne_Helmet_IL
         RequiredItems:
           - Index: 0
-            Item: Goibne's_Helmet
+            Item: Goibnes_Helmet
             Refine: 9
           - Index: 1
             Item: IllusionStone
@@ -714,7 +714,7 @@ Body:
         Item: Goibne_Armor_IL
         RequiredItems:
           - Index: 0
-            Item: Goibne's_Armor
+            Item: Goibnes_Armor
             Refine: 9
           - Index: 1
             Item: IllusionStone
@@ -729,7 +729,7 @@ Body:
         Item: Goibne_Boots_IL
         RequiredItems:
           - Index: 0
-            Item: Goibne's_Combat_Boots
+            Item: Goibnes_Combat_Boots
             Refine: 9
           - Index: 1
             Item: IllusionStone
@@ -744,7 +744,7 @@ Body:
         Item: Goibne_Shoulder_IL
         RequiredItems:
           - Index: 0
-            Item: Goibne's_Shoulder_Arms
+            Item: Goibnes_Shoulder_Arms
             Refine: 9
           - Index: 1
             Item: IllusionStone
@@ -960,7 +960,7 @@ Body:
         Item: Morpheus_Hood_IL
         RequiredItems:
           - Index: 0
-            Item: Morpheus's_Hood
+            Item: Morpheuss_Hood
             Refine: 9
           - Index: 1
             Item: IllusionStone
@@ -975,7 +975,7 @@ Body:
         Item: Morpheus_Shawl_IL
         RequiredItems:
           - Index: 0
-            Item: Morpheus's_Shawl
+            Item: Morpheuss_Shawl
             Refine: 9
           - Index: 1
             Item: IllusionStone
@@ -990,7 +990,7 @@ Body:
         Item: Morpheus_Ring_IL
         RequiredItems:
           - Index: 0
-            Item: Morpheus's_Ring
+            Item: Morpheuss_Ring
           - Index: 1
             Item: IllusionStone
             Amount: 100
@@ -1007,7 +1007,7 @@ Body:
         Item: Morpheus_Armlet_IL
         RequiredItems:
           - Index: 0
-            Item: Morpheus's_Armlet
+            Item: Morpheuss_Armlet
           - Index: 1
             Item: IllusionStone
             Amount: 100

@@ -227,7 +227,7 @@ Body:
         Rate: 1250
       - Item: Solid_Shell
         Rate: 800
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 1000
       - Item: Azure_Jewel
         Rate: 50
@@ -275,7 +275,7 @@ Body:
         Rate: 2500
       - Item: Solid_Shell
         Rate: 800
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 1000
       - Item: Azure_Jewel
         Rate: 50
@@ -882,7 +882,7 @@ Body:
     DamageMotion: 480
     Ai: 04
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 2000
       - Item: Reptile_Stone
         Rate: 1600

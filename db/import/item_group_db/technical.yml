@@ -169,7 +169,7 @@ Body:
             Item: Coagulated_Spell
             Rate: 1
           - Index: 13
-            Item: Jitterbug's_Tooth
+            Item: Tooth_Of_Jitterbug
             Rate: 1
           - Index: 14
             Item: Fire_Bottle
@@ -524,7 +524,7 @@ Body:
             Item: Freyja_Crown
             Rate: 1
           - Index: 102
-            Item: Carmen_Miranda's_Hat
+            Item: Carmen_Mirandas_Hat
             Rate: 1
           - Index: 103
             Item: Bulb_Hairband
@@ -710,7 +710,7 @@ Body:
             Item: Mask_Of_Ifrit
             Rate: 1
           - Index: 164
-            Item: Ifrit's_Ear
+            Item: Ifrits_Ear
             Rate: 1
           - Index: 165
             Item: Linguistic_Book_Cap
@@ -728,7 +728,7 @@ Body:
             Item: Cola_Can
             Rate: 1
           - Index: 170
-            Item: Bride's_Corolla
+            Item: Brides_Corolla
             Rate: 1
           - Index: 171
             Item: Flower_Of_Fairy
@@ -824,7 +824,7 @@ Body:
             Item: Icecream_Hat
             Rate: 1
           - Index: 202
-            Item: Necromencer's_Hood
+            Item: Necromencers_Hood
             Rate: 1
           - Index: 203
             Item: Rabbit_Magic_Hat
@@ -866,7 +866,7 @@ Body:
             Item: King_Frog_Hat
             Rate: 1
           - Index: 216
-            Item: Evil's_Bone_Hat
+            Item: Evils_Bone_Hat
             Rate: 1
           - Index: 217
             Item: Raven_Cap
@@ -941,7 +941,7 @@ Body:
             Item: Pencil_In_Mouth
             Rate: 1
           - Index: 241
-            Item: Wanderer's_Sakkat
+            Item: Wanderers_Sakkat
             Rate: 1
           - Index: 242
             Item: Majestic_Evil_Horn
@@ -950,7 +950,7 @@ Body:
             Item: Mosquito_Coil
             Rate: 1
           - Index: 244
-            Item: Sigrun's_Wing
+            Item: Sigrun_Wing
             Rate: 1
           - Index: 245
             Item: Donut_In_Mouth
@@ -1010,10 +1010,10 @@ Body:
             Item: Elven_Ears_
             Rate: 1
           - Index: 264
-            Item: Ear_Of_Angel's_Wing_
+            Item: Ear_Of_Angels_Wing_
             Rate: 1
           - Index: 265
-            Item: Ear_Of_Devil's_Wing_
+            Item: Ear_Of_Devils_Wing_
             Rate: 1
           - Index: 266
             Item: Devil_Whisper

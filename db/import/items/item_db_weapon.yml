@@ -3021,7 +3021,7 @@ Body:
     Refineable: true
     Script: "bonus bIgnoreDefRace,RC_DemiHuman; bonus bIgnoreDefRace,RC_PLAYER_HUMAN; bonus2 bSubRace,RC_DemiHuman,10; bonus2 bSubRace,RC_PLAYER_HUMAN,10; bonus2 bSubRace,RC_Demon,-10;\n"
   - Id: 1229
-    AegisName: Mama's_Knife
+    AegisName: Mamas_Knife
     Name: Kitchen Knife
     Type: Weapon
     SubType: Dagger
@@ -3543,7 +3543,7 @@ Body:
     Refineable: true
     Script: "bonus bAtkEle,Ele_Earth;\n"
   - Id: 1249
-    AegisName: Fisherman's_Dagger
+    AegisName: Fishermans_Dagger
     Name: Fisherman's Dagger
     Type: Weapon
     SubType: Dagger
@@ -7123,7 +7123,7 @@ Body:
     Refineable: true
     Script: "bonus bAtkEle,Ele_Wind; bonus2 bAddEff,Eff_Silence,200; bonus3 bAutoSpell,\"MG_THUNDERSTORM\",3,100;\n"
   - Id: 1469
-    AegisName: Longinus's_Spear
+    AegisName: Longinuss_Spear
     Name: Longinus's Spear
     Type: Weapon
     SubType: 2hSpear
@@ -8901,7 +8901,7 @@ Body:
     Refineable: true
     Script: "bonus bAtkEle,Ele_Dark; bonus2 bAddEle,Ele_Holy,5; bonus2 bAddEle,Ele_Water,7; bonus2 bAddEle,Ele_Earth,7; bonus2 bAddEle,Ele_Fire,7; bonus2 bAddEle,Ele_Wind,7;\n"
   - Id: 1558
-    AegisName: Girl's_Diary
+    AegisName: Girls_Diary
     Name: Girl's Diary [1]
     Type: Weapon
     SubType: Book
@@ -10048,7 +10048,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,120; bonus bInt,3; bonus bMaxHP,400;\n"
   - Id: 1621
-    AegisName: Hypnotist's_Staff
+    AegisName: Hypnotists_Staff
     Name: Hypnotist's Staff [1]
     Type: Weapon
     SubType: Staff
@@ -10066,7 +10066,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,120; bonus bInt,1;\n"
   - Id: 1622
-    AegisName: Hypnotist's_Staff_
+    AegisName: Hypnotists_Staff_
     Name: Hypnotist's Staff [2]
     Type: Weapon
     SubType: Staff
@@ -10570,7 +10570,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,170; bonus bInt,1; bonus bDex,1; bonus bAtkEle,Ele_Undead; bonus bMatkRate,20; .@r = getrefine(); bonus3 bAutoSpellWhenHit,\"NPC_WIDECURSE\",5,10+.@r; if(.@r>=9){ bonus bMatkRate,3; bonus bMaxSP,300; }\n"
   - Id: 1646
-    AegisName: La'cryma_Stick
+    AegisName: Lacryma_Stick
     Name: La'cryma Stick [2]
     Type: Weapon
     SubType: Staff
@@ -11249,7 +11249,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,180; bonus bFixedCastRate,-getrefine();\n"
   - Id: 1680
-    AegisName: Crimson_One-Handed_Staff
+    AegisName: Scarlet_Rod
     Name: Crimson One-Handed Staff [2]
     Type: Weapon
     SubType: Staff
@@ -14321,7 +14321,7 @@ Body:
     Refineable: true
     Script: "bonus2 bAddEff,Eff_Bleeding,300;\n"
   - Id: 1970
-    AegisName: Queen's_Whip
+    AegisName: Queens_Whip
     Name: Queen's Whip
     Type: Weapon
     SubType: Whip
@@ -14430,7 +14430,7 @@ Body:
       NoAuction: true
     Script: "bonus2 bAddClass,Class_All,50;\n"
   - Id: 1976
-    AegisName: Queen's_Whip_
+    AegisName: Queens_Whip_
     Name: Queen's Whip [2]
     Type: Weapon
     SubType: Whip
@@ -15231,7 +15231,7 @@ Body:
     Script: "bonus bMatk,250; bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus bHealPower,18; bonus bMagicHPGainValue,500; bonus bMagicSPGainValue,50; bonus2 bHPLossRate,100,10000;\n"
     UnEquipScript: "heal -1000,0;\n"
   - Id: 2024
-    AegisName: Infinity_Two-handed_Stick
+    AegisName: D_Staff_Of_Infinite
     Name: Infinity Two-handed Stick [1]
     Type: Weapon
     SubType: 2hStaff
@@ -15250,7 +15250,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,170;\n"
   - Id: 2025
-    AegisName: Crimson_Two-Handed_Staff
+    AegisName: Scarlet_Staff
     Name: Crimson Two-Handed Staff [2]
     Type: Weapon
     SubType: 2hStaff
@@ -15307,7 +15307,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,320; bonus bInt,5; .@r = getrefine(); bonus bMatkRate,(.@r/2); bonus bDelayrate,(.@r*-1); bonus bUnbreakableWeapon;\n"
   - Id: 2030
-    AegisName: Unity_Two-Handed_Staff
+    AegisName: Union_Twohand_Staff
     Name: Unity Two-Handed Staff [1]
     Type: Weapon
     SubType: 2hStaff
@@ -19992,7 +19992,7 @@ Body:
     WeaponLevel: 3
     Script: "bonus2 bAddEle,Ele_Undead,40; bonus2 bMagicAddEle,Ele_Undead,40;\n"
   - Id: 13420
-    AegisName: Honglyun's_Sword
+    AegisName: Honglyuns_Sword
     Name: Honglyun's Sword [1]
     Type: Weapon
     SubType: 1hSword
@@ -21508,7 +21508,7 @@ Body:
     Refineable: true
     Script: "bonus bUseSPrate,getrefine()*-1;\n"
   - Id: 16033
-    AegisName: Robot's_Arm
+    AegisName: Robots_Arm
     Name: Robot's Mechanical Arm [2]
     Type: Weapon
     SubType: Mace
@@ -23046,7 +23046,7 @@ Body:
     Refineable: true
     Script: "bonus2 bSkillUseSP,\"KN_AUTOCOUNTER\",2; bonus2 bSkillUseSP,\"LK_PARRYING\",25;\n"
   - Id: 21014
-    AegisName: Infinity_Two-Handed_Sword
+    AegisName: D_Sword_Of_Infinite
     Name: Infinity Two-Handed Sword [1]
     Type: Weapon
     SubType: 2hSword
@@ -23064,7 +23064,7 @@ Body:
     EquipLevelMin: 100
     Refineable: true
   - Id: 21015
-    AegisName: Crimson_Two-Handed_Sword
+    AegisName: Scarlet_Twohand_Sword
     Name: Crimson Two-Handed Sword [2]
     Type: Weapon
     SubType: 2hSword
@@ -23848,7 +23848,7 @@ Body:
     EquipLevelMin: 100
     Refineable: true
   - Id: 28106
-    AegisName: Crimson_Two-Handed_Axe
+    AegisName: Scarlet_Twohand_Axe
     Name: Crimson Two-Handed Axe [2]
     Type: Weapon
     SubType: 2hAxe
@@ -23894,7 +23894,7 @@ Body:
       DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 28110
-    AegisName: Unity_Two-Handed_Axe
+    AegisName: Union_Twohand_Axe
     Name: Unity Two-Handed Axe [1]
     Type: Weapon
     SubType: 2hAxe
@@ -23915,7 +23915,7 @@ Body:
     Refineable: true
     Script: "bonus bBaseAtk,pow(getrefine(),2)*125/100;\n"
   - Id: 28116
-    AegisName: Mine_Worker's_Pickaxe
+    AegisName: Mine_Worker_Pickax
     Name: Mine Worker's Pickaxe [2]
     Type: Weapon
     SubType: 2hAxe

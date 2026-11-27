@@ -169,7 +169,7 @@ moc_prydb1,154,128,4	script	Alcouskou	118,{
 			mes "Great! -At this level,";
 			mes "I am sure you can increase";
 			mes "your skill on your own.";
-			delitem 940,20; //Grasshopper's_Leg
+			delitem 940,20; //Grasshoppers_Leg
 			skill "TF_BACKSLIDING",1,SKILL_PERM;
 			close;
 		}
@@ -260,7 +260,7 @@ moc_prydb1,154,128,4	script	Alcouskou	118,{
 			mes "I hope it aids you in the future.";
 			mes ". . . . . Hope to see you soon";
 			delitem 912,1; //Zargon
-			delitem 948,1; //Bear's_Foot
+			delitem 948,1; //Bears_Foot
 			delitem 908,5; //Spawn
 			skill "TF_PICKSTONE",1,SKILL_PERM;
 			close;

@@ -4550,7 +4550,7 @@ veins,115,59,5	script	Saraman	847,{
 			mes "ingredients. That's a good";
 			mes "amount to collect since that's";
 			mes "what Ms. Ivory usually orders.";
-			delitem 528,5; //Monster's_Feed
+			delitem 528,5; //Monsters_Feed
 			delitem 503,1; //Yellow_Potion
 			delitem 619,1; //Unripe_Apple
 			delitem 713,1; //Empty_Bottle

@@ -755,8 +755,8 @@ pay_fild08,218,283,2	script	Mysterious Man#magum	89,{
 						mes "quickly! I d-don't want";
 						mes "to touch it if I can avoid it.";
 						delitem 7018,1; //Young_Twig
-						delitem 7019,1; //Loki's_Whispers
-						delitem 7020,1; //Mother's_Nightmare
+						delitem 7019,1; //Lokis_Whispers
+						delitem 7020,1; //Mothers_Nightmare
 						delitem 7021,1; //Foolishness_Of_Blind
 						delitem 714,1; //Emperium
 						getitem 1138,1; //Mysteltainn_
@@ -1102,7 +1102,7 @@ pay_fild08,218,283,2	script	Mysterious Man#magum	89,{
 						mes "terrifying sword. Now";
 						mes "take it! Be wary, and don't";
 						mes "let its bloodlust consume you!";
-						delitem 7017,2; //Executioner's_Mitten
+						delitem 7017,2; //Executioners_Mitten
 						delitem 7024,10; //Bloody_Edge
 						delitem 1008,3; //Frozen_Heart
 						delitem 609,50; //Amulet

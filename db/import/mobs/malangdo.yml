@@ -320,7 +320,7 @@ Body:
         Rate: 2750
       - Item: Garlet
         Rate: 200
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 250
       - Item: Insect_Feeler
         Rate: 225

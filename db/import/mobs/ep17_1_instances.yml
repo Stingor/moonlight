@@ -285,7 +285,7 @@ Body:
       - Item: Seed_Of_Yggdrasil
         Rate: 5000
     Drops:
-      - Item: Tiger's_Skin
+      - Item: Tigers_Skin
         Rate: 3000
       - Item: EP17_1_EVT02
         Rate: 2500

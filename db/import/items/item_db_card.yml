@@ -6079,7 +6079,7 @@ Body:
       Head_Top: true
     Script: "bonus bLuk,1;\n"
   - Id: 4546
-    AegisName: Val'khiri_Card
+    AegisName: Light_Up_Card5
     Name: Val'khiri Card
     Type: Card
     Buy: 20
@@ -7452,7 +7452,7 @@ Body:
       Armor: true
     Script: "bonus bMaxHPrate,8; if((eaclass()&EAJ_BASEMASK) == EAJ_MERCHANT){ bonus bLongAtkDef,30; }\n"
   - Id: 27013
-    AegisName: Kick_&_Kick_Card
+    AegisName: KickAndKick_Card
     Name: Kick & Kick Card
     Type: Card
     Buy: 20
@@ -8724,7 +8724,7 @@ Body:
       Left_Hand: true
     Script: "bonus2 bSubDefEle,Ele_Fire,30;\n"
   - Id: 27326
-    AegisName: Morocc's_Minion_Card
+    AegisName: MinionOfMorocc_Card
     Name: Morocc's Minion Card
     Type: Card
     Buy: 20

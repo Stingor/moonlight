@@ -226,7 +226,7 @@ Body:
         Rate: 500
       - Item: Iron
         Rate: 100
-      - Item: Kick_&_Kick_Card
+      - Item: KickAndKick_Card
         Rate: 1
         StealProtected: true
   # Les bombes du combat contre Charleston 3 (CharlestonCrisis.npc, Bomb#23) :

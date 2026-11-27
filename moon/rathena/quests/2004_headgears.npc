@@ -419,7 +419,7 @@ prontera,165,232,3	script	Nephia#1	744,{
 		next;
 		mes "[Nephia]";
 		mes "That's it~! We're done! Oh, I just know you're going to look precious wearing this.";
-		delitem 2244,1; //Big_Sis'_Ribbon
+		delitem 2244,1; //Big_Sis_Ribbon
 		delitem 2209,1; //Ribbon_
 		delitem 10007,1; //Silk_Ribbon
 		getitem 5083,1; //Red_Tailed_Ribbon
@@ -711,7 +711,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						delitem 2254,1; //Angelic_Chain
 						delitem 2286,1; //Elven_Ears
 						set Zeny, Zeny-20000;
-						getitem 5074,1; //Ear_Of_Angel's_Wing
+						getitem 5074,1; //Ear_Of_Angels_Wing
 						next;
 						mes "[Hatbyr Mhore]";
 						mes "There's no doubt that you'll be the talk of the town sporting these fashionable things.";
@@ -766,7 +766,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						delitem 2255,1; //Satanic_Chain
 						delitem 2286,1; //Elven_Ears
 						set Zeny, Zeny-20000;
-						getitem 5068,1; //Ear_Of_Devil's_Wing
+						getitem 5068,1; //Ear_Of_Devils_Wing
 						next;
 						mes "[Hatbyr Mhore]";
 						mes "You'll be wowing everyone on the streets with your fashionable new look that says 'It feels so good to be so bad.' Glad to be of service~!";
@@ -836,7 +836,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						delitem 2255,1; //Satanic_Chain
 						delitem 2286,1; //Elven_Ears
 						set Zeny, Zeny-20000;
-						getitem 5068,1; //Ear_Of_Devil's_Wing
+						getitem 5068,1; //Ear_Of_Devils_Wing
 						next;
 						mes "[Hatbyr Mhore]";
 						mes "You'll be wowing everyone on the streets with your fashionable new look that says 'It feels so good to be so bad.' Glad to be of service~!";
@@ -890,7 +890,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 						delitem 2254,1; //Angelic_Chain
 						delitem 2286,1; //Elven_Ears
 						set Zeny, Zeny-20000;
-						getitem 5074,1; //Ear_Of_Angel's_Wing
+						getitem 5074,1; //Ear_Of_Angels_Wing
 						next;
 						mes "[Hatbyr Mhore]";
 						mes "There's no doubt that you'll be the talk of the town sporting these fashionable things.";
@@ -1114,7 +1114,7 @@ xmas,175,156,3	script	Fuzzy Fuzz#1	712,{
 		delitem 5030,1; //Panda_Cap
 		delitem 7213,100; //Needle_Pouch
 		delitem 7217,100; //Spool
-		delitem 7161,300; //Black_Bear's_Skin
+		delitem 7161,300; //Black_Bears_Skin
 		getitem 5059,1; //Brown_Bear_Cap
 		close;
 	}
@@ -1490,7 +1490,7 @@ xmas_in,35,30,3	script	Hat Merchant#zero	797,{
 			mes "^3355FF*Squick Squick Grind Grind*^000000";
 			mes "^3355FF*Swish Swish Rustle Rustle*^000000";
 			next;
-			delitem 2236,1; //Santa's_Hat
+			delitem 2236,1; //Santas_Hat
 			delitem 7151,100; //Oil_Paper
 			delitem 7111,100; //Smooth_Paper
 			mes "[Mad Hatter]";
@@ -1814,7 +1814,7 @@ yuno_in03,20,18,6	script	Nehris#1	726,{
 			next;
 			mes "^3355FF* Clang Clang! Scrape Scrape! Jingle Jingle! *^000000";
 			next;
-			delitem 10006,1; //Queen's_Hair_Ornament
+			delitem 10006,1; //Queens_Hair_Ornament
 			delitem 714,1; //Emperium
 			delitem 969,3; //Gold
 			set Zeny, Zeny-20000;

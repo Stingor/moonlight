@@ -2127,7 +2127,7 @@ Body:
       Rate: 5000
     - Item: Meteorite_Fragment
       Rate: 1000
-    - Item: Mother's_Nightmare
+    - Item: Mothers_Nightmare
       Rate: 10
     - Item: Maya_Card
       Rate: 1

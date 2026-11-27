@@ -570,7 +570,7 @@ hugel,147,103,3	script	Ghenirhemin	897,{
 payon,135,320,3	script	Chungwolmang	97,{
 	if (moza_tal == 2) {
 		if (countitem(7015) > 19 && countitem(952) > 99 && countitem(1028) > 99) {
-			//Hahoe_Mask: Bookclip_In_Memory, Cactus_Needle, Wild_Boar's_Mane
+			//Hahoe_Mask: Bookclip_In_Memory, Cactus_Needle, Wild_Boars_Mane
 			callsub S_MakeMask,5176,7015,20,952,100,1028,100,0,0;
 		}
 		if (countitem(1048) > 499 && countitem(1053) > 1 && countitem(980) > 0) {

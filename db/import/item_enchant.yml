@@ -948,7 +948,7 @@ Body:
                 Amount: 25
               - Material: Angel_Magic_Power
                 Amount: 150
-              - Material: Elder_Pixie's_Beard
+              - Material: Elder_Pixies_Beard
                 Amount: 150
           - Item: Glacier_F_Orb_33
             Materials:
@@ -1076,7 +1076,7 @@ Body:
                 Amount: 25
               - Material: Snow_F_Stone3
                 Amount: 25
-              - Material: Wild_Boar's_Mane
+              - Material: Wild_Boars_Mane
                 Amount: 300
           - Item: Glacier_F_Orb_44
             Materials:
@@ -1226,7 +1226,7 @@ Body:
                 Amount: 25
               - Material: Snow_F_Stone3
                 Amount: 25
-              - Material: Black_Bear's_Skin
+              - Material: Black_Bears_Skin
                 Amount: 150
               - Material: Piece_Of_Black_Cloth
                 Amount: 150

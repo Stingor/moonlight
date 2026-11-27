@@ -15571,8 +15571,8 @@ eclage,112,40,3	script	Eclage Guard Leo#tl	4_M_FAIRYSOLDIER2,{
 				mes "It seems like Mayor Jun has an eye for character.";
 				mes "So he is Mayor after all...";
 				next;
-				delitem 12344,3;// Pinguicula's_fruit_Jam
-				delitem 12345,3;// Luciola's_Honey_Jam
+				delitem 12344,3;// Pinguiculas_fruit_Jam
+				delitem 12345,3;// Luciolas_Honey_Jam
 				completequest 7420;
 				getexp 200000,200000;
 				if ((isbegin_quest(7420) + isbegin_quest(7419) + isbegin_quest(7418)) > 5) {

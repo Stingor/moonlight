@@ -581,8 +581,8 @@ OnTouch_:
 	} else if ((eaclass()&EAJ_THIRDMASK==EAJ_RANGER) && !countitem(6124)) {
 		if (!checkfalcon() && getskilllv("HT_FALCON") && !checkwug()) {
 			if(select(" ~ Falcon: ~ Warg")==1) setfalcon;
-			else getitem 6124,1; //Wolf's_Flute
-		} else getitem 6124,1; //Wolf's_Flute
+			else getitem 6124,1; //Wolfs_Flute
+		} else getitem 6124,1; //Wolfs_Flute
 	} else if ((eaclass()&EAJ_THIRDMASK==EAJ_MECHANIC) && !checkcart() && getskilllv("MC_PUSHCART")) {
 		if (!checkmadogear() && getskilllv("NC_MADOLICENCE")) {
 			if(select(" ~ Cart: ~ Mado")==1) setcart;

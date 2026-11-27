@@ -578,7 +578,7 @@ monk_in,99,58,1	script	Sensei Moohae#mk	60,{
 			set MONK_Q,10;
 			changequest 3022,3024;
 			delitem 913,10; //Tooth_Of_Bat
-			delitem 948,5; //Bear's_Foot
+			delitem 948,5; //Bears_Foot
 			delitem 7033,20; //Poison_Spore
 			next;
 			mes "[Sensei Moohae]";

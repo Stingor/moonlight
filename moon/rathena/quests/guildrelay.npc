@@ -602,7 +602,7 @@
 						getitem 617,1; //Old_Violet_Box
 					}
 					else if ((.@incen_item > 90) && (.@incen_item < 101)) {
-						getitem 5074,1; //Ear_Of_Angel's_Wing
+						getitem 5074,1; //Ear_Of_Angels_Wing
 					}
 					next;
 					mes "[" + .@name$ + "]";
@@ -1321,7 +1321,7 @@
 				mes "Now, take this and give it to";
 				mes "a Blacksmith or Mastersmith.";
 				mes "Your guild's pretty good...";
-				delitem 1015,30; //Thin_N'_Long_Tongue
+				delitem 1015,30; //Thin_N_Long_Tongue
 				delitem 7196,30; //Shoulder_Protection
 				delitem 7157,30; //Black_Mask
 				set guildrelay_q,88;
@@ -1373,7 +1373,7 @@
 				mes "Your guild's pretty good...";
 				delitem 7112,30; //Fright_Paper_Blade
 				delitem 1012,30; //Lizard_Scruff
-				delitem 1040,30; //Elder_Pixie's_Beard
+				delitem 1040,30; //Elder_Pixies_Beard
 				set guildrelay_q,88;
 				getitem 7235,1; //Soul_Of_Courage
 				close;
@@ -2015,7 +2015,7 @@
 				mes "^42426FAssassin Cross^000000. Thank you.";
 				delitem 7189,30; //Heart_Of_Tree
 				delitem 7194,30; //Soft_Leaf
-				delitem 7155,30; //Poison_Toad's_Skin
+				delitem 7155,30; //Poison_Toads_Skin
 				if (BaseJob == Job_Dancer) {
 					set guildrelay_q,72;
 				}
@@ -2033,7 +2033,7 @@
 				mes "take this spirit now. Please";
 				mes "give it to an ^42426FAssassin^000000 or an";
 				mes "^42426FAssassin Cross^000000. Thank you.";
-				delitem 7106,30; //Goat's_Horn
+				delitem 7106,30; //Goats_Horn
 				delitem 7121,30; //Honey_Jar
 				delitem 1027,30; //Porcupine_Spike
 				if (BaseJob == Job_Dancer) {

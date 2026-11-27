@@ -296,7 +296,7 @@ Body:
             Amount: 1
           - Item: Claw_Of_Desert_Wolf
             Amount: 300
-          - Item: Animal's_Skin
+          - Item: Animals_Skin
             Amount: 20
   - Mob: ROCKER
     TameItem: Singing_Flower
@@ -322,7 +322,7 @@ Body:
         ItemRequirements:
           - Item: Singing_Plant
             Amount: 3
-          - Item: Grasshopper's_Leg
+          - Item: Grasshoppers_Leg
             Amount: 777
           - Item: Yellow_Herb
             Amount: 200
@@ -536,7 +536,7 @@ Body:
   - Mob: ISIS
     TameItem: Armlet_Of_Obedience
     EggItem: Isis_Egg
-    EquipItem: Queen's_Hair_Ornament
+    EquipItem: Queens_Hair_Ornament
     FoodItem: Pet_Food
     Fullness: 3
     IntimacyFed: 10
@@ -557,7 +557,7 @@ Body:
             Amount: 3
           - Item: Crystal_Jewel__
             Amount: 6
-          - Item: Queen's_Hair_Ornament
+          - Item: Queens_Hair_Ornament
             Amount: 1
           - Item: Shining_Scales
             Amount: 300
@@ -624,7 +624,7 @@ Body:
             Amount: 1
   - Mob: BAPHOMET_
     TameItem: Book_Of_Devil
-    EggItem: Bapho_Jr._Egg
+    EggItem: Bapho_Jr_Egg
     EquipItem: Skull_Helm
     FoodItem: Honey
     Fullness: 2
@@ -728,7 +728,7 @@ Body:
     Evolution:
       - Target: ALIZA
         ItemRequirements:
-          - Item: Alice's_Apron
+          - Item: Alices_Apron
             Amount: 500
           - Item: Green_Herb
             Amount: 200
@@ -917,7 +917,7 @@ Body:
   - Mob: MEDUSA
     TameItem: Splendid_Mirror
     EggItem: Medusa_Egg
-    EquipItem: Queen's_Coronet
+    EquipItem: Queens_Coronet
     FoodItem: Apple_Pudding
     Fullness: 3
     IntimacyFed: 10
@@ -972,7 +972,7 @@ Body:
         bonus2 bAddRace,RC_Player_Human,3;
       }
   - Mob: SUCCUBUS
-    TameItem: Boy's_Naivety
+    TameItem: Boys_Naivety
     EggItem: Succubus_Egg
     EquipItem: Black_Butterfly_Mask
     FoodItem: Vital_Flower_
@@ -990,7 +990,7 @@ Body:
         bonus2 bHPDrainRate,30,5;
       }
   - Mob: INCUBUS
-    TameItem: Gril's_Naivety
+    TameItem: Grils_Naivety
     EggItem: Incubus_Egg
     EquipItem: Ball_Mask
     FoodItem: Vital_Flower
@@ -1163,7 +1163,7 @@ Body:
             Amount: 500
           - Item: Blue_Herb
             Amount: 50
-          - Item: Loki's_Whispers
+          - Item: Lokis_Whispers
             Amount: 1
           - Item: Loli_Ruri_Card
             Amount: 10
@@ -1285,7 +1285,7 @@ Body:
   - Mob: TIKBALANG
     TameItem: Tikbalang_Belt
     EggItem: Tikbalang_Pet
-    FoodItem: Monster's_Feed
+    FoodItem: Monsters_Feed
     Fullness: 8
     IntimacyFed: 10
     CaptureRate: 1000

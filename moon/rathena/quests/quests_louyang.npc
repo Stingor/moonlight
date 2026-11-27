@@ -1454,7 +1454,7 @@ lou_in02,265,69,5	script	Doctor#lyang	814,{
 			mes "Please take this as a token of my appreciation. It's not much, but this medicine is an old family secret. I hope it will be helpful to you in dangerous situations.";
 			delitem 7172,2; //Leopard_Talon
 			delitem 7164,10; //Hard_Peach
-			delitem 7155,5; //Poison_Toad's_Skin
+			delitem 7155,5; //Poison_Toads_Skin
 			delitem 7188,20; //Browny_Root
 			delitem 7193,10; //Germinating_Sprout
 			delitem 7121,5; //Honey_Jar

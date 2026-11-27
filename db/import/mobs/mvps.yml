@@ -52,7 +52,7 @@ Body:
         Rate: 9000
       - Item: Brionac
         Rate: 3500
-      - Item: Longinus's_Spear
+      - Item: Longinuss_Spear
         Rate: 3000
       - Item: Dragon_Slayer
         Rate: 2500
@@ -462,7 +462,7 @@ Body:
     Drops:
       - Item: Treasure_Box
         Rate: 1000
-      - Item: Morrigane's_Manteau
+      - Item: Morriganes_Manteau
         Rate: 1000
       - Item: Piece_Of_Bone_Armor
         Rate: 5000
@@ -519,9 +519,9 @@ Body:
       - Item: Crystal_Jewel__
         Rate: 2000
     Drops:
-      - Item: Morpheus's_Armlet
+      - Item: Morpheuss_Armlet
         Rate: 1000
-      - Item: Morpheus's_Ring
+      - Item: Morpheuss_Ring
         Rate: 1000
       - Item: Treasure_Box
         Rate: 5000
@@ -581,7 +581,7 @@ Body:
         Rate: 3000
       - Item: Old_Violet_Box
         Rate: 3000
-      - Item: Morrigane's_Pendant
+      - Item: Morriganes_Pendant
         Rate: 1000
       - Item: Glittering_Clothes
         Rate: 1000
@@ -589,7 +589,7 @@ Body:
         Rate: 500
       - Item: Counter_Dagger
         Rate: 500
-      - Item: Morrigane's_Belt
+      - Item: Morriganes_Belt
         Rate: 1000
       - Item: Kiel_Card
         Rate: 1
@@ -3043,7 +3043,7 @@ Body:
         Rate: 200
       - Item: Fruit_Of_Mastela
         Rate: 200
-      - Item: Morocc's_Minion_Card
+      - Item: MinionOfMorocc_Card
         Rate: 1
         StealProtected: true
   - Id: 3000
@@ -3084,7 +3084,7 @@ Body:
         Rate: 5000
       - Item: Fruit_Of_Mastela
         Rate: 200
-      - Item: Morocc's_Minion_Card
+      - Item: MinionOfMorocc_Card
         Rate: 1
         StealProtected: true
   - Id: 3073
@@ -3129,7 +3129,7 @@ Body:
         Rate: 100
       - Item: Bow_Of_Storm
         Rate: 100
-      - Item: Jitterbug's_Tooth
+      - Item: Tooth_Of_Jitterbug
         Rate: 7000
       - Item: Pendant_Of_Harmony
         Rate: 400
@@ -3234,7 +3234,7 @@ Body:
         Rate: 200
       - Item: Tornado_Axe
         Rate: 200
-      - Item: Robot's_Arm
+      - Item: Robots_Arm
         Rate: 100
       - Item: Giant_Blade
         Rate: 200

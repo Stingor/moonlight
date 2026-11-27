@@ -292,7 +292,7 @@ prt_in,227,45,0	script	Archeologist#sign	804,{
 		mes "know right away. For now,";
 		mes "please hold on to these pieces.";
 		set sign_q,54;
-		getitem 7177,1; //Part_Of_Star's_Sob
+		getitem 7177,1; //Part_Of_Stars_Sob
 	}
 	else if (sign_q == 54) {
 		if (rand(1,5) == 4) {
@@ -727,7 +727,7 @@ prt_in,227,45,0	script	Archeologist#sign	804,{
 				mes "you have too many items in your inventory. Please come back after you've freed up more inventory space.^000000";
 				close;
 		}
-		delitem 7178,1; //Star's_Sob
+		delitem 7178,1; //Stars_Sob
 		set sign_q,202;
 		getexp (checkre(3))?10000:100000,0;
 		getitem 617,1; //Old_Violet_Box
@@ -744,7 +744,7 @@ prt_in,227,45,0	script	Archeologist#sign	804,{
 			mes "[Metz]";
 			mes "......";
 			mes "Farewell.";
-			delitem 7178,1; //Star's_Sob
+			delitem 7178,1; //Stars_Sob
 		}
 		else {
 			mes "I guess I can't";
@@ -1291,7 +1291,7 @@ morocc_in,115,154,5	script	Rogue#sign	810,{
 				if (countitem(7033) > 49) {
 					delitem 7033,50; //Poison_Spore
 					if (countitem(904) > 29) {
-						delitem 904,30; //Scorpion's_Tail
+						delitem 904,30; //Scorpions_Tail
 						if (countitem(930) > 19) {
 							delitem 930,20; //Rotten_Bandage
 							if (countitem(1038) > 14) {
@@ -1321,7 +1321,7 @@ morocc_in,115,154,5	script	Rogue#sign	810,{
 			if (countitem(7033) > 49) {
 				delitem 7033,50; //Poison_Spore
 				if (countitem(904) > 29) {
-					delitem 904,30; //Scorpion's_Tail
+					delitem 904,30; //Scorpions_Tail
 					if (countitem(930) > 19) {
 						delitem 930,20; //Rotten_Bandage
 						if (countitem(1038) > 14) {
@@ -1350,7 +1350,7 @@ morocc_in,115,154,5	script	Rogue#sign	810,{
 			mes "[Arian]";
 			mes "...";
 			if (countitem(904) > 29) {
-				delitem 904,30; //Scorpion's_Tail
+				delitem 904,30; //Scorpions_Tail
 				if (countitem(930) > 19) {
 					delitem 930,20; //Rotten_Bandage
 					if (countitem(1038) > 14) {
@@ -1511,7 +1511,7 @@ morocc_in,115,154,5	script	Rogue#sign	810,{
 				else getexp 18000,0;
 			}
 			set sign_q,14;
-			getitem 7177,1; //Part_Of_Star's_Sob
+			getitem 7177,1; //Part_Of_Stars_Sob
 			close;
 		case 14:
 			mes "[Arian]";
@@ -2366,7 +2366,7 @@ payon_in03,11,31,4	script	Daewoon#sign	808,{
 			}
 			if (.@pay_point > 29) {
 				set sign_q,15;
-				getitem 7177,1; //Part_Of_Star's_Sob
+				getitem 7177,1; //Part_Of_Stars_Sob
 				if (checkre(3)) {
 					if (BaseLevel < 60) getexp 300,0;
 					else if (BaseLevel < 70) getexp 750,0;
@@ -2410,7 +2410,7 @@ payon_in03,11,31,4	script	Daewoon#sign	808,{
 			}
 			else if ((.@pay_point > 26) && (.@pay_point < 30)) {
 				set sign_q,15;
-				getitem 7177,1; //Part_Of_Star's_Sob
+				getitem 7177,1; //Part_Of_Stars_Sob
 				if (checkre(3)) {
 					if (BaseLevel < 60) getexp 300,0;
 					else if (BaseLevel < 70) getexp 750,0;
@@ -2811,7 +2811,7 @@ aldeba_in,155,101,3	script	Sir Jore#sign	805,7,7,{
 				mes "relying on a rumor...";
 				next;
 				set sign_q,20;
-				getitem 7177,1; //Part_Of_Star's_Sob
+				getitem 7177,1; //Part_Of_Stars_Sob
 				mes "[Sir Jore]";
 				mes "Thank you very much";
 				mes "for helping me. Now I can";
@@ -3664,7 +3664,7 @@ geffen_in,59,74,4	script	Jesqurienne#sign	803,{
 		next;
 		mes "[Jesqurienne]";
 		set sign_q,25;
-		getitem 7177,1; //Part_Of_Star's_Sob
+		getitem 7177,1; //Part_Of_Stars_Sob
 		mes "Here...";
 		mes "My old friend, Metz, told";
 		mes "me to give this to someone";
@@ -4731,7 +4731,7 @@ cmd_in02,88,51,4	script	Strange Guy#sign	806,{
 			mes "go find someone named,";
 			mes "um, ''Bakerlan'' in Alberta.";
 			set sign_q,35;
-			getitem 7177,1; //Part_Of_Star's_Sob
+			getitem 7177,1; //Part_Of_Stars_Sob
 			if (checkre(3)) {
 				if (BaseLevel < 60) getexp 300,0;
 				else if (BaseLevel < 70) getexp 700,0;
@@ -4768,7 +4768,7 @@ cmd_in02,88,51,4	script	Strange Guy#sign	806,{
 			mes "go find someone named,";
 			mes "um, ''Bakerlan'' in Alberta.";
 			set sign_q,35;
-			getitem 7177,1; //Part_Of_Star's_Sob
+			getitem 7177,1; //Part_Of_Stars_Sob
 			set Zeny, Zeny+20000;
 			if (checkre(3)) {
 				if (BaseLevel < 60) getexp 300,0;
@@ -5640,7 +5640,7 @@ alberta_in,125,101,5	script	Wealthy-looking Merchant	807,{
 		mes "Now bring all of the stone pieces to Metz.";
 		mes "He will tell you what you need to do next.";
 		set sign_q,53;
-		getitem 7177,1; //Part_Of_Star's_Sob
+		getitem 7177,1; //Part_Of_Stars_Sob
 		if (checkre(3)) {
 			if (BaseLevel < 60) getexp 500,0;
 			else if (BaseLevel < 70) getexp 800,0;
@@ -6343,7 +6343,7 @@ alde_alche,169,162,7	script	Alchemist#sign	749,{
 						set Zeny, Zeny-10000;
 						delitem 526,10; //Royal_Jelly
 						delitem 518,20; //Honey
-						delitem 948,30; //Bear's_Foot
+						delitem 948,30; //Bears_Foot
 						delitem 520,1; //Leaflet_Of_Hinal
 						delitem 708,1; //Ment
 						delitem 713,1; //Empty_Bottle
@@ -6361,7 +6361,7 @@ alde_alche,169,162,7	script	Alchemist#sign	749,{
 						specialeffect EF_PHARMACY_FAIL;
 						delitem 526,10; //Royal_Jelly
 						delitem 518,20; //Honey
-						delitem 948,30; //Bear's_Foot
+						delitem 948,30; //Bears_Foot
 						delitem 520,1; //Leaflet_Of_Hinal
 						delitem 708,1; //Ment
 						delitem 713,1; //Empty_Bottle
@@ -7265,7 +7265,7 @@ mjo_dun02,88,295,4	script	Flaming Spirit Man	85,{
 					mes "[Engel]";
 					mes "Right. Let me guide you to a shortcut to the exit of these mines, just in case you don't know your way out of here. Good luck~";
 					delitem 7276,1; //Picture_Letter
-					delitem 7177,7; //Part_Of_Star's_Sob
+					delitem 7177,7; //Part_Of_Stars_Sob
 					set sign_q,57;
 					close2;
 					warp "mjo_dun02",371,344;
@@ -7372,7 +7372,7 @@ mjo_dun02,88,295,4	script	Flaming Spirit Man	85,{
 			mes "While you were gone, I managed to restore this Sobbing Starlight. Why don't you go ahead and take a look?";
 			next;
 			set sign_q,71;
-			getitem 7178,1; //Star's_Sob
+			getitem 7178,1; //Stars_Sob
 			specialeffect2 EF_YUFITELHIT;
 			next;
 			mes "[Engel]";
@@ -7492,7 +7492,7 @@ mjo_dun02,88,295,4	script	Flaming Spirit Man	85,{
 			if (countitem(988) > 0) delitem 988,1; //Golden_Anvil
 			else if (countitem(989) > 0) delitem 989,1; //Emperium_Anvil
 			set sign_q,71;
-			getitem 7178,1; //Star's_Sob
+			getitem 7178,1; //Stars_Sob
 			specialeffect2 EF_YUFITELHIT;
 			close;
 		}
@@ -8944,7 +8944,7 @@ que_sign01,197,195,4	script	Serin#witch	90,{
 		mes "Farewell, now.";
 		mes "And good luck on";
 		mes "your travels, my friend...";
-		delitem 7308,1; //Witch's_Potion
+		delitem 7308,1; //Witchs_Potion
 		set sign_q,127;
 		close;
 	}
@@ -8966,7 +8966,7 @@ que_sign01,197,195,4	script	Serin#witch	90,{
 		set .@fail_s5,rand(1,600);
 		if (countitem(2643) == 1) {
 			if (((sign_sq == 0) && (.@fail_s3 == 356)) || ((sign_sq == 1) && (.@fail_s2 == 356)) || (.@fail_s1 == 356)) {
-				delitem 7308,1; //Witch's_Potion
+				delitem 7308,1; //Witchs_Potion
 				set sign_q,200;
 				mes "[Serin]";
 				mes "Even though you tried";
@@ -9013,7 +9013,7 @@ que_sign01,197,195,4	script	Serin#witch	90,{
 		}
 		else {
 			if (((sign_sq == 0) && (.@fail_s5 == 356)) || ((sign_sq == 1) && (.@fail_s4 == 356)) || (.@fail_s3 == 356)) {
-				delitem 7308,1; //Witch's_Potion
+				delitem 7308,1; //Witchs_Potion
 				set sign_q,200;
 				mes "[Serin]";
 				mes "Even though you tried";
@@ -9208,7 +9208,7 @@ niflheim,313,70,4	script	Pleasant-Featured Lady#s	90,{
 			mes "I want you to have this ring. It's the only way I can properly express my gratitude for your aid so far.";
 			set sign_q,85;
 			set sign_sq,0;
-			getitem 2642,1; //Serin's_Gold_Ring
+			getitem 2642,1; //Serins_Gold_Ring
 			close;
 		}
 		else {
@@ -9552,7 +9552,7 @@ niflheim,313,70,4	script	Pleasant-Featured Lady#s	90,{
 				mes "to forget her sadness. The tears streaked across her cheeks and";
 				mes "the faint smile on her lips tell you that her memories of you";
 				mes "will always remain in her heart.^000000";
-				delitem 2643,1; //Serin's_Gold_Ring_
+				delitem 2643,1; //Serins_Gold_Ring_
 				getexp (checkre(3))?50000:500000,0;
 				close;
 			case 2:
@@ -9724,7 +9724,7 @@ niflheim,313,70,4	script	Pleasant-Featured Lady#s	90,{
 			mes "gold ring sparkled";
 			mes "with a soft glow and";
 			mes "faded away.^000000";
-			delitem 2642,1; //Serin's_Gold_Ring
+			delitem 2642,1; //Serins_Gold_Ring
 			close;
 		}
 		close;
@@ -9734,7 +9734,7 @@ niflheim,313,70,4	script	Pleasant-Featured Lady#s	90,{
 			mes "[Serin]";
 			mes "Thank you...";
 			emotion ET_CRY;
-			delitem 2642,1; //Serin's_Gold_Ring
+			delitem 2642,1; //Serins_Gold_Ring
 			next;
 			mes "^3355FFYou returned";
 			mes "Serin's gold ring.^000000";
@@ -9901,7 +9901,7 @@ que_sign01,122,141,4	script	Witch#s	792,{
 			mes "that the Queen of the Dead";
 			mes "is searching for her lost mother, Angrboda. Now, if you could find where Angrboda has been";
 			mes "sealed away...";
-			delitem 7304,1; //Witch's_Spell_Book
+			delitem 7304,1; //Witchs_Spell_Book
 			set sign_q,92;
 			close;
 		}
@@ -10017,7 +10017,7 @@ que_sign01,122,141,4	script	Witch#s	792,{
 			mes "Excellent, this has been";
 			mes "strongly infused with her";
 			mes "vibes. It's really tough to find something like this that resonates so strongly with its owner.";
-			delitem 2642,1; //Serin's_Gold_Ring
+			delitem 2642,1; //Serins_Gold_Ring
 			set sign_q,120;
 			close;
 		}
@@ -10194,8 +10194,8 @@ que_sign01,122,141,4	script	Witch#s	792,{
 			mes "of the vouchers I've";
 			mes "given you, alright?";
 			set sign_q,124;
-			getitem 7308,1; //Witch's_Potion
-			getitem 2643,1; //Serin's_Gold_Ring_
+			getitem 7308,1; //Witchs_Potion
+			getitem 2643,1; //Serins_Gold_Ring_
 			getitem 7313,5; //Seal_Of_Witch
 			close;
 		}
@@ -10230,7 +10230,7 @@ que_sign01,122,141,4	script	Witch#s	792,{
 			mes "the Witch's Medals that";
 			mes "I've lent to you, alright?";
 			set sign_q,124;
-			getitem 7308,1; //Witch's_Potion
+			getitem 7308,1; //Witchs_Potion
 			getitem 7313,5; //Seal_Of_Witch
 			close;
 		}
@@ -10397,8 +10397,8 @@ que_sign01,122,141,4	script	Witch#s	792,{
 		mes "her for that. Though, it's";
 		mes "ironic that you failed your";
 		mes "ordeals for her sake...";
-		if (countitem(2642) > 0) delitem 2642,1; //Serin's_Gold_Ring
-		if (countitem(7308) > 0) delitem 7308,1; //Witch's_Potion
+		if (countitem(2642) > 0) delitem 2642,1; //Serins_Gold_Ring
+		if (countitem(7308) > 0) delitem 7308,1; //Witchs_Potion
 		set sign_q,201;
 		getexp (checkre(3))?20000:200000,0;
 		close;
@@ -10469,7 +10469,7 @@ OnTouch_:
 						mes "give you this. It will send";
 						mes "a living human back to one";
 						mes "of the towns in your realm.";
-						delitem 7304,1; //Witch's_Spell_Book
+						delitem 7304,1; //Witchs_Spell_Book
 						set sign_sq,3;
 						getitem 7309,1; //Wing_Of_Crow
 						close;
@@ -10854,7 +10854,7 @@ que_sign01,45,227,4	script	Queen of the Dead	856,{
 				mes "Now, I shall show";
 				mes "you something truly";
 				mes "interesting...^000000";
-				delitem 7178,1; //Star's_Sob
+				delitem 7178,1; //Stars_Sob
 				set sign_q,143;
 				close;
 			case 2:
@@ -10902,7 +10902,7 @@ que_sign01,45,227,4	script	Queen of the Dead	856,{
 		mes "Sobbing Starlight.^000000";
 		next;
 		set sign_q,144;
-		getitem 7025,1; //Lucifer's_Lament
+		getitem 7025,1; //Lucifers_Lament
 		mes "[Lady Hell]";
 		mes "^8C1717Although you may also know";
 		mes "this object as God's Tear Drop, keep in mind that history, as you humans know it, may actually be different than the truth.^000000";
@@ -11725,12 +11725,12 @@ OnTouch_:
 						if (sign_q == 83) {
 							if(sign_sq == 0) {
 								set sign_sq,1;
-								getitem 7304,1; //Witch's_Spell_Book
+								getitem 7304,1; //Witchs_Spell_Book
 							}
 						}
 						else if (sign_q == 90) {
 							set sign_q,91;
-							getitem 7304,1; //Witch's_Spell_Book
+							getitem 7304,1; //Witchs_Spell_Book
 						}
 						close;
 					}

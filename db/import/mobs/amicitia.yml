@@ -180,7 +180,7 @@ Body:
     Drops:
       - Item: Fresh_Pear
         Rate: 2100
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 1600
       - Item: Yellow_Live
         Rate: 300
@@ -228,7 +228,7 @@ Body:
     Drops:
       - Item: Turn_Yellow_Leaf
         Rate: 2100
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 1600
       - Item: Shoot
         Rate: 300

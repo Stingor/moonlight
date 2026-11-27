@@ -232,9 +232,9 @@ Body:
         Rate: 500
       - Item: Harden_Breastplate
         Rate: 500
-      - Item: Jitterbug's_Tooth
+      - Item: Tooth_Of_Jitterbug
         Rate: 5000
-      - Item: Jitterbug's_Tooth
+      - Item: Tooth_Of_Jitterbug
         Rate: 1000
       - Item: Jitterbug_Card
         Rate: 1
@@ -276,9 +276,9 @@ Body:
         Rate: 500
       - Item: Frozen_Breastplate
         Rate: 500
-      - Item: Jitterbug's_Tooth
+      - Item: Tooth_Of_Jitterbug
         Rate: 5000
-      - Item: Jitterbug's_Tooth
+      - Item: Tooth_Of_Jitterbug
         Rate: 1000
       - Item: Jitterbug_Card
         Rate: 1

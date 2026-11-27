@@ -864,7 +864,7 @@ ayothaya,253,99,3	script	Fisherman	843,{
 				next;
 				mes "^3355FFYou've hooked a Phen!^000000";
 				next;
-				delitem 528,1; //Monster's_Feed
+				delitem 528,1; //Monsters_Feed
 				set Zeny, Zeny-50;
 				set .@randfish,rand(1,100);
 				if (.@randfish > 0 && .@randfish < 40) {

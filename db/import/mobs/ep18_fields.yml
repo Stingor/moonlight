@@ -39,7 +39,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 5000
       - Item: Grasshopper_Doll
         Rate: 15

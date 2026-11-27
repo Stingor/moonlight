@@ -209,7 +209,7 @@ pay_arche,109,169,3	script	Arpesto	712,{
 				mes "sure you make good use";
 				mes "of that new skill. Take care~";
 				delitem 724,5; //Cardinal_Jewel_
-				delitem 7115,5; //Harpy's_Feather
+				delitem 7115,5; //Harpys_Feather
 				delitem 537,30; //Pet_Food
 				set qskill_hunter,100;
 				skill "HT_PHANTASMIC",1,SKILL_PERM;

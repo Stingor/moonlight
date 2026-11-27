@@ -147,7 +147,7 @@ Body:
   - Combos:
       - Combo:
           - Long_Horn
-          - Valkyrja's_Shield
+          - Valkyrjas_Shield
     Script: |
       bonus3 bAutoSpellWhenHit,"HP_ASSUMPTIO",2,5;
   - Combos:
@@ -412,7 +412,7 @@ Body:
   - Combos:
       - Combo:
           - Long_Horn_M
-          - Valkyrja's_Shield
+          - Valkyrjas_Shield
     Script: |
       bonus3 bAutoSpellWhenHit,"HP_ASSUMPTIO",2,5;
   - Combos:
@@ -518,7 +518,7 @@ Body:
       bonus bBreakArmorRate,900; bonus bBreakWeaponRate,900;
   - Combos:
       - Combo:
-          - Girl's_Diary
+          - Girls_Diary
           - BitterMunak_Card
     Script: |
       bonus bBaseAtk,100; bonus bMatk,100;
@@ -678,7 +678,7 @@ Body:
       bonus bMatk,10*getequiprefinerycnt(EQI_HAND_R); bonus bCastRate,-10;
   - Combos:
       - Combo:
-          - La'cryma_Stick
+          - Lacryma_Stick
           - Geffenia_Book_Water
     Script: |
       .@r = getequiprefinerycnt(EQI_HAND_L)*4; bonus2 bVariableCastrate,"WZ_STORMGUST",-.@r; bonus2 bVariableCastrate,"WZ_FROSTNOVA",-.@r;
@@ -1000,23 +1000,23 @@ Body:
   - Combos:
       - Combo:
           - Stone_Buckler
-          - Odin's_Blessing
+          - Odins_Blessing
           - Magni_Cap
     Script: |
       bonus bStr,2; bonus bDef,5; bonus bMdef,5; if(BaseClass==Job_Swordman) bonus bDef,6;
   - Combos:
       - Combo:
-          - Valkyrja's_Shield
-          - Odin's_Blessing
+          - Valkyrjas_Shield
+          - Odins_Blessing
           - Fricca_Circlet
     Script: |
       bonus bDef,2-getequiprefinerycnt(EQI_HAND_L)-getequiprefinerycnt(EQI_HEAD_TOP); bonus bMdef,5+getequiprefinerycnt(EQI_HAND_L)+getequiprefinerycnt(EQI_HEAD_TOP);
   - Combos:
       - Combo:
-          - Angel's_Safeguard
-          - Angel's_Protection
-          - Angel's_Arrival
-          - Angel's_Warmth
+          - Angels_Safeguard
+          - Angels_Protection
+          - Angels_Arrival
+          - Angels_Warmth
           - Kiss_Of_Angel
     Script: |
       bonus bMaxHP,900; bonus bMaxSP,100; bonus3 bAutoSpellWhenHit,"HP_ASSUMPTIO",1,30;
@@ -1072,8 +1072,8 @@ Body:
       bonus2 bAddEff,Eff_Blind,500; autobonus "{ bonus bFlee,20; }",200,10000,BF_WEAPON,"{ specialeffect2 EF_INCAGILITY; }";
   - Combos:
       - Combo:
-          - Valkyrja's_Shield_C
-          - Odin's_Blessing
+          - Valkyrjas_Shield_C
+          - Odins_Blessing
           - Fricca_Circlet
     Script: |
       bonus bDef,2-getequiprefinerycnt(EQI_HAND_L)-getequiprefinerycnt(EQI_HEAD_TOP); bonus bMdef,5+getequiprefinerycnt(EQI_HAND_L)+getequiprefinerycnt(EQI_HEAD_TOP);
@@ -1129,23 +1129,23 @@ Body:
       bonus2 bAddClass,Class_Boss,5; bonus2 bMagicAddClass,Class_Boss,5; if (getequiprefinerycnt(EQI_HEAD_TOP) > 7) { bonus2 bAddClass,Class_Boss,5; bonus2 bMagicAddClass,Class_Boss,5; }
   - Combos:
       - Combo:
-          - Impr_Angel's_Safeguard
-          - Im_Angel's_Protection
+          - Impr_Angels_Safeguard
+          - Im_Angels_Protection
     Script: |
       bonus2 bSubEle,Ele_Neutral,5;
   - Combos:
       - Combo:
-          - Impr_Angel's_Safeguard
-          - Im_Angel's_Protection
+          - Impr_Angels_Safeguard
+          - Im_Angels_Protection
           - Improved_Kiss_Of_Angel
-          - Impr_Angel's_Warmth
-          - Impr_Angel's_Arrival
+          - Impr_Angels_Warmth
+          - Impr_Angels_Arrival
     Script: |
       bonus bMaxHP,900; bonus bMaxSP,100; bonus3 bAutoSpellWhenHit,"HP_ASSUMPTIO",1,30;
   - Combos:
       - Combo:
-          - Impr_Angel's_Safeguard
-          - Impr_Angel's_Arrival
+          - Impr_Angels_Safeguard
+          - Impr_Angels_Arrival
     Script: |
       bonus bAllStats,2;
   - Combos:
@@ -1163,7 +1163,7 @@ Body:
   - Combos:
       - Combo:
           - Granpa_Beard
-          - Santa's_Hat_
+          - Santas_Hat_
     Script: |
       bonus bMaxHP,700; bonus bMaxSP,50; bonus4 bAutoSpellWhenHit,"AL_INCAGI",10,30,1;
   - Combos:
@@ -1241,7 +1241,7 @@ Body:
   - Combos:
       - Combo:
           - Ninja_Suit
-          - Shinobi's_Sash
+          - Shinobis_Sash
     Script: |
       bonus bUseSPrate,-20; bonus bMaxHP,300;
   - Combos:
@@ -1270,36 +1270,36 @@ Body:
       bonus3 bAutoSpellWhenHit,"WZ_WATERBALL",5,50;
   - Combos:
       - Combo:
-          - Odin's_Blessing
+          - Odins_Blessing
           - Fricco_Shoes
           - Falcon_Robe
     Script: |
       bonus bAgi,3; bonus bMaxHPrate,5; bonus bMaxSPrate,5;
   - Combos:
       - Combo:
-          - Odin's_Blessing
-          - Vidar's_Boots
-          - Vali's_Manteau
+          - Odins_Blessing
+          - Vidars_Boots
+          - Valis_Manteau
     Script: |
       bonus bVit,5; bonus bHPrecovRate,10; bonus bSPrecovRate,10;
   - Combos:
       - Combo:
-          - Odin's_Blessing
+          - Odins_Blessing
           - Ulle_Cap
     Script: |
       if(readparam(bDex)>69) bonus bUseSPrate,-10;
   - Combos:
       - Combo:
-          - Odin's_Blessing
+          - Odins_Blessing
           - Ulle_Cap_I
     Script: |
       if(readparam(bDex)>69) bonus bUseSPrate,-10;
   - Combos:
       - Combo:
-          - Goibne's_Armor
-          - Goibne's_Combat_Boots
-          - Goibne's_Shoulder_Arms
-          - Goibne's_Helmet
+          - Goibnes_Armor
+          - Goibnes_Combat_Boots
+          - Goibnes_Shoulder_Arms
+          - Goibnes_Helmet
     Script: |
       bonus bVit,5; bonus bMaxHPrate,15; bonus bMaxSPrate,5; bonus bDef,5; bonus bMdef,15; bonus2 bSubEle,Ele_Water,10; bonus2 bSubEle,Ele_Earth,10; bonus2 bSubEle,Ele_Fire,10; bonus2 bSubEle,Ele_Wind,10;
   - Combos:
@@ -1319,7 +1319,7 @@ Body:
   - Combos:
       - Combo:
           - Ninja_Suit_
-          - Shinobi's_Sash
+          - Shinobis_Sash
     Script: |
       bonus bUseSPrate,-20; bonus bMaxHP,300;
   - Combos:
@@ -1653,29 +1653,29 @@ Body:
       .@r = getequiprefinerycnt(EQI_ARMOR); bonus bMaxHPrate,10+.@r; bonus bMatkRate,2+.@r;
   - Combos:
       - Combo:
-          - Morpheus's_Shawl
-          - Morpheus's_Ring
-          - Morpheus's_Armlet
-          - Morpheus's_Hood
+          - Morpheuss_Shawl
+          - Morpheuss_Ring
+          - Morpheuss_Armlet
+          - Morpheuss_Hood
     Script: |
       bonus bInt,5; bonus bMdef,11; bonus bMaxSPrate,20; bonus bNoCastCancel; bonus bCastrate,25;
   - Combos:
       - Combo:
-          - Morrigane's_Manteau
-          - Morrigane's_Belt
-          - Morrigane's_Pendant
-          - Morrigane's_Helm
+          - Morriganes_Manteau
+          - Morriganes_Belt
+          - Morriganes_Pendant
+          - Morriganes_Helm
     Script: |
       bonus bStr,2; bonus bLuk,9; bonus bCritical,13; bonus bBaseAtk,18; bonus bFlee2,13;
   - Combos:
       - Combo:
-          - Morrigane's_Manteau
+          - Morriganes_Manteau
           - Invective_Robe
     Script: |
       .@r = getequiprefinerycnt(EQI_ARMOR); bonus2 bIgnoreDefRaceRate,RC_DemiHuman,15; bonus2 bIgnoreDefRaceRate,RC_Demon,15; bonus2 bIgnoreDefRaceRate,RC_Undead,15; bonus bLuk,3+.@r; bonus bCritical,10+.@r;
   - Combos:
       - Combo:
-          - Morrigane's_Manteau
+          - Morriganes_Manteau
           - Consultative_Robe
     Script: |
       .@r = getequiprefinerycnt(EQI_ARMOR); bonus bDefEle,Ele_Ghost; bonus bAgi,.@r; bonus bFlee,(2*.@r);
@@ -1739,7 +1739,7 @@ Body:
   - Combos:
       - Combo:
           - Wanderer_Outer
-          - Wanderer's_Sakkat
+          - Wanderers_Sakkat
     Script: |
       .@r = getequiprefinerycnt(EQI_GARMENT); if(.@r>=5) { skill "TF_DOUBLE",1; bonus bDoubleRate,25; } else if(.@r>=7) { .@bonus = max(getskilllv("TF_DOUBLE"),5); skill "TF_DOUBLE",.@bonus; bonus bDoubleRate,.@bonus*5; }
   - Combos:
@@ -2010,14 +2010,14 @@ Body:
       - Combo:
           - Shaman_Ring
           - Shaman_Earing
-          - Shaman's_Hair_Ornament
+          - Shamans_Hair_Ornament
     Script: |
       bonus bMaxHP,300; bonus bMatkRate,5; bonus2 bSubEle,Ele_Neutral,5;
   - Combos:
       - Combo:
           - Shaman_Ring
           - Shaman_EaringB
-          - Shaman's_Hair_Ornament
+          - Shamans_Hair_Ornament
     Script: |
       bonus bMaxHP,BaseLevel*10; bonus bMaxSP,BaseLevel*2; bonus bHealPower,10;
   - Combos:
@@ -3209,7 +3209,7 @@ Body:
       bonus2 bSubRace,RC_Demon,9;
   - Combos:
       - Combo:
-          - Ear_Of_Devil's_Wing
+          - Ear_Of_Devils_Wing
           - Darkness_Helm_J
     Script: |
       bonus bStr,1; bonus2 bAddClass,Class_All,5;
@@ -3227,13 +3227,13 @@ Body:
       bonus bDex,2; bonus bDef,2;
   - Combos:
       - Combo:
-          - Ear_Of_Angel's_Wing
+          - Ear_Of_Angels_Wing
           - Darkness_Helm_J
     Script: |
       bonus bStr,1; bonus bAspdRate,2;
   - Combos:
       - Combo:
-          - Ear_Of_Angel's_Wing
+          - Ear_Of_Angels_Wing
           - Valkyrie_Circlet
     Script: |
       autobonus "{ bonus2 bHPLossRate,30,1000; bonus bHit,-10; bonus bSplashRange,1; }",10+getequiprefinerycnt(EQI_HEAD_TOP),5000,BF_WEAPON,"{ transform 1765,5000; }";
@@ -3384,8 +3384,8 @@ Body:
       bonus bInt,3; bonus bStr,3; bonus bMdef,10; bonus bDefEle,Ele_Fire; bonus2 bAddEle,Ele_Earth,10;
   - Combos:
       - Combo:
-          - Im_Angel's_Protection
-          - Impr_Angel's_Warmth
+          - Im_Angels_Protection
+          - Impr_Angels_Warmth
     Script: |
       bonus bAgi,5; bonus bFlee,10;
   - Combos:
@@ -3632,9 +3632,9 @@ Body:
       bonus2 bSkillAtk,"NJ_BAKUENRYU",20; bonus2 bSkillAtk,"NJ_KUNAI",50;
   - Combos:
       - Combo:
-          - Mine_Worker's_Vest
-          - Mine_Worker's_Backpack
-          - Mine_Worker's_Pickaxe
+          - Mine_Worker_Vest
+          - Mine_Worker_Backpack
+          - Mine_Worker_Pickax
     Script: |
       bonus2 bAddClass,Class_All,5; bonus bAspdRate,10; bonus bCritAtkRate,10;
   - Combos:
@@ -3987,13 +3987,13 @@ Body:
   - Combos:
       - Combo:
           - Improved_Kiss_Of_Angel
-          - Impr_Angel's_Warmth
+          - Impr_Angels_Warmth
     Script: |
       bonus bBaseAtk,10;
   - Combos:
       - Combo:
           - Improved_Kiss_Of_Angel
-          - Impr_Angel's_Arrival
+          - Impr_Angels_Arrival
     Script: |
       bonus bMatk,20;
   - Combos:
@@ -4726,7 +4726,7 @@ Body:
       bonus2 bAddClass,Class_All,10; .@eq = getequiprefinerycnt(EQI_SHOES); .@weapon = getequiprefinerycnt(EQI_HAND_R); if (.@eq >= 7 && .@weapon >= 7) { bonus bLongAtkRate,5; } if ((.@eq + .@weapon) >= 18) { bonus bLongAtkRate,20; bonus bDelayrate,-10; if (getallrefine() >= 44) { autobonus3 "{ bonus bBaseAtk,50; bonus2 bAddRace,RC_Brute,50; bonus2 bAddRace,RC_Demon,50; }",5,10000,"GS_GATLINGFEVER"; /* unknown rate */ } }
   - Combos:
       - Combo:
-          - Kick_&_Kick_Card
+          - KickAndKick_Card
           - Kick_Step_Card
     Script: |
       bonus bNoZeny;
@@ -4745,19 +4745,19 @@ Body:
   - Combos:
       - Combo:
           - SweetNightM_Card
-          - Vampire's_Servant
+          - Vampires_Servant
     Script: |
       bonus bMatkRate,(getrefine()/3);
   - Combos:
       - Combo:
           - MattDrainliar_Card
-          - Vampire's_Servant
+          - Vampires_Servant
     Script: |
       bonus bFlee2,5;
   - Combos:
       - Combo:
           - LivingDead_Card
-          - Vampire's_Servant
+          - Vampires_Servant
     Script: |
       bonus2 bAddClass,Class_All,(getrefine()/3);
   - Combos:
@@ -4769,13 +4769,13 @@ Body:
   - Combos:
       - Combo:
           - Ill_Dracula_Card
-          - Vampire's_Servant
+          - Vampires_Servant
     Script: |
       bonus2 bHPRegenRate,30,3000; bonus2 bSPRegenRate,1,3000;
   - Combos:
       - Combo:
           - Bomi_Card
-          - Vampire's_Servant
+          - Vampires_Servant
     Script: |
       bonus bMatk,30;
   - Combos:
@@ -8326,11 +8326,11 @@ Body:
   - Combos:
       - Combo:
           - Stone_Buckler
-          - Odin's_Blessing_I
+          - Odins_Blessing_I
           - Magni_Cap
       - Combo:
           - Stone_Buckler
-          - Odin's_Blessing
+          - Odins_Blessing
           - Magni_Cap_
     Script: |
       bonus bStr,2;
@@ -8341,7 +8341,7 @@ Body:
   - Combos:
       - Combo:
           - Stone_Buckler
-          - Odin's_Blessing_I
+          - Odins_Blessing_I
           - Fricca_Circlet
     Script: |
       bonus bDef,2-getequiprefinerycnt(EQI_HAND_L)-getequiprefinerycnt(EQI_HEAD_TOP);
@@ -8383,7 +8383,7 @@ Body:
       bonus2 bAddMonsterDropItem,12192,20;
   - Combos:
       - Combo:
-          - Odin's_Blessing
+          - Odins_Blessing
           - Fricco_Shoes_
           - Falcon_Robe
     Script: |
@@ -8392,9 +8392,9 @@ Body:
       bonus bMaxSPrate,5;
   - Combos:
       - Combo:
-          - Odin's_Blessing
-          - Vidar's_Boots_
-          - Vali's_Manteau
+          - Odins_Blessing
+          - Vidars_Boots_
+          - Valis_Manteau
     Script: |
       bonus bVit,5;
       bonus bHPrecovRate,10;
@@ -8555,7 +8555,7 @@ Body:
   - Combos:
       - Combo:
           - DespairGodMorocc_Card
-          - Morocc's_Minion_Card
+          - MinionOfMorocc_Card
     Script: |
       bonus bMaxHPrate,50;
   - Combos:
@@ -8629,7 +8629,7 @@ Body:
   - Combos:
       - Combo:
           - Priest_Sword
-          - Odin's_Blessing
+          - Odins_Blessing
     Script: |
       bonus bMaxSP,50;
       bonus2 bSkillAtk,"KN_BOWLINGBASH",5;
@@ -8826,7 +8826,7 @@ Body:
   - Combos:
       - Combo:
           - O_Cleaner_Ng_Card
-          - Kick_&_Kick_Card
+          - KickAndKick_Card
           - Papila_H_Card
     Script: |
       bonus2 bSkillAtk,"MC_CARTREVOLUTION",20;
@@ -9057,10 +9057,10 @@ Body:
       bonus bCritAtkRate,3*(readparam(bLuk)/30);
   - Combos:
       - Combo:
-          - Sigrun's_Wing
+          - Sigrun_Wing
           - C_Violet_Halo
       - Combo:
-          - Sigrun's_Wings_
+          - Sigruns_Wings_
           - C_Violet_Halo
     Script: |
       bonus bCritAtkRate,14;
@@ -9544,7 +9544,7 @@ Body:
       bonus2 bMagicAtkEle,Ele_All,3*(.@r/4);
   - Combos:
       - Combo:
-          - Ifrit's_Ear
+          - Ifrits_Ear
           - Ignis_Cap
     Script: |
       bonus bAspdRate,getequiprefinerycnt(EQI_HEAD_TOP)/2;

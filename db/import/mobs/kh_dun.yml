@@ -78,7 +78,7 @@ Body:
         Rate: 5
       - Item: Elunium
         Rate: 10
-      - Item: Vali's_Manteau
+      - Item: Valis_Manteau
         Rate: 20
       - Item: Alicel_Card
         Rate: 1
@@ -162,11 +162,11 @@ Body:
     Drops:
       - Item: Brigan
         Rate: 4000
-      - Item: Morpheus's_Shawl
+      - Item: Morpheuss_Shawl
         Rate: 10
       - Item: Rosary_
         Rate: 10
-      - Item: Alice's_Apron
+      - Item: Alices_Apron
         Rate: 5
       - Item: Imperial_Cooking_Kits
         Rate: 50

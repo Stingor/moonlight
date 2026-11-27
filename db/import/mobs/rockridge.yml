@@ -459,7 +459,7 @@ Body:
       - Item: Roasted_Beef
         Rate: 30
         StealProtected: true
-      - Item: Mine_Worker's_Pickaxe
+      - Item: Mine_Worker_Pickax
         Rate: 10
         StealProtected: true
       - Item: Elite_Scimitar_Buffalo_Bandit_Card
@@ -544,7 +544,7 @@ Body:
         Rate: 3000
       - Item: Meat
         Rate: 500
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 150
         StealProtected: true
       - Item: Hippie_Rope

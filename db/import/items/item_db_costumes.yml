@@ -2193,7 +2193,7 @@ Body:
     View: 867
     Script: "bonus bMaxHPrate,3; bonus bMaxSPrate,3;\n"
   - Id: 19781
-    AegisName: C_Ear_Of_Angel's_Wing_
+    AegisName: C_Ear_Of_Angels_Wing_
     Name: Costume Angel Wing Ears
     Type: Armor
     Buy: 10
@@ -2217,7 +2217,7 @@ Body:
       Costume_Head: true
     View: 25
   - Id: 19784
-    AegisName: C_Morrigane's_Helm
+    AegisName: C_Morriganes_Helm
     Name: Costume Morrigane's Helm
     Type: Armor
     Buy: 10
@@ -2803,7 +2803,7 @@ Body:
       Costume_Head: true
     View: 156
   - Id: 19864
-    AegisName: C_Dokebi's_Wig
+    AegisName: C_Afro_Wig
     Name: Costume Dokebi's Wig
     Type: Armor
     Buy: 20
@@ -3306,7 +3306,7 @@ Body:
       Costume_Head: true
     View: 1148
   - Id: 19982
-    AegisName: C_Santa's_Hat
+    AegisName: C_Santas_Hat
     Name: Costume Santa Hat
     Type: Armor
     Locations:
@@ -3792,7 +3792,7 @@ Body:
       Costume_Head: true
     View: 147
   - Id: 20050
-    AegisName: C_Ph.D_Hat
+    AegisName: C_PhD_Hat
     Name: Costume Ph.D Hat
     Type: Armor
     Locations:
@@ -3999,7 +3999,7 @@ Body:
       Costume_Head: true
     View: 1104
   - Id: 20080
-    AegisName: C_Shaman's_Hair_Orna
+    AegisName: C_Shamans_Hair_Orna
     Name: Costume Shaman Hair Ornament
     Type: Armor
     Locations:
@@ -4753,21 +4753,21 @@ Body:
       Costume_Head: true
     View: 250
   - Id: 20187
-    AegisName: C_Fricca's_Circlet
+    AegisName: C_Fricca_Circlet
     Name: Costume Fricca's Circlet
     Type: Armor
     Locations:
       Costume_Head: true
     View: 251
   - Id: 20188
-    AegisName: C_Morpheus's_Hood
+    AegisName: C_Morpheus_Hood
     Name: Costume Morpheus's Hood
     Type: Armor
     Locations:
       Costume_Head: true
     View: 256
   - Id: 20189
-    AegisName: C_Goibne's_Helm
+    AegisName: C_Goibne_Helmet
     Name: Costume Goibne's Helm
     Type: Armor
     Locations:
@@ -5380,7 +5380,7 @@ Body:
       Costume_Head: true
     View: 952
   - Id: 20280
-    AegisName: C_Well-Chewed_Pencil
+    AegisName: C_Pencil_In_Mouth
     Name: Costume Well-Chewed Pencil
     Type: Armor
     Locations:
@@ -9465,7 +9465,7 @@ Body:
       Costume_Head: true
     View: 1527
   - Id: 31379
-    AegisName: C_Wind-Up_Key
+    AegisName: C_Drama_Clockwork
     Name: C Wind-Up Key
     Type: Armor
     Locations:

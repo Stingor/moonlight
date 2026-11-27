@@ -55,12 +55,12 @@ har_in01,17,74,7	script	Contraband Processor#pa	4_DR_SOLDIER,{
 	case 15176:	// Vigilante_Suit
 	case 15177:	// Elemental_Robe
 	case 15178:	// Golden_Ninja_Suit
-	case 15179:	// Mine_Worker's_Vest
+	case 15179:	// Mine_Worker_Vest
 	case 15180:	// Hippie Clothes
 
 	case 20820:	// Elemental_Cape
 	case 20821:	// Golden_Scarf
-	case 20822:	// Mine_Worker's_Backpack
+	case 20822:	// Mine_Worker_Backpack
 
 	case 28441:	// Vigilante_Badge
 	case 28442:	// Hippie_Feather
@@ -268,7 +268,7 @@ har_in01,24,69,3	script	Affable Lady#rockridge0	1_F_MERCHANT_02,{
 		mes "Pick one you like, and I'll tell you about it.";
 		mes "All the equipment is ^0000CD3,000,000 Zeny^000000 regardless of its type.";
 		.@cost = 3000000;
-		setarray .@item_id[0],20820,20821,20822; // Elemental_Cape, Golden_Scarf, Mine_Worker's_Backpack
+		setarray .@item_id[0],20820,20821,20822; // Elemental_Cape, Golden_Scarf, Mine_Worker_Backpack
 		setarray .@item_name$[0], "Elemental Cape", "Golden Scarf", "Mine Worker Backpack";
 		.@s = select( "Elemental Cape", "Golden Scarf", "Mine Worker Backpack", "I have no idea what you're talking about." ) - 1;
 		break;
@@ -348,9 +348,9 @@ har_in01,34,81,5	script	Howard#rr	4_M_TATIO,{
 		 24, 15176, "Vigilante Suit",   // Vigilante_Suit
 		 24, 15177, "Elemental Robe",   // Elemental_Robe
 		 24, 15178, "Golden Ninja Suit",// Golden_Ninja_Suit
-		 24, 15179, "Mine Worker Vest", // Mine_Worker's_Vest
+		 24, 15179, "Mine Worker Vest", // Mine_Worker_Vest
 		 24, 15180, "Hippie Clothes",   // Hippie_Clothes
-		150, 20834, "Drifter's Cape",   // Drifter's_Cape
+		150, 20834, "Drifter's Cape",   // Manteau_Of_Vagabond
 		150, 22131, "Spurred Boots",    // Spurred_Boots
 		180, 16060, "Liquor Bottle",    // Liquor_Bottle
 		300, 26107, "Elder Staff",      // Elder_Staff
@@ -491,7 +491,7 @@ har_in01,16,86,4	script	Armor Dealer#rockridge02	1_M_04,{
 	end;
 	
 OnSun0000:	// custom restock, no official info
-	npcshopupdate "armor_rockridge_1",2247,0,10; // Oldman's_Romance
+	npcshopupdate "armor_rockridge_1",2247,0,10; // Oldmans_Romance
 	npcshopupdate "armor_rockridge_1",2248,0,10; // Western_Grace
 	npcshopupdate "armor_rockridge_1",5018,0,10; // Feather_Bonnet
 	npcshopupdate "armor_rockridge_2",5067,0,10; // Sombrero

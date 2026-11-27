@@ -310,7 +310,7 @@ Body:
       BuyingStore: true
     Script: "itemheal rand(325,405),rand(40,60); sc_end SC_POISON; sc_end SC_SILENCE; sc_end SC_BLIND; sc_end SC_CONFUSION; sc_end SC_CURSE; sc_end SC_Hallucination;\n"
   - Id: 528
-    AegisName: Monster's_Feed
+    AegisName: Monsters_Feed
     Name: Monster's Feed
     Type: Healing
     Buy: 60
@@ -418,14 +418,14 @@ Body:
       BuyingStore: true
     Script: "itemheal rand(270,330),0;\n"
   - Id: 540
-    AegisName: Falcon's_Feed
+    AegisName: Falcons_Feed
     Name: Falcon Food
     Type: Healing
     Buy: 2000
     Weight: 50
     Script: "itemheal rand(185,225),0;\n"
   - Id: 541
-    AegisName: Pecopeco's_Feed
+    AegisName: Pecopecos_Feed
     Name: PecoPeco Food
     Type: Healing
     Buy: 3000
@@ -778,7 +778,7 @@ Body:
       BuyingStore: true
     Script: "itemheal rand(40,70),0;\n"
   - Id: 586
-    AegisName: Mother's_Cake
+    AegisName: Mothers_Cake
     Name: Mother's Cake
     Type: Healing
     Buy: 20
@@ -1701,7 +1701,7 @@ Body:
     Weight: 100
     Script: "itemheal rand(50,70),rand(10,12);\n"
   - Id: 11713
-    AegisName: Julia's_Candy
+    AegisName: Julias_Candy
     Name: Julia's Candy
     Type: Healing
     Weight: 30

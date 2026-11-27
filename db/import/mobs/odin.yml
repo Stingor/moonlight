@@ -406,7 +406,7 @@ Body:
         Rate: 1000
       - Item: Silk_Robe_
         Rate: 100
-      - Item: Odin's_Blessing
+      - Item: Odins_Blessing
         Rate: 100
       - Item: Skeggiold_Card
         Rate: 10
@@ -454,7 +454,7 @@ Body:
         Rate: 1000
       - Item: Silk_Robe_
         Rate: 100
-      - Item: Odin's_Blessing
+      - Item: Odins_Blessing
         Rate: 100
       - Item: Skeggiold_Card
         Rate: 10
@@ -620,5 +620,5 @@ Body:
         Rate: 500
       - Item: Old_Violet_Box
         Rate: 100
-      - Item: Valkyrja's_Shield
+      - Item: Valkyrjas_Shield
         Rate: 500

@@ -141,7 +141,7 @@ Body:
     Modes:
       Aggressive: true
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 1015
       - Item: Dragon_Canine
         Rate: 1334
@@ -192,7 +192,7 @@ Body:
     Modes:
       Aggressive: true
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 1016
       - Item: Dragon_Canine
         Rate: 1334

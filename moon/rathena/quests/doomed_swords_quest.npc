@@ -894,7 +894,7 @@ morocc,248,159,4	script	Young Man#magum1	86,{
 			delitem 7024,9; //Bloody_Edge
 			delitem 7023,6; //Blade_Lost_In_Darkness
 			delitem 723,9; //Cardinal_Jewel
-			delitem 7019,1; //Loki's_Whispers
+			delitem 7019,1; //Lokis_Whispers
 			set dmdswrd_Q,41;
 			close;
 		}

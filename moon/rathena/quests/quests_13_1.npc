@@ -7314,7 +7314,7 @@ mid_camp,143,306,5	script	Breeder Taab#ep13_alba	946,{
 				mes "material to give you.";
 				mes "How about a spiritual reward?";
 				next;
-				delitem 528,20; //Monster's_Feed
+				delitem 528,20; //Monsters_Feed
 				delitem 537,30; //Pet_Food
 				set ep13_alba,6;
 				if (checkre(3)) {
@@ -8277,7 +8277,7 @@ spl_fild02,314,165,0	script	School of Fish#1::Fishinghole	4_SHOAL,{
 		specialeffect2 EF_BUBBLE;
 		specialeffect2 EF_INVENOM;
 		set .@fcast,15;
-		if (isequipped(2550)) //Fisher's_Muffler
+		if (isequipped(2550)) //Fishers_Muffler
 			set .@fcast,.@fcast - 2;
 		if (isequipped(2443)) //Fish_Shoes
 			set .@fcast,.@fcast - 2;

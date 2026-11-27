@@ -140,7 +140,7 @@ Body:
     Drops:
       - Item: Boody_Red
         Rate: 70
-      - Item: Scorpion's_Tail
+      - Item: Scorpions_Tail
         Rate: 5500
       - Item: Elunium_Stone
         Rate: 57
@@ -585,9 +585,9 @@ Body:
         Rate: 10
       - Item: Meat
         Rate: 650
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1050
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Strawberry
         Rate: 600
@@ -1061,7 +1061,7 @@ Body:
         Rate: 1
       - Item: Adventure_Suit
         Rate: 100
-      - Item: Girl's_Diary
+      - Item: Girls_Diary
         Rate: 5
       - Item: Munak_Card
         Rate: 1
@@ -2162,7 +2162,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 9000
       - Item: Guitar_Of_Vast_Land
         Rate: 10
@@ -2354,7 +2354,7 @@ Body:
     Drops:
       - Item: Raccoon_Leaf
         Rate: 5500
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Sweet_Potato
         Rate: 800
@@ -2446,7 +2446,7 @@ Body:
     Drops:
       - Item: Boody_Red
         Rate: 60
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 6500
       - Item: Scell
         Rate: 400
@@ -2547,11 +2547,11 @@ Body:
     DamageMotion: 192
     Ai: 17
     Drops:
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 9000
       - Item: Poo_Poo_Hat
         Rate: 5
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5000
       - Item: Stuffed_Doll
         Rate: 80
@@ -2649,7 +2649,7 @@ Body:
         Rate: 1000
       - Item: Apple
         Rate: 1000
-      - Item: Santa's_Hat
+      - Item: Santas_Hat
         Rate: 100
       - Item: Apple
         Rate: 7
@@ -3001,7 +3001,7 @@ Body:
         Rate: 5500
       - Item: Garlet
         Rate: 400
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 500
       - Item: Red_Herb
         Rate: 650
@@ -3764,15 +3764,15 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Oldman's_Romance
+      - Item: Oldmans_Romance
         Rate: 50
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 8000
       - Item: Azure_Jewel
         Rate: 1000
       - Item: Grasshopper_Doll
         Rate: 1500
-      - Item: Angel's_Arrival
+      - Item: Angels_Arrival
         Rate: 1000
       - Item: Light_Granule
         Rate: 500
@@ -3809,7 +3809,7 @@ Body:
     Ai: 21
     Class: Boss
     Drops:
-      - Item: Big_Sis'_Ribbon
+      - Item: Big_Sis_Ribbon
         Rate: 50
       - Item: Honey
         Rate: 2000
@@ -3860,7 +3860,7 @@ Body:
         Rate: 50
       - Item: Scarlet_Jewel
         Rate: 1000
-      - Item: Angel's_Safeguard
+      - Item: Angels_Safeguard
         Rate: 1000
       - Item: Light_Granule
         Rate: 500
@@ -3955,7 +3955,7 @@ Body:
         Rate: 1500
       - Item: Star_Dust_Blade
         Rate: 100
-      - Item: Angel's_Warmth
+      - Item: Angels_Warmth
         Rate: 1000
       - Item: Light_Granule
         Rate: 500
@@ -4004,7 +4004,7 @@ Body:
         Rate: 30
       - Item: Rainbow_Carrot
         Rate: 50
-      - Item: Angel's_Protection
+      - Item: Angels_Protection
         Rate: 1000
       - Item: Eclipse_Card
         Rate: 10
@@ -4041,7 +4041,7 @@ Body:
     Drops:
       - Item: Crystal_Blue
         Rate: 50
-      - Item: Snail's_Shell
+      - Item: Snails_Shell
         Rate: 9000
       - Item: Garlet
         Rate: 1200
@@ -4410,7 +4410,7 @@ Body:
         Rate: 4850
       - Item: Star_Sparkling
         Rate: 3
-      - Item: Crimson_One-Handed_Staff
+      - Item: Scarlet_Rod
         Rate: 1000
       - Item: Star_Crumb
         Rate: 30
@@ -4455,7 +4455,7 @@ Body:
         Rate: 9000
       - Item: Coat_
         Rate: 5
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Glaive_
         Rate: 10
@@ -4500,7 +4500,7 @@ Body:
         Rate: 20
       - Item: Fluff
         Rate: 3000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 2500
       - Item: Sweet_Potato
         Rate: 500
@@ -4632,9 +4632,9 @@ Body:
     Drops:
       - Item: Phracon
         Rate: 85
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
-      - Item: Adventurere's_Suit_
+      - Item: Adventureres_Suit_
         Rate: 80
       - Item: Wolf_Blood
         Rate: 200
@@ -5008,7 +5008,7 @@ Body:
     Modes:
       Mvp: true
     MvpDrops:
-      - Item: Tiger's_Skin
+      - Item: Tigers_Skin
         Rate: 5000
       - Item: Tiger_Footskin
         Rate: 1000
@@ -5295,7 +5295,7 @@ Body:
         Rate: 30
       - Item: Coal
         Rate: 150
-      - Item: Elder_Pixie's_Beard
+      - Item: Elder_Pixies_Beard
         Rate: 5500
       - Item: Elven_Ears
         Rate: 1
@@ -6418,11 +6418,11 @@ Body:
     DamageMotion: 360
     Ai: 09
     Drops:
-      - Item: Matyr's_Flea_Guard
+      - Item: Matyrs_Flea_Guard
         Rate: 10
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 5000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Pet_Food
         Rate: 400
@@ -6474,7 +6474,7 @@ Body:
       - Item: Old_Violet_Box
         Rate: 2000
     Drops:
-      - Item: Queen's_Hair_Ornament
+      - Item: Queens_Hair_Ornament
         Rate: 500
       - Item: Safety_Ring
         Rate: 200
@@ -6482,7 +6482,7 @@ Body:
         Rate: 200
       - Item: Armlet_Of_Obedience
         Rate: 500
-      - Item: Mother's_Nightmare
+      - Item: Mothers_Nightmare
         Rate: 10
       - Item: Elunium
         Rate: 3500
@@ -6943,7 +6943,7 @@ Body:
     Drops:
       - Item: Broken_Pharaoh_Symbol
         Rate: 5820
-      - Item: Tutankhamen's_Mask
+      - Item: Tutankhamens_Mask
         Rate: 2500
       - Item: Solar_Sword
         Rate: 100
@@ -7040,7 +7040,7 @@ Body:
       - Item: Star_Crumb
         Rate: 4000
     Drops:
-      - Item: Thin_N'_Long_Tongue
+      - Item: Thin_N_Long_Tongue
         Rate: 9700
       - Item: Forturn_Sword
         Rate: 500
@@ -7329,7 +7329,7 @@ Body:
         Rate: 200
       - Item: Katar_Of_Thornbush
         Rate: 1
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 5
       - Item: Sand_Man_Card
         Rate: 1
@@ -7363,7 +7363,7 @@ Body:
     DamageMotion: 384
     Ai: 17
     Drops:
-      - Item: Wild_Boar's_Mane
+      - Item: Wild_Boars_Mane
         Rate: 9000
       - Item: Grape
         Rate: 300
@@ -7407,7 +7407,7 @@ Body:
     DamageMotion: 576
     Ai: 01
     Drops:
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 9000
       - Item: Axe_
         Rate: 100
@@ -7592,11 +7592,11 @@ Body:
     Drops:
       - Item: Rat_Tail
         Rate: 9000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3000
       - Item: Feather
         Rate: 800
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Ora_Ora
         Rate: 2
@@ -8623,7 +8623,7 @@ Body:
     DamageMotion: 768
     Ai: 13
     Drops:
-      - Item: Executioner's_Mitten
+      - Item: Executioners_Mitten
         Rate: 5
       - Item: White_Herb
         Rate: 1800
@@ -8633,7 +8633,7 @@ Body:
         Rate: 8
       - Item: Earring_
         Rate: 1
-      - Item: Queen's_Whip
+      - Item: Queens_Whip
         Rate: 100
       - Item: Masquerade
         Rate: 3
@@ -8671,9 +8671,9 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Thin_N'_Long_Tongue
+      - Item: Thin_N_Long_Tongue
         Rate: 3880
-      - Item: Executioner's_Mitten
+      - Item: Executioners_Mitten
         Rate: 3
       - Item: White_Herb
         Rate: 1800
@@ -8717,9 +8717,9 @@ Body:
     DamageMotion: 600
     Ai: 13
     Drops:
-      - Item: Thin_N'_Long_Tongue
+      - Item: Thin_N_Long_Tongue
         Rate: 3880
-      - Item: Executioner's_Mitten
+      - Item: Executioners_Mitten
         Rate: 4
       - Item: White_Herb
         Rate: 1800
@@ -8761,7 +8761,7 @@ Body:
     Ai: 21
     Class: Boss
     Drops:
-      - Item: Loki's_Whispers
+      - Item: Lokis_Whispers
         Rate: 1
       - Item: Biotite
         Rate: 1500
@@ -9035,7 +9035,7 @@ Body:
     Drops:
       - Item: Claw_Of_Rat
         Rate: 4656
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Blue_Jewel
         Rate: 80
@@ -9446,7 +9446,7 @@ Body:
     DamageMotion: 384
     Ai: 21
     Drops:
-      - Item: Wild_Boar's_Mane
+      - Item: Wild_Boars_Mane
         Rate: 6000
       - Item: Grape
         Rate: 150
@@ -9666,7 +9666,7 @@ Body:
         Rate: 500
       - Item: Yellow_Herb
         Rate: 130
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Monkey_Doll
         Rate: 7
@@ -10066,7 +10066,7 @@ Body:
         Rate: 1000
       - Item: Panda_Cap
         Rate: 1
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 5000
       - Item: White_Jewel
         Rate: 30
@@ -10162,7 +10162,7 @@ Body:
         Rate: 10
       - Item: Buckler_
         Rate: 5
-      - Item: Santa's_Hat
+      - Item: Santas_Hat
         Rate: 10
       - Item: Goblin_Card
         Rate: 1
@@ -10243,7 +10243,7 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
     Drops:
-      - Item: Santa's_Hat_
+      - Item: Santas_Hat_
         Rate: 1000
       - Item: Santa_Beard
         Rate: 1000
@@ -10914,9 +10914,9 @@ Body:
         Rate: 1
       - Item: Rotten_Fish
         Rate: 35
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 600
-      - Item: Big_Sis'_Ribbon
+      - Item: Big_Sis_Ribbon
         Rate: 2
       - Item: Wild_Rose_Card
         Rate: 1
@@ -11552,7 +11552,7 @@ Body:
     DamageMotion: 480
     Ai: 17
     Drops:
-      - Item: Alice's_Apron
+      - Item: Alices_Apron
         Rate: 3000
       - Item: Old_Broom
         Rate: 40
@@ -11843,7 +11843,7 @@ Body:
         Rate: 40
       - Item: Cold_Scroll_1_5
         Rate: 250
-      - Item: Ph.D_Hat
+      - Item: PhD_Hat
         Rate: 1
       - Item: Sageworm_Card
         Rate: 1
@@ -12110,7 +12110,7 @@ Body:
         Rate: 100
       - Item: Oridecon
         Rate: 150
-      - Item: Queen's_Hair_Ornament
+      - Item: Queens_Hair_Ornament
         Rate: 1
       - Item: Cookbook10
         Rate: 2
@@ -12905,7 +12905,7 @@ Body:
     DamageMotion: 192
     Ai: 21
     Drops:
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 4550
       - Item: Poo_Poo_Hat
         Rate: 8
@@ -13139,7 +13139,7 @@ Body:
     DamageMotion: 384
     Ai: 21
     Drops:
-      - Item: Wild_Boar's_Mane
+      - Item: Wild_Boars_Mane
         Rate: 3500
       - Item: Grape
         Rate: 290
@@ -14612,7 +14612,7 @@ Body:
         Rate: 1500
       - Item: Chrystal_Pumps
         Rate: 3
-      - Item: Boy's_Naivety
+      - Item: Boys_Naivety
         Rate: 1
       - Item: Diamond_Ring
         Rate: 250
@@ -14700,9 +14700,9 @@ Body:
     DamageMotion: 336
     Ai: 03
     Drops:
-      - Item: Goat's_Horn
+      - Item: Goats_Horn
         Rate: 4559
-      - Item: Gaoat's_Skin
+      - Item: Gaoats_Skin
         Rate: 2500
       - Item: Empty_Bottle
         Rate: 5000
@@ -14896,9 +14896,9 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Harpy's_Feather
+      - Item: Harpys_Feather
         Rate: 4850
-      - Item: Harpy's_Claw
+      - Item: Harpys_Claw
         Rate: 2500
       - Item: Yellow_Herb
         Rate: 1500
@@ -15114,13 +15114,13 @@ Body:
     DamageMotion: 192
     Ai: 04
     Drops:
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 5000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5000
       - Item: Nice_Sweet_Potato
         Rate: 2500
-      - Item: Odin's_Blessing
+      - Item: Odins_Blessing
         Rate: 10
       - Item: Grizzly_Card
         Rate: 1
@@ -15240,7 +15240,7 @@ Body:
     DamageMotion: 384
     Ai: 13
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 4074
       - Item: Dragon_Canine
         Rate: 5335
@@ -15280,7 +15280,7 @@ Body:
     DamageMotion: 336
     Ai: 13
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 4074
       - Item: Dragon_Canine
         Rate: 5335
@@ -15330,7 +15330,7 @@ Body:
         Rate: 2500
       - Item: Oridecon_Stone
         Rate: 300
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 5
       - Item: Fine_Sand
         Rate: 1200
@@ -15366,9 +15366,9 @@ Body:
     DamageMotion: 576
     Ai: 04
     Drops:
-      - Item: Scropion's_Nipper
+      - Item: Scropions_Nipper
         Rate: 4365
-      - Item: Scorpion's_Tail
+      - Item: Scorpions_Tail
         Rate: 5500
       - Item: Red_Gemstone
         Rate: 150
@@ -15934,7 +15934,7 @@ Body:
         Rate: 2
       - Item: Smoke_Powder
         Rate: 700
-      - Item: Shinobi's_Sash
+      - Item: Shinobis_Sash
         Rate: 100
       - Item: Thief_Clothes_
         Rate: 1
@@ -15976,7 +15976,7 @@ Body:
     DamageMotion: 864
     Ai: 01
     Drops:
-      - Item: Poison_Toad's_Skin
+      - Item: Poison_Toads_Skin
         Rate: 5500
       - Item: Poison_Powder
         Rate: 2400
@@ -16120,7 +16120,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Tengu's_Nose
+      - Item: Tengus_Nose
         Rate: 3500
       - Item: Broken_Wine_Vessel
         Rate: 5500
@@ -16528,7 +16528,7 @@ Body:
     DamageMotion: 420
     Ai: 17
     Drops:
-      - Item: Black_Bear's_Skin
+      - Item: Black_Bears_Skin
         Rate: 4462
       - Item: Mystery_Iron_Bit
         Rate: 3500
@@ -16588,7 +16588,7 @@ Body:
         Rate: 5100
       - Item: Hell_Fire
         Rate: 80
-      - Item: Ph.D_Hat
+      - Item: PhD_Hat
         Rate: 80
       - Item: Gae_Bolg
         Rate: 500
@@ -19030,7 +19030,7 @@ Body:
     DamageMotion: 480
     Ai: 04
     Drops:
-      - Item: Dullahan's_Helm
+      - Item: Dullahans_Helm
         Rate: 3200
       - Item: Dullahan_Armor
         Rate: 4850
@@ -19084,7 +19084,7 @@ Body:
         Rate: 5044
       - Item: Elunium
         Rate: 100
-      - Item: Loki's_Whispers
+      - Item: Lokis_Whispers
         Rate: 1
       - Item: Lunatic_Brooch
         Rate: 5
@@ -19184,7 +19184,7 @@ Body:
         Rate: 50
       - Item: Oridecon
         Rate: 100
-      - Item: Mama's_Knife
+      - Item: Mamas_Knife
         Rate: 3
       - Item: Ginnungagap
         Rate: 1
@@ -22742,7 +22742,7 @@ Body:
         Rate: 2
       - Item: Fluorescent_Liquid
         Rate: 30
-      - Item: Pecopeco's_Feed
+      - Item: Pecopecos_Feed
         Rate: 10000
       - Item: Porcellio_Card
         Rate: 1
@@ -23149,7 +23149,7 @@ Body:
     Drops:
       - Item: Meat
         Rate: 1000
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Hill_Wind_Card
         Rate: 1
@@ -23945,11 +23945,11 @@ Body:
     DamageMotion: 360
     Ai: 04
     Drops:
-      - Item: Harpy's_Feather
+      - Item: Harpys_Feather
         Rate: 4000
-      - Item: Harpy's_Claw
+      - Item: Harpys_Claw
         Rate: 3000
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Blue_Herb
         Rate: 10
@@ -24149,7 +24149,7 @@ Body:
         Rate: 1000
       - Item: Green_Herb
         Rate: 1000
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 2000
       - Item: Aloebera
         Rate: 10
@@ -26502,7 +26502,7 @@ Body:
         Rate: 20
       - Item: Fluff
         Rate: 3000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 2500
       - Item: Sweet_Potato
         Rate: 500
@@ -29690,7 +29690,7 @@ Body:
     DamageMotion: 336
     Ai: 21
     Drops:
-      - Item: Cowking's_Nose_Ring
+      - Item: Cowkings_Nose_Ring
         Rate: 10000
   - Id: 2010
     AegisName: G_MAJORUROS
@@ -29996,7 +29996,7 @@ Body:
     Ai: 21
     Class: Boss
     Drops:
-      - Item: Pope's_Cookie
+      - Item: Popes_Cookie
         Rate: 5000
   - Id: 2031
     AegisName: DANDELION_H
@@ -30024,7 +30024,7 @@ Body:
     Ai: 21
     Class: Boss
     Drops:
-      - Item: Pope's_Cookie
+      - Item: Popes_Cookie
         Rate: 5000
   - Id: 2032
     AegisName: GUARDIAN_FOREST
@@ -35181,7 +35181,7 @@ Body:
         Rate: 4000
       - Item: Old_Card_Album
         Rate: 500
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 100
       - Item: Ascendant_Crown
         Rate: 1000
@@ -36366,9 +36366,9 @@ Body:
         Rate: 10
       - Item: Wing_Of_Fly
         Rate: 650
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 150
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Strawberry
         Rate: 600
@@ -36511,9 +36511,9 @@ Body:
         Rate: 1
       - Item: Rotten_Fish
         Rate: 35
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 600
-      - Item: Big_Sis'_Ribbon
+      - Item: Big_Sis_Ribbon
         Rate: 2
       - Item: Wild_Rose_Card
         Rate: 1
@@ -37508,11 +37508,11 @@ Body:
     Drops:
       - Item: Rat_Tail
         Rate: 9000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3000
       - Item: Feather
         Rate: 800
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Ora_Ora
         Rate: 2
@@ -38253,7 +38253,7 @@ Body:
     Drops:
       - Item: Raccoon_Leaf
         Rate: 5500
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Sweet_Potato
         Rate: 800
@@ -38306,7 +38306,7 @@ Body:
         Rate: 2500
       - Item: Oridecon_Stone
         Rate: 300
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 5
       - Item: Fine_Sand
         Rate: 1200
@@ -38351,7 +38351,7 @@ Body:
         Rate: 2500
       - Item: Oridecon_Stone
         Rate: 300
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 5
       - Item: Fine_Sand
         Rate: 1200
@@ -38715,7 +38715,7 @@ Body:
         Rate: 2
       - Item: Smoke_Powder
         Rate: 700
-      - Item: Shinobi's_Sash
+      - Item: Shinobis_Sash
         Rate: 100
       - Item: Thief_Clothes_
         Rate: 1
@@ -38996,7 +38996,7 @@ Body:
     Drops:
       - Item: Boody_Red
         Rate: 70
-      - Item: Scorpion's_Tail
+      - Item: Scorpions_Tail
         Rate: 5500
       - Item: Elunium_Stone
         Rate: 57
@@ -39041,7 +39041,7 @@ Body:
     DamageMotion: 576
     Ai: 01
     Drops:
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 9000
       - Item: Axe_
         Rate: 100
@@ -39088,7 +39088,7 @@ Body:
     DamageMotion: 384
     Ai: 17
     Drops:
-      - Item: Wild_Boar's_Mane
+      - Item: Wild_Boars_Mane
         Rate: 9000
       - Item: Grape
         Rate: 300
@@ -39135,7 +39135,7 @@ Body:
     DamageMotion: 384
     Ai: 17
     Drops:
-      - Item: Wild_Boar's_Mane
+      - Item: Wild_Boars_Mane
         Rate: 9000
       - Item: Grape
         Rate: 300
@@ -39194,7 +39194,7 @@ Body:
         Rate: 200
       - Item: Katar_Of_Thornbush
         Rate: 1
-      - Item: Hypnotist's_Staff_
+      - Item: Hypnotists_Staff_
         Rate: 5
       - Item: Sand_Man_Card
         Rate: 1
@@ -39323,7 +39323,7 @@ Body:
     Drops:
       - Item: Rotten_Meat
         Rate: 3000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3000
       - Item: Wind_Of_Verdure
         Rate: 50
@@ -39450,7 +39450,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 9000
       - Item: Wing_Of_Fly
         Rate: 10000
@@ -40567,7 +40567,7 @@ Body:
     DamageMotion: 864
     Ai: 01
     Drops:
-      - Item: Poison_Toad's_Skin
+      - Item: Poison_Toads_Skin
         Rate: 5500
       - Item: Poison_Powder
         Rate: 2400
@@ -40812,7 +40812,7 @@ Body:
         Rate: 500
       - Item: Scalpel
         Rate: 1
-      - Item: Fisherman's_Dagger
+      - Item: Fishermans_Dagger
         Rate: 5
       - Item: Piranha_Card
         Rate: 1
@@ -42813,7 +42813,7 @@ Body:
     Drops:
       - Item: Boody_Red
         Rate: 60
-      - Item: Grasshopper's_Leg
+      - Item: Grasshoppers_Leg
         Rate: 6500
       - Item: Scell
         Rate: 400
@@ -43748,7 +43748,7 @@ Body:
         Rate: 5044
       - Item: Elunium
         Rate: 100
-      - Item: Loki's_Whispers
+      - Item: Lokis_Whispers
         Rate: 1
       - Item: Lunatic_Brooch
         Rate: 5
@@ -44007,7 +44007,7 @@ Body:
     DamageMotion: 192
     Ai: 21
     Drops:
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 4550
       - Item: Poo_Poo_Hat
         Rate: 8
@@ -44293,7 +44293,7 @@ Body:
         Rate: 30
       - Item: Coal
         Rate: 150
-      - Item: Elder_Pixie's_Beard
+      - Item: Elder_Pixies_Beard
         Rate: 5500
       - Item: Elven_Ears
         Rate: 1
@@ -45082,11 +45082,11 @@ Body:
     DamageMotion: 360
     Ai: 04
     Drops:
-      - Item: Harpy's_Feather
+      - Item: Harpys_Feather
         Rate: 4000
-      - Item: Harpy's_Claw
+      - Item: Harpys_Claw
         Rate: 3000
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Blue_Herb
         Rate: 10
@@ -45123,11 +45123,11 @@ Body:
     DamageMotion: 360
     Ai: 04
     Drops:
-      - Item: Harpy's_Feather
+      - Item: Harpys_Feather
         Rate: 4000
-      - Item: Harpy's_Claw
+      - Item: Harpys_Claw
         Rate: 3000
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 1000
       - Item: Blue_Herb
         Rate: 10
@@ -45213,9 +45213,9 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Harpy's_Feather
+      - Item: Harpys_Feather
         Rate: 4850
-      - Item: Harpy's_Claw
+      - Item: Harpys_Claw
         Rate: 2500
       - Item: Yellow_Herb
         Rate: 1500
@@ -45260,9 +45260,9 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Harpy's_Feather
+      - Item: Harpys_Feather
         Rate: 4850
-      - Item: Harpy's_Claw
+      - Item: Harpys_Claw
         Rate: 2500
       - Item: Yellow_Herb
         Rate: 1500
@@ -45313,7 +45313,7 @@ Body:
         Rate: 1000
       - Item: Green_Herb
         Rate: 1000
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 2000
       - Item: Aloebera
         Rate: 10
@@ -45626,9 +45626,9 @@ Body:
     DamageMotion: 336
     Ai: 03
     Drops:
-      - Item: Goat's_Horn
+      - Item: Goats_Horn
         Rate: 4559
-      - Item: Gaoat's_Skin
+      - Item: Gaoats_Skin
         Rate: 2500
       - Item: Empty_Bottle
         Rate: 5000
@@ -45673,9 +45673,9 @@ Body:
     DamageMotion: 336
     Ai: 03
     Drops:
-      - Item: Goat's_Horn
+      - Item: Goats_Horn
         Rate: 4559
-      - Item: Gaoat's_Skin
+      - Item: Gaoats_Skin
         Rate: 2500
       - Item: Empty_Bottle
         Rate: 5000
@@ -46228,7 +46228,7 @@ Body:
     Drops:
       - Item: Rotten_Meat
         Rate: 3000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3000
       - Item: Rough_Wind
         Rate: 10
@@ -47197,9 +47197,9 @@ Body:
     DamageMotion: 504
     Ai: 03
     Drops:
-      - Item: Dragon's_Mane
+      - Item: Dragons_Mane
         Rate: 3000
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 100
       - Item: Dragon_Canine
         Rate: 100
@@ -47491,9 +47491,9 @@ Body:
     Drops:
       - Item: Phracon
         Rate: 85
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
-      - Item: Adventurere's_Suit_
+      - Item: Adventureres_Suit_
         Rate: 80
       - Item: Wing_Of_Fly
         Rate: 200
@@ -47540,9 +47540,9 @@ Body:
     Drops:
       - Item: Phracon
         Rate: 85
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
-      - Item: Adventurere's_Suit_
+      - Item: Adventureres_Suit_
         Rate: 80
       - Item: Wing_Of_Fly
         Rate: 200
@@ -47643,7 +47643,7 @@ Body:
         Rate: 50
       - Item: Bloody_Page
         Rate: 500
-      - Item: Vidar's_Boots
+      - Item: Vidars_Boots
         Rate: 10
       - Item: Cookbook08
         Rate: 2
@@ -47690,7 +47690,7 @@ Body:
         Rate: 50
       - Item: Bloody_Page
         Rate: 500
-      - Item: Vidar's_Boots
+      - Item: Vidars_Boots
         Rate: 10
       - Item: Cookbook08
         Rate: 2
@@ -47737,7 +47737,7 @@ Body:
         Rate: 50
       - Item: Bloody_Page
         Rate: 500
-      - Item: Vidar's_Boots
+      - Item: Vidars_Boots
         Rate: 10
       - Item: Cookbook08
         Rate: 2
@@ -48097,7 +48097,7 @@ Body:
         Rate: 9000
       - Item: Fluff
         Rate: 10000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 10000
       - Item: Sweet_Potato
         Rate: 10000
@@ -48142,7 +48142,7 @@ Body:
     Drops:
       - Item: Fluff
         Rate: 3333
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3333
       - Item: Acorn
         Rate: 10000
@@ -48567,7 +48567,7 @@ Body:
         Rate: 9000
       - Item: Coat_
         Rate: 5
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5500
       - Item: Glaive_
         Rate: 10
@@ -48835,11 +48835,11 @@ Body:
     DamageMotion: 192
     Ai: 17
     Drops:
-      - Item: Bear's_Foot
+      - Item: Bears_Foot
         Rate: 9000
       - Item: Poo_Poo_Hat
         Rate: 5
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 5000
       - Item: Wing_Of_Fly
         Rate: 80
@@ -49803,7 +49803,7 @@ Body:
     Drops:
       - Item: Crystal_Blue
         Rate: 50
-      - Item: Snail's_Shell
+      - Item: Snails_Shell
         Rate: 9000
       - Item: Garlet
         Rate: 1200
@@ -49942,11 +49942,11 @@ Body:
     Drops:
       - Item: Brigan
         Rate: 4000
-      - Item: Morpheus's_Shawl
+      - Item: Morpheuss_Shawl
         Rate: 10
       - Item: Rosary_
         Rate: 10
-      - Item: Alice's_Apron
+      - Item: Alices_Apron
         Rate: 5
       - Item: Imperial_Cooking_Kits
         Rate: 50
@@ -50002,7 +50002,7 @@ Body:
         Rate: 5
       - Item: Elunium
         Rate: 10
-      - Item: Vali's_Manteau
+      - Item: Valis_Manteau
         Rate: 20
       - Item: Alicel_Card
         Rate: 1
@@ -52538,7 +52538,7 @@ Body:
     DamageMotion: 432
     Ai: 03
     Drops:
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 2000
       - Item: Orange
         Rate: 2000

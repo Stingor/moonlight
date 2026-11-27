@@ -1533,7 +1533,7 @@ Body:
             Item: Novice_Poring_Card
             Rate: 1
           - Index: 494
-            Item: Val'khiri_Card
+            Item: Light_Up_Card5
             Rate: 1
           - Index: 495
             Item: Manny_Card
@@ -1854,7 +1854,7 @@ Body:
             Item: Kick_Step_Card
             Rate: 1
           - Index: 601
-            Item: Kick_&_Kick_Card
+            Item: KickAndKick_Card
             Rate: 1
           - Index: 602
             Item: As_Wind_Ghost_Card

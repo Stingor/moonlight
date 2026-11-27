@@ -623,9 +623,9 @@ Body:
     DamageMotion: 336
     Ai: 04
     Drops:
-      - Item: Goat's_Horn
+      - Item: Goats_Horn
         Rate: 2280
-      - Item: Gaoat's_Skin
+      - Item: Gaoats_Skin
         Rate: 1250
       - Item: Red_Herb
         Rate: 250
@@ -669,7 +669,7 @@ Body:
     DamageMotion: 240
     Ai: 04
     Drops:
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 1000
       - Item: Orange
         Rate: 500

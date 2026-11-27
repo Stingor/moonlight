@@ -476,7 +476,7 @@ spl_fild03,226,151,0	script	School of Fish#5::FishingHole_spl3	844,{
 		specialeffect2 EF_BUBBLE;
 		specialeffect2 EF_INVENOM;
 		set .@fcast,15;
-		if (isequipped(2550)) //Fisher's_Muffler
+		if (isequipped(2550)) //Fishers_Muffler
 			set .@fcast,.@fcast - 2;
 		if (isequipped(2443)) //Fish_Shoes
 			set .@fcast,.@fcast - 2;
@@ -6609,7 +6609,7 @@ mid_camp,283,198,5	script	Bazett Teablack#ep13bs	883,{
 		set ep13_2_bs2,1;
 		set ep13_2_bs3,1;
 		set ep13_2_bs4,1;
-		getitem 6074,1; //Bazett's_Order
+		getitem 6074,1; //Bazetts_Order
 		changequest 11101,11102;
 		close;
 	}
@@ -6626,7 +6626,7 @@ mid_camp,283,198,5	script	Bazett Teablack#ep13bs	883,{
 			mes "[Bazett]";
 			mes "What's done has been done.";
 			mes "I'll give you a new one.";
-			getitem 6074,1; //Bazett's_Order
+			getitem 6074,1; //Bazetts_Order
 			close;
 		}
 		else {
@@ -6684,7 +6684,7 @@ mid_camp,283,198,5	script	Bazett Teablack#ep13bs	883,{
 				mes "[Bazett]";
 				mes "Ah... this isn't much, but it's a coin that the giants use.";
 				mes "Maybe you can buy something from them with this.";
-				delitem 6074,1; //Bazett's_Order
+				delitem 6074,1; //Bazetts_Order
 				set ep13_2_busut,7;
 				if (ep13_2_bs1 == 3) getitem 6080,1; //Manuk_Coin
 				if (ep13_2_bs2 == 3) getitem 6080,1; //Manuk_Coin

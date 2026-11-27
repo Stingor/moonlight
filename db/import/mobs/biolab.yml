@@ -300,7 +300,7 @@ Body:
         Rate: 1500
       - Item: Carnium
         Rate: 1
-      - Item: La'cryma_Stick
+      - Item: Lacryma_Stick
         Rate: 200
       - Item: High_Weapon_Box
         Rate: 5
@@ -761,7 +761,7 @@ Body:
         Rate: 2000
       - Item: Forturn_Sword
         Rate: 1
-      - Item: Adventurere's_Suit_
+      - Item: Adventureres_Suit_
         Rate: 40
       - Item: Chain_Mail_
         Rate: 2

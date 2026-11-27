@@ -1485,7 +1485,7 @@ yuno_in03,62,176,2	script	History Professor#sa	109,{
 	else if (SAGE_Q == 10) {
 		if (countitem(916) > 0 && countitem(919) > 0 && countitem(1019) > 0 && countitem(1024) > 0 && countitem(713) > 0) {
 			delitem 916,1; //Feather_Of_Birds
-			delitem 919,1; //Animal's_Skin
+			delitem 919,1; //Animals_Skin
 			delitem 1019,1; //Wooden_Block
 			delitem 1024,1; //Chinese_Ink
 			delitem 713,1; //Empty_Bottle
@@ -2036,7 +2036,7 @@ yuno_in03,32,102,1	script	Biology Professor#sa	755,{
 	else if (SAGE_Q == 12) {
 		if (countitem(916) > 0 && countitem(919) > 0 && countitem(1019) > 0 && countitem(1024) > 0 && countitem(713) > 0) {
 			delitem 916,1; //Feather_Of_Birds
-			delitem 919,1; //Animal's_Skin
+			delitem 919,1; //Animals_Skin
 			delitem 1019,1; //Wooden_Block
 			delitem 1024,1; //Chinese_Ink
 			delitem 713,1; //Empty_Bottle
@@ -2359,7 +2359,7 @@ yuno_in03,244,31,3	script	Physics Professor#sa	120,{
 	else if (SAGE_Q == 14) {
 		if (countitem(916) > 0 && countitem(919) > 0 && countitem(1019) > 0 && countitem(1024) > 0 && countitem(713) > 0) {
 			delitem 916,1; //Feather_Of_Birds
-			delitem 919,1; //Animal's_Skin
+			delitem 919,1; //Animals_Skin
 			delitem 1019,1; //Wooden_Block
 			delitem 1024,1; //Chinese_Ink
 			delitem 713,1; //Empty_Bottle

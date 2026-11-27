@@ -128,7 +128,7 @@ Body:
     Drops:
       - Item: Rotten_Meat
         Rate: 3000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3000
       - Item: Wind_Of_Verdure
         Rate: 50
@@ -170,7 +170,7 @@ Body:
     Drops:
       - Item: Rotten_Meat
         Rate: 3000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 3000
       - Item: Rough_Wind
         Rate: 10

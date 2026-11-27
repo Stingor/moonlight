@@ -417,7 +417,7 @@ alberta_in,28,145,4	script	Grampa	120,{
 			close;
 		case 2:
 			delitem 1030,10;  //Tiger_Footskin
-			getitem 5016,1; //Boy's_Cap
+			getitem 5016,1; //Boys_Cap
 			mes "[Grampa]";
 			mes "T... Thank you !!";
 			mes "With this I can revive my youthful splendor!! I must eat this thing right away !";
@@ -2698,7 +2698,7 @@ alberta_in,131,95,5	script	Iromo#ep3_2	706,{
 		mes "I like cats so I approached him.";
 		mes "Then suddenly he scratched and bit me.";
 		next;
-		delitem 528,1; //Monster's_Feed
+		delitem 528,1; //Monsters_Feed
 		delitem 501,1; //Red_Potion
 		set ep13_2_hiki,7;
 		changequest 10083,10084;

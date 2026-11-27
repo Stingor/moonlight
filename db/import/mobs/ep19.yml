@@ -998,7 +998,7 @@ Body:
     Drops:
       - Item: EP19_Thin_Nipper
         Rate: 2437
-      - Item: Scropion's_Nipper
+      - Item: Scropions_Nipper
         Rate: 2750
       - Item: Solid_Shell
         Rate: 750
@@ -1039,7 +1039,7 @@ Body:
     Drops:
       - Item: EP19_Thin_Nipper
         Rate: 2437
-      - Item: Scropion's_Nipper
+      - Item: Scropions_Nipper
         Rate: 2750
       - Item: Nipper
         Rate: 2750

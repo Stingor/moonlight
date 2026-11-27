@@ -1999,9 +1999,9 @@ payon,204,221,3	script	Bafhail#payon::RelayBafhail	731,{
 		mes "Please take your next ticket";
 		mes "and this small reward for you.";
 		next;
-		delitem 1015,10; //Thin_N'_Long_Tongue
+		delitem 1015,10; //Thin_N_Long_Tongue
 		delitem 7172,10; //Leopard_Talon
-		delitem 7155,10; //Poison_Toad's_Skin
+		delitem 7155,10; //Poison_Toads_Skin
 		set party_relay,20;
 		getitem 7736,1; //Mission_Certificate7
 		getitem 610,2; //Leaf_Of_Yggdrasil
@@ -2023,9 +2023,9 @@ payon,204,221,3	script	Bafhail#payon::RelayBafhail	731,{
 		mes "Please take your next ticket";
 		mes "and this small reward for you.";
 		next;
-		delitem 1015,10; //Thin_N'_Long_Tongue
+		delitem 1015,10; //Thin_N_Long_Tongue
 		delitem 7172,10; //Leopard_Talon
-		delitem 7155,10; //Poison_Toad's_Skin
+		delitem 7155,10; //Poison_Toads_Skin
 		set party_relay,20;
 		getitem 7736,1; //Mission_Certificate7
 		getitem 610,2; //Leaf_Of_Yggdrasil
@@ -2295,7 +2295,7 @@ payon,204,221,3	script	Bafhail#payon::RelayBafhail	731,{
 		mes "and this small reward for you.";
 		next;
 		delitem 1027,10; //Porcupine_Spike
-		delitem 1040,10; //Elder_Pixie's_Beard
+		delitem 1040,10; //Elder_Pixies_Beard
 		delitem 1023,10; //Fish_Tail
 		set party_relay,9;
 		getitem 7732,1; //Mission_Certificate3
@@ -2317,7 +2317,7 @@ payon,204,221,3	script	Bafhail#payon::RelayBafhail	731,{
 		mes "and this small reward for you.";
 		next;
 		delitem 1027,10; //Porcupine_Spike
-		delitem 1040,10; //Elder_Pixie's_Beard
+		delitem 1040,10; //Elder_Pixies_Beard
 		delitem 1023,10; //Fish_Tail
 		set party_relay,9;
 		getitem 7732,1; //Mission_Certificate3

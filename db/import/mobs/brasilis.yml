@@ -91,7 +91,7 @@ Body:
         Rate: 500
       - Item: Scalpel
         Rate: 1
-      - Item: Fisherman's_Dagger
+      - Item: Fishermans_Dagger
         Rate: 5
       - Item: Piranha_Card
         Rate: 1
@@ -177,7 +177,7 @@ Body:
         Rate: 3000
       - Item: Leopard_Talon
         Rate: 2000
-      - Item: Animal's_Skin
+      - Item: Animals_Skin
         Rate: 1000
       - Item: Oridecon_Stone
         Rate: 40

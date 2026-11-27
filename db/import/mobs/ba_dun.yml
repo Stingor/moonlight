@@ -1030,7 +1030,7 @@ Body:
     Drops:
       - Item: Claw_Of_Rat
         Rate: 2328
-      - Item: Monster's_Feed
+      - Item: Monsters_Feed
         Rate: 500
       - Item: Lemon
         Rate: 125
@@ -1255,7 +1255,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 1000
       - Item: Fluorescent_Liquid
         Rate: 250

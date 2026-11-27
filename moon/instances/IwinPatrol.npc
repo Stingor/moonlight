@@ -1005,7 +1005,7 @@ OnInstanceInit:
 	}
 	erasequest 5978;
 	setquest 5979;
-	getitem 528,1;	// Monster's_Feed
+	getitem 528,1;	// Monsters_Feed
 	disablenpc();
 	initnpctimer;
 	mes "Someone has found food here. Let's bring it to Supply Officer Gorir.";

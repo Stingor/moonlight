@@ -33,9 +33,9 @@ Body:
     DamageMotion: 504
     Ai: 03
     Drops:
-      - Item: Dragon's_Mane
+      - Item: Dragons_Mane
         Rate: 3000
-      - Item: Dragon's_Skin
+      - Item: Dragons_Skin
         Rate: 100
       - Item: Dragon_Canine
         Rate: 100

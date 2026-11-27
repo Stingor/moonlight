@@ -322,7 +322,7 @@ Body:
     Drops:
       - Item: Dark_Red_Jewel
         Rate: 2000
-      - Item: Vampire's_Servant
+      - Item: Vampires_Servant
         Rate: 100
       - Item: Torn_Diary
         Rate: 3000
@@ -392,7 +392,7 @@ Body:
         Rate: 80
       - Item: Book_Of_The_Apocalypse
         Rate: 80
-      - Item: Vampire's_Servant
+      - Item: Vampires_Servant
         Rate: 100
       - Item: Ill_Dracula_Card
         Rate: 1
@@ -2803,9 +2803,9 @@ Body:
         Rate: 500
       - Item: Runstone_Rare
         Rate: 100
-      - Item: Goibne's_Armor
+      - Item: Goibnes_Armor
         Rate: 100
-      - Item: Goibne's_Shoulder_Arms
+      - Item: Goibnes_Shoulder_Arms
         Rate: 100
       - Item: Token_Of_Bigstone
         Rate: 1250
@@ -3017,9 +3017,9 @@ Body:
         Rate: 50
       - Item: Great_Leaf
         Rate: 500
-      - Item: Goibne's_Combat_Boots
+      - Item: Goibnes_Combat_Boots
         Rate: 100
-      - Item: Goibne's_Helmet
+      - Item: Goibnes_Helmet
         Rate: 100
       - Item: Token_Of_Wootan
         Rate: 1250
@@ -3559,7 +3559,7 @@ Body:
         Rate: 2500
       - Item: Mistic_Frozen
         Rate: 50
-      - Item: Morrigane's_Pendant
+      - Item: Morriganes_Pendant
         Rate: 10
       - Item: Elunium_Stone
         Rate: 25
@@ -3659,7 +3659,7 @@ Body:
         Rate: 50
       - Item: Rotten_Deepseafish
         Rate: 2500
-      - Item: Morrigane's_Helm
+      - Item: Morriganes_Helm
         Rate: 10
       - Item: E_Abyss1
         Rate: 250
@@ -3703,7 +3703,7 @@ Body:
         Rate: 1500
       - Item: Deep_Sea_Crab
         Rate: 2500
-      - Item: Morrigane's_Belt
+      - Item: Morriganes_Belt
         Rate: 50
       - Item: Death_Guidance
         Rate: 50
@@ -4035,7 +4035,7 @@ Body:
         Rate: 850
       - Item: Coal
         Rate: 200
-      - Item: Elder_Pixie's_Beard
+      - Item: Elder_Pixies_Beard
         Rate: 4000
       - Item: Dry_Sand
         Rate: 2000
@@ -4194,7 +4194,7 @@ Body:
         Rate: 100
       - Item: Shell_Of_Cognition
         Rate: 2000
-      - Item: Mother's_Nightmare
+      - Item: Mothers_Nightmare
         Rate: 10
       - Item: ILL_Maya_Card
         Rate: 1
@@ -4927,7 +4927,7 @@ Body:
         Rate: 50
       - Item: IL_Kraken_Leg
         Rate: 3000
-      - Item: Morrigane's_Manteau
+      - Item: Morriganes_Manteau
         Rate: 300
       - Item: E_Abyss1
         Rate: 1000
@@ -5024,9 +5024,9 @@ Body:
         Rate: 3000
       - Item: Mistic_Frozen
         Rate: 300
-      - Item: Morrigane's_Pendant
+      - Item: Morriganes_Pendant
         Rate: 50
-      - Item: Morrigane's_Belt
+      - Item: Morriganes_Belt
         Rate: 50
       - Item: Shadowdecon
         Rate: 50
@@ -5131,7 +5131,7 @@ Body:
         Rate: 5000
       - Item: Fragment_Of_Crystal
         Rate: 2500
-      - Item: Morpheus's_Ring
+      - Item: Morpheuss_Ring
         Rate: 100
       - Item: Yggdrasilberry
         Rate: 50
@@ -5174,7 +5174,7 @@ Body:
         Rate: 5000
       - Item: Fragment_Of_Crystal
         Rate: 3500
-      - Item: Morpheus's_Hood
+      - Item: Morpheuss_Hood
         Rate: 100
       - Item: Seed_Of_Yggdrasil
         Rate: 50
@@ -5221,7 +5221,7 @@ Body:
         Rate: 50
       - Item: Seed_Of_Yggdrasil
         Rate: 50
-      - Item: Morpheus's_Shawl
+      - Item: Morpheuss_Shawl
         Rate: 100
       - Item: Chaos_Acolyte_Card
         Rate: 1
@@ -5264,7 +5264,7 @@ Body:
         Rate: 50
       - Item: Seed_Of_Yggdrasil
         Rate: 50
-      - Item: Morpheus's_Armlet
+      - Item: Morpheuss_Armlet
         Rate: 100
       - Item: Chaos_Acolyte_Card
         Rate: 1

@@ -309,7 +309,7 @@ Body:
     View: 2
     Script: "bonus2 bSubSize,Size_Large,5;\n"
   - Id: 2115
-    AegisName: Valkyrja's_Shield
+    AegisName: Valkyrjas_Shield
     Name: Valkyrja's Shield [1]
     Type: Armor
     Weight: 500
@@ -322,7 +322,7 @@ Body:
     View: 4
     Script: "bonus2 bSubEle,Ele_Water,20; bonus2 bSubEle,Ele_Fire,20; bonus2 bSubEle,Ele_Dark,20; bonus2 bSubEle,Ele_Undead,20; bonus bMdef,5;\n"
   - Id: 2116
-    AegisName: Angel's_Safeguard
+    AegisName: Angels_Safeguard
     Name: Angelic Guard [1]
     Type: Armor
     Weight: 400
@@ -650,7 +650,7 @@ Body:
     View: 2
     Script: "bonus bAgi,2; bonus2 bSubEle,Ele_Neutral,10; bonus3 bAutoSpellWhenHit,\"PR_KYRIE\",10,10; bonus bMdef,1;\n"
   - Id: 2137
-    AegisName: Valkyrja's_Shield_C
+    AegisName: Valkyrjas_Shield_C
     Name: Neo Valkyrja's Shield
     Type: Armor
     Defense: 5
@@ -1296,7 +1296,7 @@ Body:
     View: 2
     Script: "bonus bMdef,10; bonus bVit,20; bonus2 bSubRace,RC_All,30; bonus bUnbreakableShield; autobonus2 \"{ sc_end SC_STUN; sc_end SC_SLEEP; sc_end SC_CURSE; sc_end SC_STONE; sc_end SC_POISON; sc_end SC_BLIND; sc_end SC_SILENCE; sc_end SC_BLEEDING; sc_end SC_CONFUSION; sc_end SC_FREEZE; bonus2 bResEff,Eff_Stun,10000; bonus2 bResEff,Eff_Sleep,10000; bonus2 bResEff,Eff_Curse,10000; bonus2 bResEff,Eff_Stone,10000; bonus2 bResEff,Eff_Poison,10000; bonus2 bResEff,Eff_Blind,10000; bonus2 bResEff,Eff_Silence,10000; bonus2 bResEff,Eff_Bleeding,10000; bonus2 bResEff,Eff_Confusion,10000; bonus2 bResEff,Eff_Freeze,10000; }\",10,60000,BF_SHORT;\n"
   - Id: 2183
-    AegisName: Impr_Angel's_Safeguard
+    AegisName: Impr_Angels_Safeguard
     Name: Advanced Angelic Guard [1]
     Type: Armor
     Weight: 400
@@ -1502,7 +1502,7 @@ Body:
       Head_Mid: true
     View: 3
   - Id: 2205
-    AegisName: Diver's_Goggles
+    AegisName: Divers_Goggles
     Name: Diver Goggles
     Type: Armor
     Weight: 100
@@ -1933,7 +1933,7 @@ Body:
     View: 45
     Script: "bonus bInt,2;\n"
   - Id: 2236
-    AegisName: Santa's_Hat
+    AegisName: Santas_Hat
     Name: Santa Hat
     Type: Armor
     Weight: 100
@@ -2004,7 +2004,7 @@ Body:
     View: 27
     Script: "bonus2 bResEff,Eff_Blind,1500;\n"
   - Id: 2244
-    AegisName: Big_Sis'_Ribbon
+    AegisName: Big_Sis_Ribbon
     Name: Big Ribbon
     Type: Armor
     Weight: 200
@@ -2037,7 +2037,7 @@ Body:
     View: 30
     Script: "bonus bUnbreakableHelm;\n"
   - Id: 2247
-    AegisName: Oldman's_Romance
+    AegisName: Oldmans_Romance
     Name: Romantic Gent
     Type: Armor
     Weight: 400
@@ -2681,7 +2681,7 @@ Body:
       Armor: true
     Refineable: true
   - Id: 2306
-    AegisName: Adventurere's_Suit_
+    AegisName: Adventureres_Suit_
     Name: Adventurer's Suit [1]
     Type: Armor
     Weight: 300
@@ -3421,7 +3421,7 @@ Body:
     Locations:
       Armor: true
   - Id: 2353
-    AegisName: Odin's_Blessing
+    AegisName: Odins_Blessing
     Name: Odin's Blessing [1]
     Type: Armor
     Weight: 2500
@@ -3436,7 +3436,7 @@ Body:
     EquipLevelMin: 65
     Refineable: true
   - Id: 2354
-    AegisName: Goibne's_Armor
+    AegisName: Goibnes_Armor
     Name: Goibne's Armor
     Type: Armor
     Weight: 3500
@@ -3451,7 +3451,7 @@ Body:
     Refineable: true
     Script: "bonus bVit,2; bonus bMaxHPrate,10;\n"
   - Id: 2355
-    AegisName: Angel's_Protection
+    AegisName: Angels_Protection
     Name: Angelic Protection [1]
     Type: Armor
     Weight: 600
@@ -4046,7 +4046,7 @@ Body:
       Armor: true
     Script: "bonus bStr,2; bonus bVit,2; bonus bMaxHP,200; bonus3 bAutoSpellWhenHit,\"MO_CALLSPIRITS\",5,20; bonus bMdef,1;\n"
   - Id: 2393
-    AegisName: N_Adventurer's_Suit
+    AegisName: N_Adventurers_Suit
     Name: Novice Adventurer's Suit [1]
     Type: Armor
     Defense: 8
@@ -4384,7 +4384,7 @@ Body:
     Refineable: true
     Script: "bonus bAgi,2; bonus2 bAddItemGroupHealRate,IG_Potion,20;\n"
   - Id: 2418
-    AegisName: Vidar's_Boots
+    AegisName: Vidars_Boots
     Name: Vidar's Boots
     Type: Armor
     Weight: 650
@@ -4399,7 +4399,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxHPrate,9; bonus bMaxSPrate,9;\n"
   - Id: 2419
-    AegisName: Goibne's_Combat_Boots
+    AegisName: Goibnes_Combat_Boots
     Name: Goibne's Greaves
     Type: Armor
     Weight: 700
@@ -4414,7 +4414,7 @@ Body:
     Refineable: true
     Script: "bonus bMdef,3; bonus bMaxHPrate,5; bonus bMaxSPrate,5;\n"
   - Id: 2420
-    AegisName: Angel's_Arrival
+    AegisName: Angels_Arrival
     Name: Angel's Reincarnation [1]
     Type: Armor
     Weight: 300
@@ -5415,7 +5415,7 @@ Body:
     Refineable: true
     Script: "bonus bAgi,2; bonus2 bAddItemGroupHealRate,IG_Potion,20;\n"
   - Id: 2489
-    AegisName: Vidar's_Boots_
+    AegisName: Vidars_Boots_
     Name: Vidar's Boots [1]
     Type: Armor
     Weight: 650
@@ -5452,7 +5452,7 @@ Body:
     Refineable: true
     Script: "bonus bMdef,getrefine(); if(getallrefine()>=12){ bonus bSpeedRate,25; }\n"
   - Id: 2493
-    AegisName: Goibne's_Combat_Boots_
+    AegisName: Goibne_Combat_Boots_
     Name: Goibne's Greaves [1]
     Type: Armor
     Weight: 700
@@ -5700,7 +5700,7 @@ Body:
       Garment: true
     Script: "bonus2 bSubEle,Ele_Neutral,20;\n"
   - Id: 2511
-    AegisName: Skeleton's_Cape
+    AegisName: Skeletons_Cape
     Name: Skeleton Manteau
     Type: Armor
     Weight: 700
@@ -5797,7 +5797,7 @@ Body:
     Refineable: true
     Script: "bonus bFlee,15; bonus bFlee2,5;\n"
   - Id: 2517
-    AegisName: Vali's_Manteau
+    AegisName: Valis_Manteau
     Name: Vali's Manteau
     Type: Armor
     Weight: 600
@@ -5812,7 +5812,7 @@ Body:
     Refineable: true
     Script: "bonus2 bSubEle,Ele_Neutral,15;\n"
   - Id: 2518
-    AegisName: Morpheus's_Shawl
+    AegisName: Morpheuss_Shawl
     Name: Morpheus's Shawl
     Type: Armor
     Weight: 600
@@ -5827,7 +5827,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxSPrate,10; bonus bMdef,3;\n"
   - Id: 2519
-    AegisName: Morrigane's_Manteau
+    AegisName: Morriganes_Manteau
     Name: Morrigane's Manteau
     Type: Armor
     Weight: 600
@@ -5842,7 +5842,7 @@ Body:
     Refineable: true
     Script: "bonus bLuk,2; bonus bFlee2,8;\n"
   - Id: 2520
-    AegisName: Goibne's_Shoulder_Arms
+    AegisName: Goibnes_Shoulder_Arms
     Name: Goibne's Spaulders
     Type: Armor
     Weight: 700
@@ -5857,7 +5857,7 @@ Body:
     Refineable: true
     Script: "bonus bLongAtkDef,10; bonus bMdef,2; bonus bVit,1;\n"
   - Id: 2521
-    AegisName: Angel's_Warmth
+    AegisName: Angels_Warmth
     Name: Angelic Cardigan [1]
     Type: Armor
     Weight: 400
@@ -6302,7 +6302,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxHPrate,5; bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_PLAYER_HUMAN,5;\n"
   - Id: 2550
-    AegisName: Fisher's_Muffler
+    AegisName: Fishers_Muffler
     Name: Fisher's Muffler
     Type: Armor
     Weight: 200
@@ -6874,7 +6874,7 @@ Body:
     Refineable: true
     Script: "bonus2 bSubRace,RC_Undead,5; bonus2 bSubRace,RC_DemiHuman,-5; /*Gold PC Room: bonus bFlee,20;*/\n"
   - Id: 2599
-    AegisName: Goibne's_Shoulder_Arms_
+    AegisName: Goibne_Shoulder_Arms_
     Name: Goibne's Spaulders [1]
     Type: Armor
     Weight: 700
@@ -7066,7 +7066,7 @@ Body:
     EquipLevelMin: 35
     Script: "bonus bInt,1;\n"
   - Id: 2618
-    AegisName: Matyr's_Flea_Guard
+    AegisName: Matyrs_Flea_Guard
     Name: Matyr's Leash
     Type: Armor
     Weight: 100
@@ -7360,7 +7360,7 @@ Body:
     EquipLevelMin: 50
     Script: "bonus bStr,2;\n"
   - Id: 2642
-    AegisName: Serin's_Gold_Ring
+    AegisName: Serins_Gold_Ring
     Name: Serin's Gold Ring
     Type: Armor
     Locations:
@@ -7375,7 +7375,7 @@ Body:
       NoMail: true
       NoAuction: true
   - Id: 2643
-    AegisName: Serin's_Gold_Ring_
+    AegisName: Serins_Gold_Ring_
     Name: Serin's Gold Ring
     Type: Armor
     Weight: 100
@@ -7439,7 +7439,7 @@ Body:
       NoAuction: true
     Script: "bonus bAllStats,5;\n"
   - Id: 2648
-    AegisName: Morpheus's_Ring
+    AegisName: Morpheuss_Ring
     Name: Morpheus's Ring
     Type: Armor
     Weight: 100
@@ -7452,7 +7452,7 @@ Body:
     EquipLevelMin: 33
     Script: "bonus bInt,1; bonus bMaxSPrate,5;\n"
   - Id: 2649
-    AegisName: Morpheus's_Armlet
+    AegisName: Morpheuss_Armlet
     Name: Morpheus's Bracelet
     Type: Armor
     Weight: 100
@@ -7465,7 +7465,7 @@ Body:
     EquipLevelMin: 33
     Script: "bonus bInt,1; bonus bMaxSPrate,5;\n"
   - Id: 2650
-    AegisName: Morrigane's_Belt
+    AegisName: Morriganes_Belt
     Name: Morrigane's Belt
     Type: Armor
     Weight: 200
@@ -7478,7 +7478,7 @@ Body:
     EquipLevelMin: 61
     Script: "bonus bBaseAtk,5; bonus bCritical,3;\n"
   - Id: 2651
-    AegisName: Morrigane's_Pendant
+    AegisName: Morriganes_Pendant
     Name: Morrigane's Pendant
     Type: Armor
     Weight: 200
@@ -7508,7 +7508,7 @@ Body:
       Both_Accessory: true
     EquipLevelMin: 90
   - Id: 2654
-    AegisName: Shinobi's_Sash
+    AegisName: Shinobis_Sash
     Name: Shinobi Sash
     Type: Armor
     Weight: 300
@@ -7721,7 +7721,7 @@ Body:
     EquipLevelMin: 60
     Script: "bonus bHit,5; bonus bCritical,5; bonus bDex,1;\n"
   - Id: 2668
-    AegisName: Women's_Glory
+    AegisName: Womens_Glory
     Name: Woman Glory
     Type: Armor
     Weight: 500
@@ -9118,7 +9118,7 @@ Body:
     EquipLevelMin: 80
     Script: "autobonus \"{ bonus bAspdRate,2; }\",10,10000,0,\"{ specialeffect2 EF_POTION_BERSERK; }\";\n"
   - Id: 2781
-    AegisName: Aumdura's_Grace
+    AegisName: Aumduras_Grace
     Name: Aumdura's Benefit [1]
     Type: Armor
     Weight: 100
@@ -9705,7 +9705,7 @@ Body:
     Locations:
       Both_Accessory: true
   - Id: 2833
-    AegisName: Odin's_Recall
+    AegisName: Odins_Recall
     Name: Odin's Recall
     Type: Armor
     Locations:
@@ -10392,7 +10392,7 @@ Body:
     EquipLevelMin: 90
     Script: "bonus2 bSkillAtk,\"BA_MUSICALSTRIKE\",150; bonus2 bSkillUseSP,\"BA_MUSICALSTRIKE\",-60; bonus bVariableCastrate,-50;\n"
   - Id: 2900
-    AegisName: Morrigane's_Belt_
+    AegisName: Morriganes_Belt_
     Name: Morrigane's Belt [1]
     Type: Armor
     Weight: 200
@@ -10405,7 +10405,7 @@ Body:
       Both_Accessory: true
     EquipLevelMin: 61
   - Id: 2901
-    AegisName: Morrigane's_Pendant_
+    AegisName: Morriganes_Pendant_
     Name: Morrigane's Pendant [1]
     Type: Armor
     Weight: 200
@@ -10419,7 +10419,7 @@ Body:
     EquipLevelMin: 61
     Script: "bonus bStr,2;\n"
   - Id: 2902
-    AegisName: Morpheus's_Ring_
+    AegisName: Morpheuss_Ring_
     Name: Morpheus's Ring [1]
     Type: Armor
     Weight: 100
@@ -10433,7 +10433,7 @@ Body:
     EquipLevelMin: 33
     Script: "bonus bInt,1;\n"
   - Id: 2903
-    AegisName: Morpheus's_Armlet_
+    AegisName: Morpheuss_Armlet_
     Name: Morpheus's Armlet [1]
     Type: Armor
     Weight: 100
@@ -11318,7 +11318,7 @@ Body:
     Refineable: true
     View: 97
   - Id: 5012
-    AegisName: Ph.D_Hat
+    AegisName: PhD_Hat
     Name: Ph.D Hat
     Type: Armor
     Weight: 200
@@ -11362,7 +11362,7 @@ Body:
       Head_Top: true
     View: 101
   - Id: 5016
-    AegisName: Boy's_Cap
+    AegisName: Boys_Cap
     Name: Boy's Cap
     Type: Armor
     Weight: 100
@@ -11726,7 +11726,7 @@ Body:
     EquipLevelMin: 20
     View: 128
   - Id: 5044
-    AegisName: Devil's_Wing
+    AegisName: Devils_Wing
     Name: Evil Wing Ears
     Type: Armor
     Weight: 350
@@ -11993,7 +11993,7 @@ Body:
     View: 151
     Script: "bonus bAgi,1;\n"
   - Id: 5068
-    AegisName: Ear_Of_Devil's_Wing
+    AegisName: Ear_Of_Devils_Wing
     Name: Evil Wing Ears
     Type: Armor
     Weight: 100
@@ -12060,7 +12060,7 @@ Body:
     View: 157
     Script: "bonus bDex,2;\n"
   - Id: 5074
-    AegisName: Ear_Of_Angel's_Wing
+    AegisName: Ear_Of_Angels_Wing
     Name: Angel Wing Ears
     Type: Armor
     Weight: 100
@@ -12644,7 +12644,7 @@ Body:
     View: 255
     Script: "bonus bSPrecovRate,3;\n"
   - Id: 5126
-    AegisName: Morpheus's_Hood
+    AegisName: Morpheuss_Hood
     Name: Morpheus's Hood
     Type: Armor
     Weight: 200
@@ -12656,7 +12656,7 @@ Body:
     View: 256
     Script: "bonus bInt,2;\n"
   - Id: 5127
-    AegisName: Morrigane's_Helm
+    AegisName: Morriganes_Helm
     Name: Morrigane's Helm
     Type: Armor
     Weight: 500
@@ -12668,7 +12668,7 @@ Body:
     View: 257
     Script: "bonus bLuk,2; bonus bBaseAtk,3;\n"
   - Id: 5128
-    AegisName: Goibne's_Helmet
+    AegisName: Goibnes_Helmet
     Name: Goibne's Helm
     Type: Armor
     Weight: 500
@@ -12780,7 +12780,7 @@ Body:
     View: 207
     Script: "bonus bMaxSP,50;\n"
   - Id: 5136
-    AegisName: Santa's_Hat_
+    AegisName: Santas_Hat_
     Name: Antonio's Santa Hat
     Type: Armor
     Weight: 100
@@ -14880,7 +14880,7 @@ Body:
     View: 328
     Script: "bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_PLAYER_HUMAN,5;\n"
   - Id: 5307
-    AegisName: Carmen_Miranda's_Hat
+    AegisName: Carmen_Mirandas_Hat
     Name: Carmen Miranda's Hat [1]
     Type: Armor
     Weight: 400
@@ -15351,7 +15351,7 @@ Body:
     Refineable: true
     View: 360
   - Id: 5347
-    AegisName: Ph.D_Hat_
+    AegisName: PhD_Hat_
     Name: Ph.D Hat [1]
     Type: Armor
     Weight: 100
@@ -15362,7 +15362,7 @@ Body:
     Refineable: true
     View: 98
   - Id: 5348
-    AegisName: Big_Sis'_Ribbon_
+    AegisName: Big_Sis_Ribbon_
     Name: Big Ribbon [1]
     Type: Armor
     Weight: 200
@@ -15374,7 +15374,7 @@ Body:
     View: 28
     Script: "bonus bMdef,3;\n"
   - Id: 5349
-    AegisName: Boy's_Cap_
+    AegisName: Boys_Cap_
     Name: Boy's Cap [1]
     Type: Armor
     Weight: 100
@@ -16260,7 +16260,7 @@ Body:
     View: 421
     Script: "bonus bStr,2; bonus bInt,2; bonus bMdef,5; bonus2 bSubEle,Ele_Fire,10; bonus2 bSubEle,Ele_Water,-10; bonus2 bAddEle,Ele_Earth,10; bonus2 bMagicAtkEle,Ele_Fire,10; bonus3 bAutoSpell,\"WZ_METEOR\",3,50;\n"
   - Id: 5421
-    AegisName: Ifrit's_Ear
+    AegisName: Ifrits_Ear
     Name: Ears Of Ifrit
     Type: Armor
     Weight: 300
@@ -16424,7 +16424,7 @@ Body:
     View: 436
     Script: "bonus bInt,1; bonus bMaxSP,80; bonus bMdef,3; .@r = getrefine(); if(.@r>5) { bonus bMdef,.@r-5; bonus bMaxSP,(.@r-5)*10; }\n"
   - Id: 5436
-    AegisName: Bride's_Corolla
+    AegisName: Brides_Corolla
     Name: Bride's Corolla
     Type: Armor
     Weight: 200
@@ -16913,7 +16913,7 @@ Body:
     View: 475
     Script: "bonus bStr,2; bonus bMaxHP,300;\n"
   - Id: 5479
-    AegisName: Shaman's_Hair_Ornament
+    AegisName: Shamans_Hair_Ornament
     Name: Shaman's Hair Decoration
     Type: Armor
     Weight: 300
@@ -17060,7 +17060,7 @@ Body:
     View: 486
     Script: "bonus bStr,2; bonus2 bSubEle,Ele_Fire,10;\n"
   - Id: 5492
-    AegisName: Boy's_Cap_I
+    AegisName: Boys_Cap_I
     Name: Student Cap
     Type: Armor
     Defense: 5
@@ -17161,7 +17161,7 @@ Body:
     View: 488
     Script: "bonus bMdef,3; skill \"MG_FROSTDIVER\",3;\n"
   - Id: 5501
-    AegisName: Pirate's_Pride
+    AegisName: Pirates_Pride
     Name: Pirate's Pride
     Type: Armor
     Weight: 100
@@ -17172,7 +17172,7 @@ Body:
     View: 496
     Script: "bonus2 bAddRace2,RC2_Ninja,5; bonus2 bSubRace2,RC2_Ninja,5;\n"
   - Id: 5502
-    AegisName: Necromencer's_Hood
+    AegisName: Necromencers_Hood
     Name: Necromancer's Hood
     Type: Armor
     Weight: 500
@@ -17486,7 +17486,7 @@ Body:
     View: 522
     Script: "bonus bAgi,1;\n"
   - Id: 5529
-    AegisName: Evil's_Bone_Hat
+    AegisName: Evils_Bone_Hat
     Name: Satanic Bone Helm [1]
     Type: Armor
     Weight: 600
@@ -18064,7 +18064,7 @@ Body:
     View: 236
     Script: "bonus bAgi,2;\n"
   - Id: 5579
-    AegisName: Wanderer's_Sakkat
+    AegisName: Wanderers_Sakkat
     Name: Wanderer's Sakkat [1]
     Type: Armor
     Weight: 300
@@ -18217,7 +18217,7 @@ Body:
     View: 567
     Script: "bonus bUnbreakableHelm;\n"
   - Id: 5592
-    AegisName: Sigrun's_Wing
+    AegisName: Sigrun_Wing
     Name: Sigrun's Wings
     Type: Armor
     Weight: 100
@@ -20735,7 +20735,7 @@ Body:
     View: 216
     Script: "bonus bAllStats,5; bonus bSpeedRate,25;\n"
   - Id: 5810
-    AegisName: Ph.D_Hat_V
+    AegisName: PhD_Hat_V
     Name: Ph.D Hat V
     Type: Armor
     Weight: 100
@@ -20771,7 +20771,7 @@ Body:
       NoGuildStorage: true
     Script: "bonus3 bAddEffWhenHit,Eff_Bleeding,500,ATF_TARGET|ATF_SELF; bonus3 bAddEffWhenHit,Eff_Silence,500,ATF_TARGET|ATF_SELF; bonus3 bAddEffWhenHit,Eff_Confusion,500,ATF_TARGET|ATF_SELF; bonus3 bAddEffWhenHit,Eff_Curse,500,ATF_TARGET|ATF_SELF; bonus3 bAddEffWhenHit,Eff_Blind,500,ATF_TARGET|ATF_SELF;\n"
   - Id: 5813
-    AegisName: Red_Ph.D_Hat
+    AegisName: Red_PhD_Hat
     Name: Red Ph.D Hat
     Type: Armor
     Weight: 500
@@ -21813,7 +21813,7 @@ Body:
     Refineable: true
     Script: "bonus bStr,1; bonus bMdef,3; bonus2 bIgnoreDefRaceRate,RC_DemiHuman,10; bonus2 bIgnoreDefRaceRate,RC_PLAYER_HUMAN,10; bonus2 bIgnoreDefRaceRate,RC_Brute,10; bonus3 bAutoSpellWhenHit,\"NPC_WIDEBLEEDING\",1,10;\n"
   - Id: 15001
-    AegisName: Odin's_Blessing_I
+    AegisName: Odins_Blessing_I
     Name: Odin's Blessing
     Type: Armor
     Defense: 10
@@ -22673,7 +22673,7 @@ Body:
     Refineable: true
     Script: "bonus2 bExpAddRace,RC_All,10;\n"
   - Id: 15068
-    AegisName: Im_Angel's_Protection
+    AegisName: Im_Angels_Protection
     Name: Advanced Angelic Protection [1]
     Type: Armor
     Weight: 600
@@ -23135,7 +23135,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxHP,70; bonus bFlee,5;\n"
   - Id: 15151
-    AegisName: White_Eco-Shirt
+    AegisName: White_Eco_Shirt
     Name: White Eco-Shirt [1]
     Type: Armor
     Weight: 100
@@ -23294,7 +23294,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bflee,5*(.@r/2); if (.@r>=9) bonus2 bSkillAtk,\"NJ_KUNAI\",20;\n"
   - Id: 15179
-    AegisName: Mine_Worker's_Vest
+    AegisName: Mine_Worker_Vest
     Name: Mine Worker's Vest
     Type: Armor
     Weight: 1500
@@ -23666,7 +23666,7 @@ Body:
     View: 685
     Script: "bonus bAllStats,1; bonus bIntravision; bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_PLAYER_HUMAN,5; bonus2 bAddEff,Eff_Curse,50;\n"
   - Id: 18518
-    AegisName: Ear_Of_Angel's_Wing_
+    AegisName: Ear_Of_Angels_Wing_
     Name: Angel Wing Ears [1]
     Type: Armor
     Weight: 100
@@ -23678,7 +23678,7 @@ Body:
     View: 158
     Script: "bonus bStr,1;\n"
   - Id: 18519
-    AegisName: Ear_Of_Devil's_Wing_
+    AegisName: Ear_Of_Devils_Wing_
     Name: Evil Wing Ears [1]
     Type: Armor
     Weight: 100
@@ -28130,7 +28130,7 @@ Body:
     View: 1368
     Script: "bonus bLuk,1; bonus3 bAutoSpell,\"AL_BLESSING\",3,100;\n"
   - Id: 19085
-    AegisName: Sigrun's_Wings_
+    AegisName: Sigruns_Wings_
     Name: Sigrun's Wings [1]
     Type: Armor
     Weight: 100
@@ -28333,7 +28333,7 @@ Body:
     View: 873
     Script: "bonus bAspd,1; bonus bDelayrate,-1;\n"
   - Id: 19128
-    AegisName: Ifrit's_Ear_
+    AegisName: Ifrits_Ear_
     Name: Ears Of Ifrit [1]
     Type: Armor
     Weight: 300
@@ -28486,7 +28486,7 @@ Body:
     View: 1426
     Script: "bonus2 bAddMonsterDropItem,909,2000; bonus2 bExpAddRace,RC_All,5; bonus2 bDropAddRace,RC_All,5;\n"
   - Id: 19144
-    AegisName: Ferlock's_Hat
+    AegisName: Felock_Cap_
     Name: Ferlock's Hat [1]
     Type: Armor
     Weight: 1000
@@ -29273,7 +29273,7 @@ Body:
     Refineable: true
     Script: "bonus2 bExpAddRace,RC_All,10;\n"
   - Id: 20710
-    AegisName: Impr_Angel's_Warmth
+    AegisName: Impr_Angels_Warmth
     Name: Advanced Angelic Cardigan [1]
     Type: Armor
     Weight: 400
@@ -29632,7 +29632,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bFlee,20; if (.@r>=9) { bonus bLongAtkRate,10; } else if (.@r>=7) { bonus bLongAtkRate,5; }\n"
   - Id: 20822
-    AegisName: Mine_Worker's_Backpack
+    AegisName: Mine_Worker_Backpack
     Name: Mine Worker's Backpack
     Type: Armor
     Weight: 600
@@ -29686,7 +29686,7 @@ Body:
     Refineable: true
     View: 8
   - Id: 20834
-    AegisName: Drifter's_Cape
+    AegisName: Manteau_Of_Vagabond
     Name: Drifter's Cape
     Type: Armor
     Weight: 400
@@ -30014,7 +30014,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxHPrate,12; bonus bMaxSPrate,12; .@r = getrefine(); bonus bDef,.@r; bonus bMdef,.@r;\n"
   - Id: 22015
-    AegisName: Impr_Angel's_Arrival
+    AegisName: Impr_Angels_Arrival
     Name: Advanced Angel's Reincarnation [1]
     Type: Armor
     Weight: 300
@@ -30257,7 +30257,7 @@ Body:
     Refineable: true
     Script: "bonus2 bHPRegenRate,2,10000;\n"
   - Id: 22077
-    AegisName: Red_Eco-Friendly_Shoes
+    AegisName: Red_Eco_Boots
     Name: Red Eco-Friendly Shoes [1]
     Type: Armor
     Weight: 100
@@ -31641,7 +31641,7 @@ Body:
     EquipLevelMin: 100
     Script: "bonus bStr,3; if (readparam(bStr) >= 100) { bonus bBaseAtk,30; }\n"
   - Id: 28510
-    AegisName: Vampire's_Servant
+    AegisName: Vampires_Servant
     Name: A Vampire's Servant [1]
     Type: Armor
     Weight: 100
@@ -31662,7 +31662,7 @@ Body:
     EquipLevelMin: 100
     Script: "bonus2 bAddClass,Class_All,5; bonus bVariableCastrate,-10; bonus bNoCastCancel;\n"
   - Id: 28900
-    AegisName: Guardsmen's_Shield
+    AegisName: ShieldOfGuardsman
     Name: Guardsmen's Shield [1]
     Type: Armor
     Weight: 3000

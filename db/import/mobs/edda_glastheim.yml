@@ -240,7 +240,7 @@ Body:
     Drops:
       - Item: Brigan
         Rate: 500
-      - Item: Alice's_Apron
+      - Item: Alices_Apron
         Rate: 20
       - Item: Imperial_Cooking_Kits
         Rate: 5

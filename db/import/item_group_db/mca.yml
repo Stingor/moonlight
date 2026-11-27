@@ -189,7 +189,7 @@ Body:
             Item: Evil_Fanatics_Card
             Rate: 1
           - Index: 45
-            Item: Morocc's_Minion_Card
+            Item: MinionOfMorocc_Card
             Rate: 1
           - Index: 46
             Item: Awaken_Pere_Card
@@ -696,7 +696,7 @@ Body:
             Item: Kick_Step_Card
             Rate: 80
           - Index: 216
-            Item: Kick_&_Kick_Card
+            Item: KickAndKick_Card
             Rate: 80
           - Index: 217
             Item: Heart_Hunter_Evil_Card

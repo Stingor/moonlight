@@ -527,7 +527,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 904
-    AegisName: Scorpion's_Tail
+    AegisName: Scorpions_Tail
     Name: Scorpion Tail
     Buy: 124
     Weight: 10
@@ -632,7 +632,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 919
-    AegisName: Animal's_Skin
+    AegisName: Animals_Skin
     Name: Animal Skin
     Buy: 36
     Weight: 10
@@ -765,7 +765,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 940
-    AegisName: Grasshopper's_Leg
+    AegisName: Grasshoppers_Leg
     Name: Grasshopper's Leg
     Buy: 36
     Weight: 10
@@ -807,7 +807,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 946
-    AegisName: Snail's_Shell
+    AegisName: Snails_Shell
     Name: Snail's Shell
     Buy: 64
     Weight: 10
@@ -821,7 +821,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 948
-    AegisName: Bear's_Foot
+    AegisName: Bears_Foot
     Name: Bear's Footskin
     Buy: 174
     Weight: 10
@@ -1284,7 +1284,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 1015
-    AegisName: Thin_N'_Long_Tongue
+    AegisName: Thin_N_Long_Tongue
     Name: Tongue
     Buy: 528
     Weight: 10
@@ -1375,14 +1375,14 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 1028
-    AegisName: Wild_Boar's_Mane
+    AegisName: Wild_Boars_Mane
     Name: Mane
     Buy: 196
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 1029
-    AegisName: Tiger's_Skin
+    AegisName: Tigers_Skin
     Name: Tiger Skin
     Buy: 548
     Weight: 10
@@ -1459,7 +1459,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 1040
-    AegisName: Elder_Pixie's_Beard
+    AegisName: Elder_Pixies_Beard
     Name: Elder Pixie's Moustache
     Buy: 232
     Weight: 10
@@ -1724,7 +1724,7 @@ Body:
     Name: Delivery Box
     Weight: 1200
   - Id: 1084
-    AegisName: Kapra's_Pass
+    AegisName: Kapras_Pass
     Name: Kafra Pass
     Weight: 10
   - Id: 1085
@@ -2183,7 +2183,7 @@ Body:
     Buy: 10
     Weight: 10
   - Id: 6070
-    AegisName: Shaman's_Old_Paper
+    AegisName: Shamans_Old_Paper
     Name: Shaman's Document
     Weight: 10
   - Id: 6071
@@ -2195,12 +2195,12 @@ Body:
     Name: Bijofnil Feather
     Weight: 10
   - Id: 6073
-    AegisName: Dragon's_Mane
+    AegisName: Dragons_Mane
     Name: Dragon's Mane
     Flags:
       BuyingStore: true
   - Id: 6074
-    AegisName: Bazett's_Order
+    AegisName: Bazetts_Order
     Name: Bazett's Order
     Trade:
       Override: 100
@@ -2517,7 +2517,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 6124
-    AegisName: Wolf's_Flute
+    AegisName: Wolfs_Flute
     Name: Wolf Flute
     Buy: 10
   - Id: 6125
@@ -3636,7 +3636,7 @@ Body:
     AegisName: Amatsu_Bead_Ree
     Name: Amatsu Bead Ree
   - Id: 6375
-    AegisName: Amatsu_Bead_!
+    AegisName: Amatsu_Bead_
     Name: Amatsu Bead !
   - Id: 6376
     AegisName: KVM_Badge
@@ -4837,7 +4837,7 @@ Body:
     Name: Darklord Soulpiece
     Buy: 20
   - Id: 6719
-    AegisName: Jitterbug's_Tooth
+    AegisName: Tooth_Of_Jitterbug
     Name: Jitterbug's Tooth
     Buy: 10
     Weight: 100
@@ -5374,7 +5374,7 @@ Body:
     Buy: 10
     Weight: 10
   - Id: 6893
-    AegisName: Human's_Cookbook
+    AegisName: Human_Cookbook
     Name: Human's Cookbook
     Buy: 10
     Weight: 10
@@ -5824,7 +5824,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7017
-    AegisName: Executioner's_Mitten
+    AegisName: Executioners_Mitten
     Name: Executioner's Mitten
     Buy: 4500
     Weight: 30
@@ -5838,14 +5838,14 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7019
-    AegisName: Loki's_Whispers
+    AegisName: Lokis_Whispers
     Name: Loki's Whispers
     Buy: 20
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 7020
-    AegisName: Mother's_Nightmare
+    AegisName: Mothers_Nightmare
     Name: Mother's Nightmare
     Buy: 20
     Weight: 10
@@ -5880,7 +5880,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7025
-    AegisName: Lucifer's_Lament
+    AegisName: Lucifers_Lament
     Name: Lucifer's Lament
     Buy: 30000
     Weight: 50
@@ -6014,7 +6014,7 @@ Body:
     Buy: 1
     Weight: 10
   - Id: 7047
-    AegisName: Alice's_Apron
+    AegisName: Alices_Apron
     Name: Alice's Apron
     Buy: 2424
     Weight: 10
@@ -6409,14 +6409,14 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7106
-    AegisName: Goat's_Horn
+    AegisName: Goats_Horn
     Name: Antelope Horn
     Buy: 672
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 7107
-    AegisName: Gaoat's_Skin
+    AegisName: Gaoats_Skin
     Name: Antelope Skin
     Buy: 756
     Weight: 10
@@ -6465,21 +6465,21 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7114
-    AegisName: Tutankhamen's_Mask
+    AegisName: Tutankhamens_Mask
     Name: Masque of Tutankhamen
     Buy: 10
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 7115
-    AegisName: Harpy's_Feather
+    AegisName: Harpys_Feather
     Name: Harpy Feather
     Buy: 1142
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 7116
-    AegisName: Harpy's_Claw
+    AegisName: Harpys_Claw
     Name: Harpy Talon
     Buy: 1210
     Weight: 10
@@ -6528,7 +6528,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7123
-    AegisName: Dragon's_Skin
+    AegisName: Dragons_Skin
     Name: Dragon Skin
     Buy: 1025
     Weight: 10
@@ -6542,7 +6542,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7125
-    AegisName: Scropion's_Nipper
+    AegisName: Scropions_Nipper
     Name: Scorpion Claw
     Buy: 706
     Weight: 10
@@ -6729,7 +6729,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7155
-    AegisName: Poison_Toad's_Skin
+    AegisName: Poison_Toads_Skin
     Name: Poisonous Toad Skin
     Buy: 280
     Weight: 10
@@ -6757,21 +6757,21 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7159
-    AegisName: Tengu's_Nose
+    AegisName: Tengus_Nose
     Name: Tengu Nose
     Buy: 400
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 7160
-    AegisName: Lord's_Passable_Ticket
+    AegisName: Lords_Passable_Ticket
     Name: Feudal Lord Permit
     Buy: 1
     Weight: 10
     Flags:
       BuyingStore: true
   - Id: 7161
-    AegisName: Black_Bear's_Skin
+    AegisName: Black_Bears_Skin
     Name: Black Bear Skin
     Buy: 384
     Weight: 10
@@ -6868,7 +6868,7 @@ Body:
     Name: Royal Certificate
     Weight: 10
   - Id: 7177
-    AegisName: Part_Of_Star's_Sob
+    AegisName: Part_Of_Stars_Sob
     Name: Crumb of Sobbing Starlight
     Trade:
       Override: 100
@@ -6881,7 +6881,7 @@ Body:
       NoMail: true
       NoAuction: true
   - Id: 7178
-    AegisName: Star's_Sob
+    AegisName: Stars_Sob
     Name: Sobbing Starlight
     Trade:
       Override: 100
@@ -6898,7 +6898,7 @@ Body:
     Name: Proof of Donation
     Weight: 10
   - Id: 7180
-    AegisName: Introduction_Of_Mr.Han
+    AegisName: Introduction_Of_MrHan
     Name: Hahn Sukbong's Recommendation
     Weight: 10
   - Id: 7181
@@ -7082,7 +7082,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7209
-    AegisName: Dullahan's_Helm
+    AegisName: Dullahans_Helm
     Name: Helm of Dullahan
     Buy: 1350
     Weight: 10
@@ -7606,7 +7606,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7304
-    AegisName: Witch's_Spell_Book
+    AegisName: Witchs_Spell_Book
     Name: Witch's Spell Scroll
     Trade:
       Override: 100
@@ -7658,7 +7658,7 @@ Body:
       NoMail: true
       NoAuction: true
   - Id: 7308
-    AegisName: Witch's_Potion
+    AegisName: Witchs_Potion
     Name: Witch's Tonic
     Trade:
       Override: 100
@@ -8018,7 +8018,7 @@ Body:
     Buy: 20
     Weight: 10
   - Id: 7351
-    AegisName: Friend's_Diary
+    AegisName: Friends_Diary
     Name: Friend's Diary
     Buy: 20
     Trade:
@@ -8700,7 +8700,7 @@ Body:
     Flags:
       BuyingStore: true
   - Id: 7458
-    AegisName: Baphomet's_Horn
+    AegisName: Baphomets_Horn
     Name: Fortune Horn
     Buy: 2
     Weight: 10
@@ -9287,7 +9287,7 @@ Body:
     Buy: 1000
     Weight: 100
   - Id: 7518
-    AegisName: Women's_Medal
+    AegisName: Womens_Medal
     Name: Women's Medal
     Weight: 10
     Trade:
@@ -9989,7 +9989,7 @@ Body:
     Buy: 20
     Weight: 10
   - Id: 7594
-    AegisName: Sonia's_Letter
+    AegisName: Sonias_Letter
     Name: Sonia's Letter
     Buy: 20
     Weight: 10
@@ -11654,7 +11654,7 @@ Body:
     Buy: 10
     Weight: 10
   - Id: 7920
-    AegisName: Hero's_Arsenal
+    AegisName: Heros_Arsenal
     Name: He's Arsenal
   - Id: 7921
     AegisName: Essence_Of_Dragon
@@ -11700,7 +11700,7 @@ Body:
     Buy: 10
     Weight: 10
   - Id: 7930
-    AegisName: Cowking's_Nose_Ring
+    AegisName: Cowkings_Nose_Ring
     Name: Devil's Cattle Ring
     Weight: 1000
   - Id: 7931

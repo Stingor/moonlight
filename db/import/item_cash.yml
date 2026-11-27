@@ -620,7 +620,7 @@ Body:
         Price: 10
       - Item: C_Granpa_Beard  # Id: 19783 | ViewID = 25
         Price: 5
-      - Item: C_Morrigane's_Helm  # Id: 19784 | ViewID = 257
+      - Item: C_Morriganes_Helm  # Id: 19784 | ViewID = 257
         Price: 5
       - Item: C_Well_Baked_Toast  # Id: 19785 | ViewID = 188
         Price: 5
@@ -746,7 +746,7 @@ Body:
         Price: 5
       - Item: C_Inccubus_Horn  # Id: 19863 | ViewID = 156
         Price: 5
-      - Item: C_Dokebi's_Wig  # Id: 19864 | ViewID = 302
+      - Item: C_Afro_Wig  # Id: 19864 | ViewID = 302
         Price: 5
       - Item: C_Joker_Jester  # Id: 19865 | ViewID = 89
         Price: 5
@@ -852,7 +852,7 @@ Body:
       - Item: C_Silver_Exclamation  # Id: 19978 | ViewID = 1146
       - Item: C_Golden_Question  # Id: 19979 | ViewID = 1147
       - Item: C_Silver_Question  # Id: 19980 | ViewID = 1148
-      - Item: C_Santa's_Hat  # Id: 19982 | ViewID = 20
+      - Item: C_Santas_Hat  # Id: 19982 | ViewID = 20
         Price: 5
       - Item: C_Flower_Hairpin  # Id: 19983 | ViewID = 145
         Price: 5
@@ -953,7 +953,7 @@ Body:
         Price: 10
       - Item: C_Plaster  # Id: 20049 | ViewID = 147
         Price: 10
-      - Item: C_Ph.D_Hat  # Id: 20050 | ViewID = 98
+      - Item: C_PhD_Hat  # Id: 20050 | ViewID = 98
         Price: 5
       - Item: C_Stop_Post  # Id: 20051 | ViewID = 59
         Price: 5
@@ -998,7 +998,7 @@ Body:
       - Item: C_White_Feather  # Id: 20078 | ViewID = 741
         Price: 10
       - Item: C_Love_Daddy_2013  # Id: 20079 | ViewID = 1104
-      - Item: C_Shaman's_Hair_Orna  # Id: 20080 | ViewID = 476
+      - Item: C_Shamans_Hair_Orna  # Id: 20080 | ViewID = 476
         Price: 10
       - Item: C_Metal_Dragon_Hat  # Id: 20082 | ViewID = 1243
       - Item: C_Clover_Coronet  # Id: 20084 | ViewID = 325
@@ -1159,11 +1159,11 @@ Body:
         Price: 5
       - Item: C_Magni_Cap  # Id: 20186 | ViewID = 250
         Price: 5
-      - Item: C_Fricca's_Circlet  # Id: 20187 | ViewID = 251
+      - Item: C_Fricca_Circlet  # Id: 20187 | ViewID = 251
         Price: 5
-      - Item: C_Morpheus's_Hood  # Id: 20188 | ViewID = 256
+      - Item: C_Morpheus_Hood  # Id: 20188 | ViewID = 256
         Price: 5
-      - Item: C_Goibne's_Helm  # Id: 20189 | ViewID = 258
+      - Item: C_Goibne_Helmet  # Id: 20189 | ViewID = 258
         Price: 5
       - Item: C_Chick_Hat_J  # Id: 20190 | ViewID = 432
       - Item: C_Black_Cat_Ears_Beret  # Id: 20191 | ViewID = 1071
@@ -1293,7 +1293,7 @@ Body:
         Price: 10
       - Item: C_Cheering_Whistle  # Id: 20279 | ViewID = 952
         Price: 10
-      - Item: C_Well-Chewed_Pencil  # Id: 20280 | ViewID = 555
+      - Item: C_Pencil_In_Mouth  # Id: 20280 | ViewID = 555
         Price: 10
       - Item: C_Kindergarten_Hat  # Id: 20281 | ViewID = 977
         Price: 10
@@ -1916,7 +1916,7 @@ Body:
       - Item: C_Mystic_Eye  # Id: 31375 | ViewID = 1490
         Price: 10
       - Item: C_Catharina_Von_Brad_60th  # Id: 31378 | ViewID = 1527
-      - Item: C_Wind-Up_Key  # Id: 31379 | ViewID = 1335
+      - Item: C_Drama_Clockwork  # Id: 31379 | ViewID = 1335
       - Item: C_Crow  # Id: 31380 | ViewID = 1035
       - Item: C_Diabolic_Lapel  # Id: 31381 | ViewID = 1681
         Price: 10

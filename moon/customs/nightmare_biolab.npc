@@ -1177,7 +1177,7 @@ lhz_dun_n,143,269,4	script	Victimized Soul's Mind#1	4_M_DEATH2,{
 					2004,	// Kronos
 					1647,	// Croce_Staff
 					1659,	// Recovery_Light
-					1646,	// La'cryma_Stick
+					1646,	// Lacryma_Stick
 					1654;	// Mental_Stick
 				continue;
 			case 7:

@@ -2705,7 +2705,7 @@ lighthalzen,337,232,3	script	Maku	4_M_LGTPOOR,{
 		mes "that I'm grateful or anything.";
 		cutin "lhz_macu07",255;
 		next;
-		delitem 7351,1; //Friend's_Diary
+		delitem 7351,1; //Friends_Diary
 		set friendship,14;
 		if (checkre(3)) {
 			if (BaseLevel > 90) getexp 70000,0;
@@ -3281,7 +3281,7 @@ yuno_in04,168,117,3	script	Book#lhz	HIDDEN_NPC,{
 	}
 	if (friendship == 10) {
 		set friendship,11;
-		getitem 7351,1; //Friend's_Diary
+		getitem 7351,1; //Friends_Diary
 		mes "^3355FFThis book is labeled,";
 		mes "''Benkaistein's Journal";
 		mes "Vol. 6.'' This is probably";

@@ -1477,7 +1477,7 @@ ama_in02,170,62,4	script	Soldier#ama2	767,{
 			next;
 			if (select("Issue one:Talk to you later") == 1) {
 				set Zeny, Zeny-10000;
-				getitem 7160,1; //Lord's_Passable_Ticket
+				getitem 7160,1; //Lords_Passable_Ticket
 				mes "[Jiro]";
 				mes "There you go.";
 				mes "Don't lose it this time.";
@@ -1722,7 +1722,7 @@ ama_in02,115,177,7	script	Soldier#ama10	767,{
 			mes "the lord but I guess it has";
 			mes "been issued to the wrong person.";
 			next;
-			delitem 7160,1; //Lord's_Passable_Ticket
+			delitem 7160,1; //Lords_Passable_Ticket
 			mes "[Jyuro]";
 			mes "I will keep this ticket because";
 			mes "it was issued without permission.";
@@ -1868,7 +1868,7 @@ ama_in02,200,176,4	script	Lord of Palace#ama	768,{
 			set event_amatsu,6;
 			completequest 8135;
 			delitem 1022,1; //Fox_Tail
-			getitem 7160,1; //Lord's_Passable_Ticket
+			getitem 7160,1; //Lords_Passable_Ticket
 			mes "[Ishida Yoshinaga]";
 			mes "This isn't a big reward but";
 			mes "someday it will be useful for you.";

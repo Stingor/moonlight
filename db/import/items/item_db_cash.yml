@@ -5634,7 +5634,7 @@ Body:
     Weight: 10
     Script: "getitem 12204,20;\n"
   - Id: 14240
-    AegisName: Hwergelmir's_Tonic_Box_20
+    AegisName: Dex_Dish20_Box
     Name: Hwergelmir's Tonic 20 Box
     Type: Cash
     Buy: 20
@@ -5986,7 +5986,7 @@ Body:
     Weight: 10
     Script: "getitem 5420,1;\n"
   - Id: 14301
-    AegisName: Ifrit's_Ear_Box
+    AegisName: Ifrits_Ear_Box
     Name: Ears Of Ifrit Box
     Type: Cash
     Buy: 20
@@ -6042,14 +6042,14 @@ Body:
     Weight: 10
     Script: "getitem 14600,50;\n"
   - Id: 14351
-    AegisName: Tyr's_Blessing20_Box
+    AegisName: Tyr_Blessing_Box20
     Name: Tyr's Blessing 20 Box
     Type: Cash
     Buy: 20
     Weight: 10
     Script: "getitem 14601,20;\n"
   - Id: 14352
-    AegisName: Tyr's_Blessing50_Box
+    AegisName: Tyr_Blessing_Box50
     Name: Tyr's Blessing 50 Box
     Type: Cash
     Buy: 20
@@ -6203,7 +6203,7 @@ Body:
     Weight: 10
     Script: "getitem 7945,1;\n"
   - Id: 14438
-    AegisName: Honglyun's_Sword_Box
+    AegisName: Honglyuns_Sword_Box
     Name: Honglyun's Sword Box
     Type: Cash
     Buy: 20
@@ -6252,14 +6252,14 @@ Body:
     Weight: 10
     Script: "getitem 5500,1;\n"
   - Id: 14447
-    AegisName: Pirate's_Pride_Box
+    AegisName: Pirates_Pride_Box
     Name: Pirate's Pride Box
     Type: Cash
     Buy: 20
     Weight: 10
     Script: "getitem 5501,1;\n"
   - Id: 14448
-    AegisName: Necromencer's_Hood_Box
+    AegisName: Necromencers_Hood_Box
     Name: Necromancer's Hood Box
     Type: Cash
     Buy: 20
@@ -6439,7 +6439,7 @@ Body:
     Buy: 10
     Weight: 10
   - Id: 14689
-    AegisName: Sealed_Kiel-D-01_Scroll
+    AegisName: Sealed_Kiel_Scroll
     Name: Sealed Kiel-D-01 Scroll
     Type: Cash
     Buy: 10
@@ -6641,7 +6641,7 @@ Body:
     Weight: 10
     Script: "getitem 5528,1;\n"
   - Id: 16135
-    AegisName: Evil's_Bone_Hat_Box
+    AegisName: Evils_Bone_Hat_Box
     Name: Satanic Bone Helm Box
     Type: Cash
     Buy: 20
@@ -6801,7 +6801,7 @@ Body:
     Weight: 10
     Script: "getitem 5566,1;\n"
   - Id: 16250
-    AegisName: Valkyrie's_Gift_Box
+    AegisName: Valkyriee_Gift
     Name: Valkyrie's Gift Box
     Type: Cash
     Buy: 10
@@ -7134,13 +7134,13 @@ Body:
     Weight: 10
     Script: "getitem 5591,1;\n"
   - Id: 16362
-    AegisName: Sigrun's_Wing_Box
+    AegisName: Sigruns_Wing_Box
     Name: Sigrun's Wing Box
     Type: Cash
     Weight: 10
     Script: "getitem 5592,1;\n"
   - Id: 16363
-    AegisName: FSigrun's_Wing_Box
+    AegisName: FSigruns_Wing_Box
     Name: FSigrun's Wing Box
     Type: Cash
     Weight: 10
@@ -7363,7 +7363,7 @@ Body:
     Weight: 10
     Script: "getitem 12503,10;\n"
   - Id: 16508
-    AegisName: Hwergelmir's_Tonic_Box_10
+    AegisName: E_Dex_Dish_Box
     Name: Hwergelmir's Tonic Box (10)
     Type: Cash
     Buy: 20
@@ -9123,7 +9123,7 @@ Body:
     Buy: 10
     Script: "/*TODO: getitem 12529,1; getitem 12323,200; getitem 12324,50; and 5 boxes that containing quivers + oridecons*/\n"
   - Id: 22721
-    AegisName: ?_Box
+    AegisName: Question_Box
     Name: "? Box"
     Type: Cash
     Buy: 10
