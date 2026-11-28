@@ -1428,30 +1428,22 @@ ACMD_FUNC(mobinfo)
 			uint64 hp_floor = (uint64)(5000 * hardmode);
 			uint64 hm_hp    = ((uint64)mob->status.max_hp < hp_floor ? hp_floor : (uint64)mob->status.max_hp) * (uint64)hardmode * 3ULL;
 
-			uint64 hm_atkmin, hm_atkmax, hm_matkmin, hm_matkmax;
-			if (hardmode >= 15) {
-				uint64 af_min  = (uint64)(2000  * hardmode);
-				uint64 af_max  = (uint64)(10000 * hardmode);
-				uint64 amin_b  = ((uint64)mob->status.rhw.atk  < af_min) ? af_min : (uint64)mob->status.rhw.atk;
-				uint64 amax_b  = ((uint64)mob->status.rhw.atk2 < af_max) ? af_max : (uint64)mob->status.rhw.atk2;
-				uint64 mamin_b = ((uint64)mob->status.matk_min < af_min) ? af_min : (uint64)mob->status.matk_min;
-				uint64 mamax_b = ((uint64)mob->status.matk_max < af_max) ? af_max : (uint64)mob->status.matk_max;
-				hm_atkmin  = amin_b  * (uint64)(hardmode * 2) * (uint64)hardmode / 2ULL;
-				hm_atkmax  = amax_b  * (uint64)(hardmode * 2) * (uint64)hardmode / 2ULL;
-				hm_matkmin = mamin_b * (uint64)(hardmode * 2) * (uint64)hardmode;
-				hm_matkmax = mamax_b * (uint64)(hardmode * 2) * (uint64)hardmode;
-			} else {
-				uint64 af_min  = (uint64)(1000 * hardmode);
-				uint64 af_max  = (uint64)(5000 * hardmode);
-				uint64 amin_b  = ((uint64)mob->status.rhw.atk  < af_min) ? af_min : (uint64)mob->status.rhw.atk;
-				uint64 amax_b  = ((uint64)mob->status.rhw.atk2 < af_max) ? af_max : (uint64)mob->status.rhw.atk2;
-				uint64 mamin_b = ((uint64)mob->status.matk_min < af_min) ? af_min : (uint64)mob->status.matk_min;
-				uint64 mamax_b = ((uint64)mob->status.matk_max < af_max) ? af_max : (uint64)mob->status.matk_max;
-				hm_atkmin  = amin_b  * 30ULL * (uint64)hardmode / 2ULL;
-				hm_atkmax  = amax_b  * 30ULL * (uint64)hardmode / 2ULL;
-				hm_matkmin = mamin_b * 30ULL * (uint64)hardmode;
-				hm_matkmax = mamax_b * 30ULL * (uint64)hardmode;
-			}
+			// ATK et MATK comme mobhm (moon/func.npc) : planchers avant multiplication,
+			// pente 3N, plafond 65535 ; le maximum ne descend jamais sous le minimum.
+			const uint64 atk_cap   = 65535ULL;
+			const uint64 atk_mul   = (uint64)hardmode * 3ULL;
+			const uint64 floor_min = 450ULL;
+			const uint64 floor_max = 2200ULL;
+			uint64 amin_b  = ((uint64)mob->status.rhw.atk  < floor_min) ? floor_min : (uint64)mob->status.rhw.atk;
+			uint64 amax_b  = ((uint64)mob->status.rhw.atk2 < floor_max) ? floor_max : (uint64)mob->status.rhw.atk2;
+			uint64 mamin_b = ((uint64)mob->status.matk_min < floor_min) ? floor_min : (uint64)mob->status.matk_min;
+			uint64 mamax_b = ((uint64)mob->status.matk_max < floor_max) ? floor_max : (uint64)mob->status.matk_max;
+			if (amax_b < amin_b) amax_b = amin_b;
+			if (mamax_b < mamin_b) mamax_b = mamin_b;
+			uint64 hm_atkmin  = std::min(amin_b  * atk_mul, atk_cap);
+			uint64 hm_atkmax  = std::min(amax_b  * atk_mul, atk_cap);
+			uint64 hm_matkmin = std::min(mamin_b * atk_mul, atk_cap);
+			uint64 hm_matkmax = std::min(mamax_b * atk_mul, atk_cap);
 
 			int32 hm_def     = (mob->status.def  < 5 ? 5 : (int32)mob->status.def)  + hm_cap;
 			int32 hm_mdef    = (mob->status.mdef < 5 ? 5 : (int32)mob->status.mdef) + hm_cap;
