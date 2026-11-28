@@ -22,6 +22,11 @@ OnTouch_:
 	else
 		warp "ecl_hub01",107,107;
 	end;
+
+OnInit:
+	naviregisterwarp("in01e_hub2-1-1", "ecl_hub01", 106, 31);
+	naviregisterwarp("in01e_hub2-1-2", "ecl_hub01", 107, 107);
+	end;
 }
 ecl_hub01,107,110,0	warp	hub2-1_in01e	1,1,ecl_in01,82,68
 ecl_hub01,127,95,0	warp	hub2-2_hub3-1	1,1,ecl_hub01,18,32
@@ -32,6 +37,11 @@ OnTouch_:
 		warp "ecl_hub01",135,14;
 	else
 		warp "ecl_hub01",125,94;
+	end;
+
+OnInit:
+	naviregisterwarp("hub3-1_hub2-2-1", "ecl_hub01", 135, 14);
+	naviregisterwarp("hub3-1_hub2-2-2", "ecl_hub01", 125, 94);
 	end;
 }
 ecl_hub01,40,14,0	warp	hub3-2_in03	1,1,ecl_in03,144,17

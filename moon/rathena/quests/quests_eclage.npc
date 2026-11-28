@@ -9607,7 +9607,7 @@ mid_camp,173,257,5	script	Shelby#pa0829	4_CAT_SAILOR2,{
 	else if (ep14_2_etran == 14)
 		mes "Here's some advice. Don't waste your time with me. Look for other people to help you out.";
 	else if (ep14_2_etran < 20)
-		mes "Let me remind you before you forget, the materials you need to activate the rift fragment are ^000099 1 Dark Debris, 2 of each red/yellow/blue Gemstone^000000.";
+		mes "Let me remind you before you forget, the materials you need to activate the rift fragment are ^000099 1 "+mesitemcell(7798)+", 2 of each "+mesitemcell(715)+"/"+mesitemcell(716)+"/"+mesitemcell(717)+" ^000000.";
 	else if (ep14_2_etran > 42)
 		mes "Hey~ Did you do the past experiment well?";
 	else
