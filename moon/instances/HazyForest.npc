@@ -105,6 +105,7 @@ bif_fild01,158,340,5	script	Laphine Soldier#mist	447,{
 			mes "We can't go against the forest,";
 			mes "but maybe you humans can.";
 			mes "Good luck!";
+			navigateto("bif_fild01",161,355);
 			close;
 		case 2:
 			mes "[Laphine Soldier]";
