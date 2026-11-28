@@ -7510,28 +7510,41 @@ struct PACKET_ZC_MOONLIGHT_STAFF_TRACE {
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAFF_TRACE, 0x0f6e);
 
 // [Stingor] ZC : LA PRÉSENCE de moonclient (ADR 0156 de moonclient). Répond au
-// CZ_UI_OPEN natif de type IN_UI_ATTENDANCE et au 0x0AEF natif, et part à la
-// connexion, fenêtre à ouvrir, quand le jour n'est pas réclamé. Remplace
-// ZC_UI_OPEN 7 et 0x0AF0, qui ne partent plus.
+// CZ_UI_OPEN natif de type IN_UI_ATTENDANCE, au 0x0AEF natif et à
+// CZ_MOONLIGHT_ATTENDANCE_COLLECT, et part à la connexion, fenêtre à ouvrir,
+// quand le jour n'est pas réclamé ou qu'une récompense du site attend.
+// Remplace ZC_UI_OPEN 7 et 0x0AF0, qui ne partent plus.
 //
 // Layout: [packetType:2][packetLength:2][open:1][result:1][cycleLength:1]
 //         [claimedDays:1][claimedToday:1][daysLeft:1][webChargesLeft:1]
-//         [webChargesMax:1][webClaimedMask:4][secondsUntilReset:4]
-//         [cycleStart:4], puis entries[] de 8 octets.
+//         [webChargesMax:1][webClaimedMask:4][webPendingMask:4]
+//         [webPendingCount:1][secondsUntilReset:4][cycleStart:4], puis
+//         entries[] de 8 octets.
 //   open          : 1 la fenêtre s'ouvre, 0 elle se met à jour si elle l'est.
 //   result        : e_moonlight_attendance_result.
 //   daysLeft      : jours de calendrier restant dans la fenêtre du cycle,
 //                   aujourd'hui compris ; cycleLength pour un cycle à ouvrir.
 //   webClaimedMask: bit d-1, la récompense d a été réclamée par le site.
+//   webPendingMask: bit d-1, la récompense d du cycle, réclamée sur le site,
+//                   attend d'être récupérée en jeu.
+//   webPendingCount: toutes les récompenses du site qui attendent, cycles
+//                   passés compris (255 au plus).
 //   cycleStart    : AAAAMMJJ, 0 sans cycle ouvert.
 //   entries       : le calendrier, un bloc par item ; un jour à plusieurs
 //                   items a plusieurs blocs. flags bit 0 : jour-palier.
+//                   En tête, les blocs du bonus de date d'aujourd'hui, s'il y
+//                   en a un, avec day = 0 (jamais palier) : une réclamation
+//                   faite ce jour-là les reçoit en plus de son jour du cycle.
 enum e_moonlight_attendance_result : uint8 {
 	MOONLIGHT_ATTENDANCE_STATE = 0,
 	MOONLIGHT_ATTENDANCE_CLAIMED = 1,
 	MOONLIGHT_ATTENDANCE_ALREADY_CLAIMED = 2,
 	MOONLIGHT_ATTENDANCE_CLOSED = 3,
 	MOONLIGHT_ATTENDANCE_CLAIMED_BY_MAIL = 4,
+	// Les récompenses du site ont été récupérées par ce personnage ; une
+	// partie est partie par RODEX faute de place, ou non.
+	MOONLIGHT_ATTENDANCE_COLLECTED = 5,
+	MOONLIGHT_ATTENDANCE_COLLECTED_BY_MAIL = 6,
 };
 
 #define MOONLIGHT_ATTENDANCE_FLAG_MILESTONE 0x01
@@ -7558,11 +7571,24 @@ struct PACKET_ZC_MOONLIGHT_ATTENDANCE {
 	uint8  webChargesLeft;
 	uint8  webChargesMax;
 	uint32 webClaimedMask;
+	uint32 webPendingMask;
+	uint8  webPendingCount;
 	uint32 secondsUntilReset;
 	uint32 cycleStart;
 	struct PACKET_ZC_MOONLIGHT_ATTENDANCE_sub entries[];
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ATTENDANCE, 0x0f6f);
+
+// [Stingor] CZ : « Je récupère mes récompenses de présence réclamées sur le
+// site. » Toutes celles qui attendent le compte Moonlight se livrent au
+// personnage qui envoie (inventaire, RODEX faute de place), avec le bonus de
+// leur date ; le serveur répond par ZC_MOONLIGHT_ATTENDANCE (result COLLECTED).
+// Layout: [packetType:2], longueur fixe. Garde : client_verified et la
+// permission de la présence ; une ligne se gagne par UPDATE conditionnel.
+struct PACKET_CZ_MOONLIGHT_ATTENDANCE_COLLECT {
+	int16 packetType;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_ATTENDANCE_COLLECT, 0x0f70);
 
 
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
@@ -9077,7 +9103,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre se lit
-// dans ce fichier (0x0F70 à ce jour).
+// dans ce fichier (0x0F71 à ce jour).
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

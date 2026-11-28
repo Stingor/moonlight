@@ -351,6 +351,7 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE : comme l'annonce du service
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_STAFF_ROSTER : la fenêtre redemande toutes les dix secondes, et « Actualiser » est un clic
 	{ 1000, 3 },  // MOONLIGHT_THROTTLE_QUEST_PROGRESS : le journal redemande quand une quête bouge, pas plus d'une fois par seconde
+	{ 2000, 2 },  // MOONLIGHT_THROTTLE_ATTENDANCE_COLLECT : « Récupérer » est un clic, et chaque demande lit et écrit SQL
 };
 
 // [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
@@ -30711,6 +30712,23 @@ void clif_parse_open_ui( int32 fd, map_session_data* sd ){
 /// ZC_MOONLIGHT_ATTENDANCE.
 void clif_parse_attendance_request( int32 fd, map_session_data* sd ){
 	moonlight_attendance_request_claim( *sd );
+}
+
+/// [Stingor] Récupère les récompenses de présence réclamées sur le site, puis
+/// répond par ZC_MOONLIGHT_ATTENDANCE. Une demande hors cadence est ignorée.
+/// 0F70
+void clif_parse_moonlight_attendance_collect( int32 fd, map_session_data* sd ){
+	nullpo_retv( sd );
+
+	if( !sd->state.client_verified ){
+		return;
+	}
+
+	if( !clif_moonlight_throttle_pass( *sd, MOONLIGHT_THROTTLE_ATTENDANCE_COLLECT ) ){
+		return;
+	}
+
+	moonlight_attendance_request_collect( *sd );
 }
 
 /// Send out the percentage of weight that causes it to be displayed in red.

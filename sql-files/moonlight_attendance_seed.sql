@@ -4,7 +4,8 @@
 -- Le pool de depart est le calendrier de novembre 2026 (high rate) : les
 -- jours ordinaires donnent une monnaie d'event a la quantite d'une trouvaille
 -- du cafard, les paliers deux lots. L'edition 1 est ce meme calendrier, pour
--- le mois de novembre 2026 ; les suivantes se tirent sur le site.
+-- le mois de decembre 2026, premier mois de la presence ; les suivantes se
+-- tirent sur le site.
 --
 -- Une seule fois, sur une base dont les tables sont vides :
 --   mysql rathena < moonlight_attendance_seed.sql
@@ -45,7 +46,7 @@ INSERT INTO `moonlight_attendance_pool` (`tier`, `item_id`, `amount`, `weight`, 
   ('milestone', 12246, 1, 10, 1),
   ('milestone', 25814, 30, 10, 1);
 
-INSERT INTO `moonlight_attendance_edition` (`id`, `month`, `drawn_by`) VALUES (1, '2026-11-01', NULL);
+INSERT INTO `moonlight_attendance_edition` (`id`, `month`, `drawn_by`) VALUES (1, '2026-12-01', NULL);
 
 INSERT INTO `moonlight_attendance_calendar` (`edition_id`, `day`, `slot`, `item_id`, `amount`, `milestone`) VALUES
   (1, 1, 0, 12208, 2, 0),

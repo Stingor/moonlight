@@ -2185,6 +2185,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_PLAYER_ADMIN, sizeof(PACKET_CZ_MOONLIGHT_PL
 // ses états — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_NPC_ABORT, sizeof(PACKET_CZ_MOONLIGHT_NPC_ABORT), clif_parse_moonlight_npc_abort, 0);
 
+// [Stingor] moonclient : la présence récupère ce que le site a réclamé. Gate
+// session vérifiée et cadence dans le handler — fixed
+parseable_packet(HEADER_CZ_MOONLIGHT_ATTENDANCE_COLLECT, sizeof(PACKET_CZ_MOONLIGHT_ATTENDANCE_COLLECT), clif_parse_moonlight_attendance_collect, 0);
+
 // [Stingor] carnet de chasse MVP. Un seul CZ pour TOUTES les
 // commandes (créer, inviter, favori, saisie manuelle…), sur le patron des
 // presets — VARIABLE (-1), la longueur du texte final s'en déduit.

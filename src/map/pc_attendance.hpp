@@ -47,8 +47,13 @@ void moonlight_attendance_request_state( map_session_data& sd );
 /// Le joueur réclame le jour (0x0AEF) : réclamation, livraison, état.
 void moonlight_attendance_request_claim( map_session_data& sd );
 
-/// À l'entrée en jeu : livre les récompenses réclamées sur le site, puis ouvre
-/// la fenêtre si le jour n'est pas encore réclamé.
+/// Le joueur récupère les récompenses réclamées sur le site
+/// (CZ_MOONLIGHT_ATTENDANCE_COLLECT) : toutes celles qui attendent le compte
+/// se livrent à ce personnage, présence fermée ou non, puis l'état part.
+void moonlight_attendance_request_collect( map_session_data& sd );
+
+/// À l'entrée en jeu : ouvre la fenêtre si le jour n'est pas encore réclamé ou
+/// qu'une récompense réclamée sur le site attend. Rien ne se livre ici.
 void moonlight_attendance_login( map_session_data& sd );
 
 #endif /* PC_ATTENDANCE_HPP */
