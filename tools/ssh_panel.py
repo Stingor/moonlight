@@ -36,8 +36,10 @@ from remote_console import REMOTE_ENV, InteractiveRunner, visible
 from debug_section import DebugSection
 from repo_state import RepoStateBar
 from tables_panel import CONSOLE_COLORS, DRAIN_MS
+from tabs_host import PageSpec
 
 SETTINGS_SECTION = "ssh"
+PAGE = PageSpec("ssh", "Serveur (SSH)", "Moonlight - Serveur (SSH)", 700, 520)
 DEFAULT_TARGET = "stingor@192.168.1.13"
 DEFAULT_REPO = "~/moonlight"
 HOME_PREFIX = "~/"
@@ -200,10 +202,11 @@ def classify(line):
 
 
 class SshWindow:
-    """Fenêtre « Serveur (SSH) », créée une fois, masquée à la fermeture."""
+    """Page « Serveur (SSH) » (tabs_host.py), construite à sa première apparition."""
 
-    def __init__(self, root, settings, bind_copy_menu, open_logs=None, open_npc=None, send_admin=None):
+    def __init__(self, root, host, settings, bind_copy_menu, open_logs=None, open_npc=None, send_admin=None):
         self.root = root
+        self.host = host
         self._open_logs = open_logs
         self._open_npc = open_npc
         self._send_admin = send_admin  # (atcommande, rappel) : le canal admin de la fenêtre principale
@@ -221,7 +224,6 @@ class SshWindow:
         stored = settings.get(SETTINGS_SECTION, "history")
         self._history = [h for h in stored.split(HISTORY_SEPARATOR) if h] if stored else []
         self._history_pos = len(self._history)
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self._bind_copy_menu = bind_copy_menu
         self._queue = []
         self._chain_started = None
@@ -241,16 +243,7 @@ class SshWindow:
             "parallel_make": self.jobs_var.get(),
             "start_target": self.start_target_var.get(),
             "history": HISTORY_SEPARATOR.join(self._history[-HISTORY_LIMIT:]),
-            "geometry": self._current_geometry(),
         }
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:  # fenêtre principale déjà détruite
-            pass
-        return self._geometry
 
     def busy(self):
         # La chaîne compte, pas seulement ssh : entre la fin d'un processus et
@@ -259,27 +252,19 @@ class SshWindow:
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
             self.repo_state.refresh()
             self.debug.refresh()
-        self.win.deiconify()
-        self.win.lift()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
-        self.win.withdraw()
+    def on_page_hidden(self):
+        pass
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Serveur (SSH)")
-        self.win.minsize(700, 520)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
         self.action_widgets = []

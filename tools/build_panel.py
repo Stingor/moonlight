@@ -37,8 +37,10 @@ from tkinter import filedialog, messagebox, scrolledtext, ttk
 
 from tables_panel import (CONSOLE_COLORS, DRAIN_MS, PUSH_MIRROR, ProcessRunner, confirm_mirror_publish,
                           mirror_argv)
+from tabs_host import PageSpec
 
 SETTINGS_SECTION = "build"
+PAGE = PageSpec("build", "Build client", "Moonlight - Build client", 720, 600)
 PRESET_FILES = ("CMakePresets.json", "CMakeUserPresets.json")
 SOURCE_DIR_MACRO = "${sourceDir}"
 PRESET_NAME_MACRO = "${presetName}"
@@ -172,10 +174,11 @@ def preset_configuration(presets, kind, name):
 
 
 class BuildWindow:
-    """Fenêtre « Build client », créée une fois, masquée à la fermeture."""
+    """Page « Build client » (tabs_host.py), construite à sa première apparition."""
 
-    def __init__(self, root, settings, bind_copy_menu, path_vars):
+    def __init__(self, root, host, settings, bind_copy_menu, path_vars):
         self.root = root
+        self.host = host
         self.events = queue.Queue()
         self.runner = ProcessRunner(self.events)
         self.paths = path_vars  # StringVar partagées avec le panneau Tables
@@ -183,7 +186,6 @@ class BuildWindow:
                       for k, (default, _label) in BOOL_OPTIONS.items()}
         self.choices = {k: tk.StringVar(value=settings.get(SETTINGS_SECTION, k, ""))
                         for k in CHOICE_OPTIONS}
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self._bind_copy_menu = bind_copy_menu
         self._presets = Presets({}, {}, {}, [])
         self._queue = []          # étapes restantes de la chaîne en cours
@@ -196,42 +198,25 @@ class BuildWindow:
     def settings_data(self):
         data = {k: v.get() for k, v in self.flags.items()}
         data.update({k: v.get() for k, v in self.choices.items()})
-        data["geometry"] = self._current_geometry()
         return data
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:
-            pass
-        return self._geometry
 
     def busy(self):
         return self.runner.busy or bool(self._queue)
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
-        self.win.deiconify()
-        self.win.lift()
         self._reload_presets()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
-        self.win.withdraw()
+    def on_page_hidden(self):
+        pass
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Build client")
-        self.win.minsize(720, 600)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
 

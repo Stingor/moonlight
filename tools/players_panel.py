@@ -16,8 +16,10 @@ from datetime import datetime
 from tkinter import ttk
 
 from player_actions import add_player_menu
+from tabs_host import PageSpec
 
 SETTINGS_SECTION = "joueurs"
+PAGE = PageSpec("players", "Joueurs", "Moonlight - Joueurs en ligne", 1000, 420)
 DEFAULT_INTERVAL_S = 5
 MIN_INTERVAL_S = 2
 MS_PER_S = 1000
@@ -95,14 +97,14 @@ ROW_COLORS = {"gm": "#c8f", "away": "#888"}
 
 
 class PlayersWindow:
-    """Fenêtre « Joueurs en ligne », créée une fois, masquée à la fermeture ;
-    masquée, elle ne relit plus rien."""
+    """Page « Joueurs en ligne » (tabs_host.py), construite à sa première apparition ;
+    hors de vue, elle ne relit plus rien."""
 
-    def __init__(self, root, settings, send_quiet, send_admin):
+    def __init__(self, root, host, settings, send_quiet, send_admin):
         self.root = root
+        self.host = host
         self.send_quiet = send_quiet   # (ligne, rappel) : PLAYERS, sans journal
         self.send_admin = send_admin   # (atcommande) : les actions, au journal
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         try:
             interval = int(settings.get(SETTINGS_SECTION, "intervalle_s", DEFAULT_INTERVAL_S))
         except ValueError:
@@ -119,44 +121,26 @@ class PlayersWindow:
 
     # ---- réglages -----------------------------------------------------------
     def settings_data(self):
-        return {"intervalle_s": self.interval_s, "hide_autotrade": self.hide_shops_var.get(),
-                "geometry": self._current_geometry()}
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:  # fenêtre principale déjà détruite
-            pass
-        return self._geometry
+        return {"intervalle_s": self.interval_s, "hide_autotrade": self.hide_shops_var.get()}
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
-        self.win.deiconify()
-        self.win.lift()
         self._shown = True
         self.refresh()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
+    def on_page_hidden(self):
         self._shown = False
         if self._job is not None:
             self.win.after_cancel(self._job)
             self._job = None
-        self.win.withdraw()
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Joueurs en ligne")
-        self.win.minsize(1000, 420)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
 

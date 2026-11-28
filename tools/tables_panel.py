@@ -27,6 +27,7 @@ import tkinter as tk
 from dataclasses import dataclass
 from datetime import datetime
 from tkinter import filedialog, messagebox, scrolledtext, ttk
+from tabs_host import PageSpec
 
 try:
     import yaml
@@ -34,6 +35,7 @@ except ImportError:  # le compte de secours suffit à dire « en attente »
     yaml = None
 
 SETTINGS_SECTION = "tables"
+PAGE = PageSpec("tables", "Tables moonclient", "Moonlight - Tables moonclient", 640, 520)
 DEFAULT_PATHS = {
     "repo": r"G:\GitHub\moonclient",
     "server": r"G:\GitHub\moonlight",
@@ -249,15 +251,15 @@ def decode_line(raw):
 
 
 class TablesWindow:
-    """Fenêtre « Tables moonclient », créée une fois, masquée à la fermeture."""
+    """Page « Tables moonclient » (tabs_host.py), construite à sa première apparition."""
 
-    def __init__(self, root, settings, bind_copy_menu):
+    def __init__(self, root, host, settings, bind_copy_menu):
         self.root = root
+        self.host = host
         self.events = queue.Queue()
         self.runner = ProcessRunner(self.events)
         self.vars = {k: tk.StringVar(value=settings.get(SETTINGS_SECTION, k, v))
                      for k, v in DEFAULT_PATHS.items()}
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self._bind_copy_menu = bind_copy_menu
         self._started_at = None
         self._pending = {}  # DeltaScript -> nombre en attente (None = illisible)
@@ -266,42 +268,25 @@ class TablesWindow:
     # ---- réglages -----------------------------------------------------------
     def settings_data(self):
         data = {k: v.get().strip() for k, v in self.vars.items()}
-        data["geometry"] = self._current_geometry()
         return data
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:  # fenêtre principale déjà détruite
-            pass
-        return self._geometry
 
     def busy(self):
         return self.runner.busy
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
-        self.win.deiconify()
-        self.win.lift()
         self._refresh_state()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
-        self.win.withdraw()
+    def on_page_hidden(self):
+        pass
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Tables moonclient")
-        self.win.minsize(640, 520)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
 
@@ -387,7 +372,7 @@ class TablesWindow:
     # ---- état « en attente » ------------------------------------------------
     def _poll_state(self):
         try:
-            if self.win.state() != "withdrawn":
+            if self.host.is_visible(PAGE.key):
                 self._refresh_state()
         finally:
             self.win.after(STATE_POLL_MS, self._poll_state)

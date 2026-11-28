@@ -31,8 +31,10 @@ from tkinter import scrolledtext, ttk
 
 from ssh_panel import classify
 from tables_panel import DRAIN_MS, ProcessRunner
+from tabs_host import PageSpec
 
 SETTINGS_SECTION = "journaux"
+PAGE = PageSpec("logs", "Journaux", "Moonlight - Journaux des services", 760, 480)
 BUFFER_LINES = 20000
 # Lignes déjà présentes rapatriées à l'ouverture d'une source.
 BACKLOG_LINES = 300
@@ -83,11 +85,12 @@ def clean_line(raw):
 
 
 class LogWindow:
-    """Fenêtre « Journaux des services », créée une fois, masquée à la
-    fermeture ; masquée, elle ne suit plus rien."""
+    """Page « Journaux des services » (tabs_host.py), construite à sa première
+    apparition ; les journaux suivis le restent, onglet caché."""
 
-    def __init__(self, root, settings, bind_copy_menu, ssh_window, on_alert=None):
+    def __init__(self, root, host, settings, bind_copy_menu, ssh_window, on_alert=None):
         self.root = root
+        self.host = host
         self.ssh = ssh_window
         self.on_alert = on_alert  # (texte, urgent) vers le journal principal
         self.alert_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "alert_pattern", DEFAULT_ALERT_PATTERN))
@@ -96,7 +99,6 @@ class LogWindow:
         self._follow_started = {}  # source -> départ de son suivi (time.monotonic)
         self._last_alert = {}      # source -> dernière alerte (time.monotonic)
         self._bind_copy_menu = bind_copy_menu
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self.follow_vars = {s.key: tk.BooleanVar(value=settings.get_bool(
             SETTINGS_SECTION, s.key, s.key in DEFAULT_FOLLOWED)) for s in LOG_SOURCES}
         self.search_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "search"))
@@ -116,16 +118,8 @@ class LogWindow:
         data = {s.key: self.follow_vars[s.key].get() for s in LOG_SOURCES}
         data.update(search=self.search_var.get(), regex=self.regex_var.get(),
                     errors_only=self.errors_only_var.get(), alert_pattern=self.alert_var.get(),
-                    alerts=self.alerts_on_var.get(), geometry=self._current_geometry())
+                    alerts=self.alerts_on_var.get())
         return data
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:  # fenêtre principale déjà détruite
-            pass
-        return self._geometry
 
     def stop_all(self):
         for runner, _events in self._runners.values():
@@ -134,30 +128,21 @@ class LogWindow:
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
-        self.win.deiconify()
-        self.win.lift()
         self._shown = True
         self._sync_followers()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
-        self._shown = False
-        self.stop_all()
-        self._update_state()
-        self.win.withdraw()
+    def on_page_hidden(self):
+        # Les journaux suivis le restent onglet caché : leurs alertes
+        # comptent surtout quand on regarde ailleurs.
+        pass
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Journaux des services")
-        self.win.minsize(760, 480)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
 

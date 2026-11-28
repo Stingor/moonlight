@@ -28,8 +28,10 @@ from tkinter import messagebox, scrolledtext, ttk
 from ssh_panel import (GIT_PUSH, NOT_CONNECTED_REPLY, NPC_CHECK, PULL_REBASE, RELOAD_FAILURE_MARKERS,
                        RemoteCommand, npc_check_command)
 from tables_panel import DRAIN_MS, NO_WINDOW
+from tabs_host import PageSpec
 
 SETTINGS_SECTION = "atelier_npc"
+PAGE = PageSpec("npc", "Atelier NPC", "Moonlight - Atelier NPC", 820, 600)
 SCRIPT_SUFFIXES = (".npc", ".txt")
 MOON_PREFIX = "moon/"
 NPC_PREFIX = "npc/"
@@ -65,14 +67,14 @@ def quote_all(paths):
 
 
 class NpcWindow:
-    """Fenêtre « Atelier NPC », créée une fois, masquée à la fermeture."""
+    """Page « Atelier NPC » (tabs_host.py), construite à sa première apparition."""
 
-    def __init__(self, root, settings, bind_copy_menu, ssh_window, send_admin):
+    def __init__(self, root, host, settings, bind_copy_menu, ssh_window, send_admin):
         self.root = root
+        self.host = host
         self.ssh = ssh_window
         self.send_admin = send_admin
         self._bind_copy_menu = bind_copy_menu
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self._files = {}       # chemin -> relevé de npc_check.py --status
         self._included = {}    # chemin -> coché pour le commit
         self._results = queue.Queue()
@@ -82,38 +84,22 @@ class NpcWindow:
 
     # ---- réglages -----------------------------------------------------------
     def settings_data(self):
-        return {"geometry": self._current_geometry()}
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:  # fenêtre principale déjà détruite
-            pass
-        return self._geometry
+        return {}
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
-        self.win.deiconify()
-        self.win.lift()
         self.refresh()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
-        self.win.withdraw()
+    def on_page_hidden(self):
+        pass
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Atelier NPC")
-        self.win.minsize(820, 600)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
         self.action_widgets = []

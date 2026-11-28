@@ -28,6 +28,13 @@ from tkinter import ttk, scrolledtext, simpledialog, messagebox, font as tkfont
 
 from admin_env import ENV_VAR, app_dir, default_secret, env_path
 from atcmd_catalog import COMMAND_SYMBOLS, AtcommandCatalog, clean_char_name
+import build_panel
+import log_panel
+import maintenance_panel
+import npc_panel
+import players_panel
+import ssh_panel
+import tables_panel
 from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
 from log_panel import SETTINGS_SECTION as LOGS_SECTION, LogWindow
 from maintenance_panel import SETTINGS_SECTION as MAINTENANCE_SECTION, MaintenanceWindow
@@ -37,10 +44,17 @@ from players_panel import SETTINGS_SECTION as PLAYERS_SECTION, PlayersWindow
 from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
 from status_bar import SETTINGS_SECTION as STATUS_SECTION, StatusBar
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
+from tabs_host import SETTINGS_SECTION as TABS_SECTION, PageSpec, TabHost
 
 DEFAULT_HOST = "192.168.1.13"
 DEFAULT_PORT = "7799"
 DEFAULT_NAME = "Admin Console"
+
+CONSOLE_PAGE = PageSpec("console", "Console", "Moonlight - Console admin", 680, 520)
+# L'ordre des onglets ; --panneau prend l'une de ces clés.
+PAGE_SPECS = (CONSOLE_PAGE, ssh_panel.PAGE, log_panel.PAGE, npc_panel.PAGE, players_panel.PAGE,
+              maintenance_panel.PAGE, tables_panel.PAGE, build_panel.PAGE)
+PAGE_KEYS = tuple(spec.key for spec in PAGE_SPECS)
 
 SETTINGS_PATH = os.path.join(app_dir(), "MoonlightAdmin.ini")
 LOG_DIR = os.path.join(app_dir(), "logs")
@@ -293,35 +307,54 @@ class AdminGUI:
         self.favorites = self.settings.favorites()
         self._light_theme = ttk.Style(root).theme_use()
 
-        root.title("Moonlight - Admin map-server")
+        root.title("Moonlight - Admin")
         root.minsize(680, 520)
 
+        # La console est une page comme les autres : construite d'emblée, elle
+        # porte les connexions, que les autres pages emploient.
+        h = self.host = TabHost(root, self.settings)
+        self.console_body = h.add(CONSOLE_PAGE, self)
         self._build_connection_bar()
         self._build_actions()
         self._build_log()
-        self.tables = TablesWindow(root, self.settings, self._bind_copy_menu)
+        self.tables = TablesWindow(root, h, self.settings, self._bind_copy_menu)
         # Le catalogue des atcommandes vit dans le dépôt moonclient du panneau Tables.
         self.catalog = AtcommandCatalog.load(self.tables.vars["repo"].get().strip())
-        self.builder = BuildWindow(root, self.settings, self._bind_copy_menu, self.tables.vars)
-        self.ssh = SshWindow(root, self.settings, self._bind_copy_menu,
+        self.builder = BuildWindow(root, h, self.settings, self._bind_copy_menu, self.tables.vars)
+        self.ssh = SshWindow(root, h, self.settings, self._bind_copy_menu,
                              open_logs=lambda: self.logs.show(),
                              open_npc=lambda: self.npc.show(),
                              send_admin=self.send_admin)
-        self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh,
+        self.logs = LogWindow(root, h, self.settings, self._bind_copy_menu, self.ssh,
                               on_alert=lambda text, urgent: self._alert("journaux", text, urgent))
-        self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
-        self.status_bar = StatusBar(root, self.connection_bar, self.settings, self.ssh, self._status_alert)
-        self.players = PlayersWindow(root, self.settings, self.send_quiet,
+        self.npc = NpcWindow(root, h, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
+        self.players = PlayersWindow(root, h, self.settings, self.send_quiet,
                                      lambda cmd: self._send_async("ATCMD " + cmd))
-        self.maintenance = MaintenanceWindow(root, self.settings, self.ssh, self.send_admin,
+        self.maintenance = MaintenanceWindow(root, h, self.settings, self.ssh, self.send_admin,
                                              lambda text, urgent: self._alert("maintenance", text, urgent))
+        panels = {"ssh": self.ssh, "logs": self.logs, "npc": self.npc, "players": self.players,
+                  "maintenance": self.maintenance, "tables": self.tables, "build": self.builder}
+        for spec in PAGE_SPECS[1:]:
+            h.add(spec, panels[spec.key])
+        # Le bandeau d'état reste dans la fenêtre à onglets, sous eux.
+        self.status_bar = StatusBar(root, None, self.settings, self.ssh, self._status_alert)
+        h.notebook.pack(fill="both", expand=True, padx=4, pady=(4, 0))
+        self.status_bar.frame.pack_configure(side="bottom", before=h.notebook, pady=4)
         self._load_settings()
         self._set_connected(False)
 
         self.root.after(80, self._drain_events)
         self.root.protocol("WM_DELETE_WINDOW", self._on_close)
 
+        h.restore(only=args.panneau if args else None)
         self._apply_args(args)
+
+    # ---- page « Console » ---------------------------------------------------
+    def on_page_shown(self):
+        pass  # construite d'emblée, sans relevé périodique
+
+    def on_page_hidden(self):
+        pass
 
     def _apply_args(self, args):
         """Pre-fill fields from command-line arguments and optionally connect."""
@@ -338,7 +371,8 @@ class AdminGUI:
         if args.topmost:
             self.topmost_var.set(True)
             self._toggle_topmost()
-        if args.autoconnect:
+        # Une page seule n'a pas la console sous les yeux pour cliquer « Connecter ».
+        if args.autoconnect or args.panneau:
             self.root.after(200, self._connect)
 
     # ---- settings -----------------------------------------------------------
@@ -399,6 +433,7 @@ class AdminGUI:
             STATUS_SECTION: self.status_bar.settings_data(),
             MAINTENANCE_SECTION: self.maintenance.settings_data(),
             PLAYERS_SECTION: self.players.settings_data(),
+            TABS_SECTION: self.host.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -407,9 +442,8 @@ class AdminGUI:
 
     # ---- UI construction ----------------------------------------------------
     def _build_connection_bar(self):
-        bar = ttk.LabelFrame(self.root, text="Connexion")
+        bar = ttk.LabelFrame(self.console_body, text="Connexion")
         bar.pack(fill="x", padx=8, pady=(8, 4))
-        self.connection_bar = bar  # le bandeau d'état se place dessous
 
         ttk.Label(bar, text="Hote").grid(row=0, column=0, padx=4, pady=4, sticky="w")
         self.host_var = tk.StringVar(value=DEFAULT_HOST)
@@ -438,20 +472,8 @@ class AdminGUI:
         self.dark_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(opts, text="Theme sombre", variable=self.dark_var,
                         command=self._apply_theme).pack(side="left", padx=(10, 0))
-        ttk.Button(opts, text="Tables moonclient…",
-                   command=lambda: self.tables.show()).pack(side="left", padx=(10, 0))
-        ttk.Button(opts, text="Build client…",
-                   command=lambda: self.builder.show()).pack(side="left", padx=(6, 0))
-        ttk.Button(opts, text="Serveur (SSH)…",
-                   command=lambda: self.ssh.show()).pack(side="left", padx=(6, 0))
-        ttk.Button(opts, text="Journaux…",
-                   command=lambda: self.logs.show()).pack(side="left", padx=(6, 0))
-        ttk.Button(opts, text="Atelier NPC…",
-                   command=lambda: self.npc.show()).pack(side="left", padx=(6, 0))
-        ttk.Button(opts, text="Joueurs…",
-                   command=lambda: self.players.show()).pack(side="left", padx=(6, 0))
-        ttk.Button(opts, text="Maintenance…",
-                   command=lambda: self.maintenance.show()).pack(side="left", padx=(6, 0))
+        ttk.Label(opts, text="Onglets : glisser hors de la fenêtre, double-clic ou clic droit pour détacher",
+                  foreground="#888").pack(side="left", padx=(10, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
         self.name_var = tk.StringVar(value=DEFAULT_NAME)
@@ -466,7 +488,7 @@ class AdminGUI:
         self.reloads_open_var = tk.BooleanVar(value=False)
         # The header is a plain label above the grid, not a LabelFrame title: an
         # emptied LabelFrame shrinks to its border line and clips its title.
-        self.reloads_box = ttk.Frame(self.root)
+        self.reloads_box = ttk.Frame(self.console_body)
         self.reloads_box.pack(fill="x", padx=8, pady=4)
         self.reloads_header = ttk.Label(self.reloads_box, cursor="hand2")
         self.reloads_header.pack(anchor="w")
@@ -493,7 +515,7 @@ class AdminGUI:
         self._show_reloads()
 
         # Favorite commands (MoonlightAdmin.ini [favoris]).
-        self.fav_frame = ttk.LabelFrame(self.root, text="Favoris  (clic droit : modifier / supprimer)")
+        self.fav_frame = ttk.LabelFrame(self.console_body, text="Favoris  (clic droit : modifier / supprimer)")
         self.fav_frame.pack(fill="x", padx=8, pady=4)
         for c in range(FAV_COLS):
             self.fav_frame.columnconfigure(c, weight=1)
@@ -501,7 +523,7 @@ class AdminGUI:
         self._render_favorites()
 
         # Free-form atcommand
-        free = ttk.LabelFrame(self.root, text="Commande libre")
+        free = ttk.LabelFrame(self.console_body, text="Commande libre")
         free.pack(fill="x", padx=8, pady=4)
         free.columnconfigure(0, weight=1)
 
@@ -581,7 +603,7 @@ class AdminGUI:
             self.reloads_inner.pack_forget()
 
     def _build_log(self):
-        paned = ttk.PanedWindow(self.root, orient="vertical")
+        paned = ttk.PanedWindow(self.console_body, orient="vertical")
         paned.pack(fill="both", expand=True, padx=8, pady=(4, 8))
 
         cmd_frame = ttk.LabelFrame(paned, text="Journal (commandes)")
@@ -703,6 +725,7 @@ class AdminGUI:
                             bordercolor=d["border"])
             style.map("Treeview.Heading", background=[("active", d["active"])])
             self.root.configure(background=d["bg"])
+            self.host.set_background(d["bg"])
             entry_colors = dict(background=d["field"], foreground=d["fg"],
                                 insertbackground=d["fg"])
         else:
@@ -711,7 +734,9 @@ class AdminGUI:
             style.theme_use(self._light_theme)
             for key, color in LIGHT_LISTBOX.items():
                 self.root.option_add(f"*TCombobox*Listbox.{key}", color)
-            self.root.configure(background="SystemButtonFace" if sys.platform == "win32" else "")
+            light_bg = "SystemButtonFace" if sys.platform == "win32" else ttk.Style(self.root).lookup(".", "background")
+            self.root.configure(background=light_bg)
+            self.host.set_background(light_bg)
             entry_colors = dict(background="white", foreground="black",
                                 insertbackground="black")
         style.configure("Reload.TButton", font=self._small_font, padding=(2, 1))
@@ -1112,6 +1137,7 @@ class AdminGUI:
 
     def _toggle_topmost(self):
         self.root.attributes("-topmost", self.topmost_var.get())
+        self.host.set_topmost(self.topmost_var.get())
 
     def _toggle_connect(self):
         if self._want_connected:
@@ -1400,6 +1426,12 @@ class AdminGUI:
         threading.Thread(target=worker, daemon=True).start()
 
     def _on_close(self):
+        # Une page détachée garde l'application en vie : la fenêtre principale
+        # se masque, ses connexions continuent, et le bouton « Fenêtre
+        # principale » d'une page détachée la rouvre.
+        if self.host.detached_keys():
+            self.host.hide_main()
+            return
         # Closing the window closes the script's pipes: a script cut off in the
         # middle of --apply would leave its tables half written.
         if self.tables.busy() and not messagebox.askyesno(
@@ -1452,6 +1484,9 @@ def parse_args():
                     help="connect automatically on launch")
     ap.add_argument("--topmost", action="store_true",
                     help="keep the window always on top")
+    ap.add_argument("--panneau", choices=PAGE_KEYS,
+                    help="ouvre cette seule page, détachée, fenêtre principale masquée ; "
+                         "le canal admin se connecte")
     return ap.parse_args()
 
 

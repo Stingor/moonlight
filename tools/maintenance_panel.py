@@ -24,8 +24,10 @@ from datetime import datetime, timedelta
 from tkinter import messagebox, scrolledtext, ttk
 
 from ssh_panel import MAKE_SERVER, PULL_REBASE, START_TARGETS, RemoteCommand, start_command
+from tabs_host import PageSpec
 
 SETTINGS_SECTION = "maintenance"
+PAGE = PageSpec("maintenance", "Maintenance", "Moonlight - Maintenance programmée", 620, 460)
 DELAYS_MIN = (1, 5, 10, 15, 30)
 DEFAULT_DELAY_MIN = 10
 DEFAULT_REASON = "mise à jour du serveur"
@@ -50,15 +52,15 @@ def announce_text(seconds_left, reason):
 
 
 class MaintenanceWindow:
-    """Fenêtre « Maintenance programmée », créée une fois, masquée à la
-    fermeture ; le compte à rebours continue, fenêtre masquée."""
+    """Page « Maintenance programmée » (tabs_host.py), construite à sa
+    première apparition ; le compte à rebours continue hors de vue."""
 
-    def __init__(self, root, settings, ssh_window, send_admin, log):
+    def __init__(self, root, host, settings, ssh_window, send_admin, log):
         self.root = root
+        self.host = host
         self.ssh = ssh_window
         self.send_admin = send_admin
         self.log = log  # (texte, alerte) vers le journal de la fenêtre principale
-        self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self.delay_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "delay_min", str(DEFAULT_DELAY_MIN)))
         self.reason_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "reason", DEFAULT_REASON))
         target = settings.get(SETTINGS_SECTION, "target", DEFAULT_TARGET)
@@ -78,41 +80,24 @@ class MaintenanceWindow:
     def settings_data(self):
         return {"delay_min": self.delay_var.get(), "reason": self.reason_var.get().strip(),
                 "target": self.target_var.get(), "pull": self.pull_var.get(),
-                "make": self.make_var.get(), "kickall": self.kick_var.get(),
-                "geometry": self._current_geometry()}
-
-    def _current_geometry(self):
-        try:
-            if self.win is not None and self.win.winfo_exists():
-                return self.win.geometry()
-        except tk.TclError:  # fenêtre principale déjà détruite
-            pass
-        return self._geometry
+                "make": self.make_var.get(), "kickall": self.kick_var.get()}
 
     def busy(self):
         return self._phase != "idle"
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
+        self.host.reveal(PAGE.key)
+
+    def on_page_shown(self):
         if self.win is None:
             self._build()
-        self.win.deiconify()
-        self.win.lift()
 
-    def _hide(self):
-        self._geometry = self.win.geometry()
-        self.win.withdraw()
+    def on_page_hidden(self):
+        pass
 
     def _build(self):
-        self.win = tk.Toplevel(self.root)
-        self.win.title("Moonlight - Maintenance programmée")
-        self.win.minsize(620, 460)
-        if self._geometry:
-            try:
-                self.win.geometry(self._geometry)
-            except tk.TclError:
-                pass
-        self.win.protocol("WM_DELETE_WINDOW", self._hide)
+        self.win = self.host.body(PAGE.key)
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
 
