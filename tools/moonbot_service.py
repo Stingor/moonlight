@@ -3580,6 +3580,13 @@ NAVIL_PATTERN = re.compile(r"<NAVIL>([0-9A-Za-z_@#.\-]+?)([0-9A-Za-z]{4})</NAVIL
 # interne de carte, lui, n'a jamais d'espace — c'est ce qui les distingue.
 NAVS_PATTERN = re.compile(r"<NAVS>(\d+):([^<>]*?)</NAVS>")
 
+# Format : `<NAVI>libellé<INFO>carte,x,y,…</INFO></NAVI>` — le lien de lieu des
+# TEXTES DU JEU (descriptions, dialogues de PNJ), que le staff recopie dans le
+# chat. Le libellé voyage, dans la langue de l'expéditeur : il fait foi ; la
+# charge ne sert qu'à le situer. Champs au-delà de y ignorés.
+NAVI_PATTERN = re.compile(
+    r"<NAVI>([^<>]*?)<INFO>([^<>,]*),(\d+),(\d+)[^<>]*?</INFO></NAVI>", re.IGNORECASE)
+
 # Mêmes familles que le client (links::NaviKind).
 NAVI_KIND = {0: "Carte", 1: "PNJ", 2: "Monstre"}
 
@@ -3607,6 +3614,20 @@ def replace_navil(msg):
         return f" [Lieu: {name}] "
 
     return NAVIL_PATTERN.sub(repl, msg)
+
+def replace_navi(msg):
+    def repl(match):
+        map_internal = match.group(2).strip()
+        x = int(match.group(3))
+        y = int(match.group(4))
+        name = match.group(1).strip() or getmapname(map_internal) or "?"
+        # Même règle que `<NAVIL>` : des coordonnées à zéro désignent la carte
+        # entière, et le nom suffit.
+        if x > 0 and y > 0:
+            return f" [Lieu: {name} ({x},{y})] "
+        return f" [Lieu: {name}] "
+
+    return NAVI_PATTERN.sub(repl, msg)
 
 def replace_navs(msg):
     def repl(match):
@@ -3784,6 +3805,7 @@ def replace_chat_links(msg):
     msg = replace_outf(msg)
     msg = replace_layc(msg)
     msg = replace_navil(msg)
+    msg = replace_navi(msg)
     msg = replace_navs(msg)
     msg = replace_itmr(msg)
     msg = replace_craf(msg)
