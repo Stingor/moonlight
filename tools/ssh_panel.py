@@ -58,6 +58,43 @@ PANEL_COLORS = dict(CONSOLE_COLORS, warn="#db5", step="#c8f", reply="#8cf")
 PLAIN_PATH_RE = re.compile(r"[~\w./-]+")
 MASK_CHAR = "•"
 
+# Un script tiré par git pull, dans sa sortie : une ligne du diffstat
+# (« moon/x.npc | 12 ++-- ») ou un résumé (« create mode 100644 moon/x.npc »).
+# Un chemin raccourci par git (« .../x.npc ») ne se recharge pas : --stat
+# et COLUMNS (remote_console.REMOTE_ENV) lui laissent toute sa largeur.
+SCRIPT_STAT_RE = re.compile(r"^\s*(\S+\.(?:npc|txt))\s+\|\s+(?:\d+|Bin)")
+SCRIPT_MODE_RE = re.compile(r"^\s*(create|delete) mode \d+ (\S+\.(?:npc|txt))\s*$")
+SCRIPT_PATH_PREFIX = "moon/"
+TRUNCATED_PATH_PREFIX = "..."
+COMMAND_LINE_PREFIX = "── "
+# Ce que l'atcommande écrit quand le chargement échoue ; la cause (ligne du
+# script en défaut) part dans la console du map-server.
+RELOAD_FAILURE_MARKERS = ("could not be loaded", "failed", "File not found")
+# Réponse de MoonlightAdmin quand le canal admin n'est pas ouvert.
+NOT_CONNECTED_REPLY = "ERR pas connecté"
+SCRIPT_TAG = "script"
+SCRIPT_TAG_COLOR = "#8cf"
+
+
+@dataclass(frozen=True)
+class PulledScript:
+    path: str
+    deleted: bool  # « delete mode » : il se décharge au lieu de se recharger
+
+    def atcommand(self):
+        return ("unloadnpcfile " if self.deleted else "reloadnpcfile ") + self.path
+
+
+def pulled_script(line):
+    """Le script qu'une ligne de sortie de git pull nomme, sinon None."""
+    match = SCRIPT_MODE_RE.match(line)
+    if match:
+        return PulledScript(match.group(2), match.group(1) == "delete")
+    match = SCRIPT_STAT_RE.match(line)
+    if match:
+        return PulledScript(match.group(1), False)
+    return None
+
 
 @dataclass(frozen=True)
 class RemoteCommand:
@@ -70,7 +107,9 @@ class RemoteCommand:
 # --autostash : les scripts s'éditent sur pc-serv même, et un arbre modifié
 # ferait refuser le pull ; les éditions en cours sont mises de côté puis
 # reposées par-dessus ce qui arrive.
-PULL_REBASE = RemoteCommand("git pull --rebase", "git pull --rebase --autostash")
+# --stat : sans lui, un rebase ne liste pas les fichiers tirés, que le clic
+# droit de la sortie propose de recharger.
+PULL_REBASE = RemoteCommand("git pull --rebase", "git pull --rebase --autostash --stat")
 GIT_PUSH = RemoteCommand("git push", "git push",
                          confirm="Pousser les commits de pc-serv vers le dépôt distant ?")
 GIT_COMMANDS = (
@@ -78,7 +117,7 @@ GIT_COMMANDS = (
     RemoteCommand("git log -10", "git log --oneline --decorate -10"),
     RemoteCommand("git diff --stat", "git diff --stat"),
     RemoteCommand("git fetch", "git fetch --prune"),
-    RemoteCommand("git pull", "git pull --autostash"),
+    RemoteCommand("git pull", "git pull --autostash --stat"),
     PULL_REBASE,
     GIT_PUSH,
 )
@@ -92,12 +131,27 @@ MAKE_COMMANDS = (MAKE_CLEAN, MAKE_SERVER)
 START_TARGETS = ("tout", "rathena", "login", "char", "map", "web", "voice", "moonbot", "survivors")
 DEFAULT_START_TARGET = "tout"
 START_ACTIONS = (
-    # (action, question avant de lancer : vide, aucune)
+    # (action, question avant de lancer : vide, aucune ; {effet} vient de STOP_EFFECTS)
     ("status", ""),
     ("start", ""),
-    ("stop", "Arrêter « {cible} » ? Les joueurs connectés seront déconnectés."),
-    ("restart", "Redémarrer « {cible} » ? Les joueurs connectés seront déconnectés."),
+    ("stop", "Arrêter « {cible} » ? {effet}"),
+    ("restart", "Redémarrer « {cible} » ? {effet}"),
 )
+# Ce que l'arrêt d'une cible coûte aux joueurs : chaque service tourne dans son
+# propre screen, et seul celui qu'on nomme s'arrête.
+KICKS_PLAYERS = "Les joueurs connectés seront déconnectés."
+STOP_EFFECTS = {
+    "tout": KICKS_PLAYERS,
+    "rathena": KICKS_PLAYERS,
+    "map": KICKS_PLAYERS,
+    "char": "Le map-server perd le char-server le temps du redémarrage : "
+            "connexions et sauvegardes en attente.",
+    "login": "Les joueurs en jeu restent connectés ; personne ne peut se connecter entre-temps.",
+    "web": "Le site est indisponible le temps du redémarrage ; le jeu n'est pas touché.",
+    "voice": "Le chat vocal coupe le temps du redémarrage ; le jeu n'est pas touché.",
+    "moonbot": "Le bot Discord se reconnecte ; le jeu n'est pas touché.",
+    "survivors": "La file de vérification s'interrompt ; le jeu n'est pas touché.",
+}
 
 
 NPC_CHECK = "tools/npc_check.py"
@@ -124,7 +178,7 @@ PLANNED_STOP_WINDOW_S = 300
 
 def start_command(action, target, confirm=""):
     return RemoteCommand(f"./start {action} {target}", f"./start {action} {shlex.quote(target)}",
-                         confirm=confirm.format(cible=target))
+                         confirm=confirm.format(cible=target, effet=STOP_EFFECTS.get(target, KICKS_PLAYERS)))
 
 
 def remote_dir(path):
@@ -148,10 +202,12 @@ def classify(line):
 class SshWindow:
     """Fenêtre « Serveur (SSH) », créée une fois, masquée à la fermeture."""
 
-    def __init__(self, root, settings, bind_copy_menu, open_logs=None, open_npc=None):
+    def __init__(self, root, settings, bind_copy_menu, open_logs=None, open_npc=None, send_admin=None):
         self.root = root
         self._open_logs = open_logs
         self._open_npc = open_npc
+        self._send_admin = send_admin  # (atcommande, rappel) : le canal admin de la fenêtre principale
+        self._reload_queue = []
         target = settings.get(SETTINGS_SECTION, "start_target", DEFAULT_START_TARGET)
         self.start_target_var = tk.StringVar(
             value=target if target in START_TARGETS else DEFAULT_START_TARGET)
@@ -324,7 +380,8 @@ class SshWindow:
         # se complète : une invite s'y montre avant sa fin de ligne.
         self.console.mark_set("partial", "end-1c")
         self.console.mark_gravity("partial", "left")
-        self._bind_copy_menu(self.console)
+        self.console.tag_config(SCRIPT_TAG, foreground=SCRIPT_TAG_COLOR, underline=True)
+        self._bind_copy_menu(self.console, extra=self._script_menu)
 
         reply = ttk.Frame(out)
         reply.pack(fill="x", padx=4, pady=(0, 4))
@@ -565,6 +622,86 @@ class SshWindow:
         if self.runner.interrupt():
             self._write("^C", "fail")
 
+    # ---- scripts tirés : rechargement en jeu ----------------------------------
+    def _script_menu(self, menu, index):
+        """Le clic droit sur la sortie d'un pull : recharger le script de la
+        ligne cliquée, ou tous ceux que ce pull a tirés."""
+        if self._send_admin is None:
+            return
+        line_no = int(index.split(".")[0])
+        lines = self.console.get("1.0", "end-1c").split("\n")
+        clicked = pulled_script(lines[line_no - 1]) if line_no <= len(lines) else None
+        block = self._pulled_block(lines, line_no - 1)
+        if clicked is None and not block:
+            return
+        menu.add_separator()
+        if clicked is not None:
+            verb = "Décharger" if clicked.deleted else "Recharger"
+            menu.add_command(label=f"{verb} {clicked.path}", state=self._reload_state(clicked),
+                             command=lambda: self._reload_scripts([clicked]))
+        reloadable = [s for s in block if self._reload_state(s) == "normal"]
+        if len(block) > 1 or (block and clicked is None):
+            count = len(reloadable)
+            noun = "script" if count == 1 else "scripts"
+            menu.add_command(label=f"Recharger les {count} {noun} de moon/ de ce pull",
+                             state="normal" if reloadable else "disabled",
+                             command=lambda: self._reload_scripts(reloadable))
+
+    @staticmethod
+    def _pulled_block(lines, line_idx):
+        """Les scripts nommés par la sortie de la commande qui contient la
+        ligne `line_idx`, d'une ligne « ── » à la suivante ; chacun une fois,
+        le résumé « delete mode » l'emportant sur la ligne du diffstat."""
+        start = line_idx
+        while start > 0 and not lines[start].startswith(COMMAND_LINE_PREFIX):
+            start -= 1
+        end = line_idx + 1
+        while end < len(lines) and not lines[end].startswith(COMMAND_LINE_PREFIX):
+            end += 1
+        found = {}
+        for line in lines[start:end]:
+            script = pulled_script(line)
+            if script is not None and (script.path not in found or script.deleted):
+                found[script.path] = script
+        return list(found.values())
+
+    @staticmethod
+    def _reload_state(script):
+        # Le serveur ne recharge un par un que les scripts de moon/ ; un chemin
+        # raccourci par git ne désigne aucun fichier.
+        ok = script.path.startswith(SCRIPT_PATH_PREFIX) and not script.path.startswith(TRUNCATED_PATH_PREFIX)
+        return "normal" if ok else "disabled"
+
+    def _reload_scripts(self, scripts):
+        if self._reload_queue:
+            self._write("Des rechargements sont déjà en cours.", "fail")
+            return
+        self._reload_queue = list(scripts)
+        self._next_reload()
+
+    def _next_reload(self):
+        if not self._reload_queue:
+            return
+        script = self._reload_queue[0]
+        self._write(f"> {script.atcommand()}", "cmd")
+        self._send_admin(script.atcommand(), lambda output, reply: self._on_reloaded(script, output, reply))
+
+    def _on_reloaded(self, script, output, reply):
+        self._reload_queue.pop(0)
+        if reply.startswith(NOT_CONNECTED_REPLY):
+            self._reload_queue = []
+            self._write("  Pas connecté : connecter d'abord la fenêtre principale au canal admin.", "fail")
+            return
+        failed = not reply.startswith("OK") or any(
+            m in line for line in output for m in RELOAD_FAILURE_MARKERS)
+        for line in output:
+            self._write("  " + line, "fail" if failed else "out")
+        if failed:
+            self._write(f"  {script.path} : échec, la ligne en défaut est dans la console du map-server.", "fail")
+        else:
+            self._write(f"  {script.path} : {'déchargé' if script.deleted else 'rechargé'}", "ok")
+        self._next_reload()
+
     # ---- sortie -------------------------------------------------------------
     def _drain(self):
         try:
@@ -603,7 +740,8 @@ class SshWindow:
         at_bottom = self.console.yview()[1] >= 0.999
         self.console.configure(state="normal")
         self.console.delete("partial", "end-1c")
-        self.console.insert("end-1c", text + "\n", tag)
+        tags = (tag, SCRIPT_TAG) if tag == "out" and pulled_script(text) else tag
+        self.console.insert("end-1c", text + "\n", tags)
         self.console.mark_set("partial", "end-1c")
         self.console.configure(state="disabled")
         self._write_partial()

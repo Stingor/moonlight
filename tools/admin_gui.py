@@ -305,7 +305,8 @@ class AdminGUI:
         self.builder = BuildWindow(root, self.settings, self._bind_copy_menu, self.tables.vars)
         self.ssh = SshWindow(root, self.settings, self._bind_copy_menu,
                              open_logs=lambda: self.logs.show(),
-                             open_npc=lambda: self.npc.show())
+                             open_npc=lambda: self.npc.show(),
+                             send_admin=self.send_admin)
         self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh,
                               on_alert=lambda text, urgent: self._alert("journaux", text, urgent))
         self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
@@ -724,10 +725,11 @@ class AdminGUI:
         for i in range(self._link_counter):
             self.log.tag_config(f"link-{i}", foreground=c["link"])
 
-    def _bind_copy_menu(self, widget, players=False):
+    def _bind_copy_menu(self, widget, players=False, extra=None):
         """Attach a right-click context menu with copy actions to a Text widget.
         Avec `players`, le menu ajoute les actions sur le joueur dont le nom est
-        sélectionné, ou à défaut sur le mot cliqué."""
+        sélectionné, ou à défaut sur le mot cliqué. `extra(menu, index)` y ajoute
+        les actions propres à une fenêtre, sur la position cliquée."""
 
         def show_menu(event):
             menu = tk.Menu(widget, tearoff=0)
@@ -747,6 +749,8 @@ class AdminGUI:
                     add_player_menu(menu, name, lambda cmd: self._send_async("ATCMD " + cmd), self.root)
                 else:
                     menu.add_command(label="Joueur : sélectionner son nom", state="disabled")
+            if extra is not None:
+                extra(menu, widget.index(f"@{event.x},{event.y}"))
             menu.add_separator()
             menu.add_command(label="Effacer", command=lambda: self._clear_log(widget))
             menu.tk_popup(event.x_root, event.y_root)

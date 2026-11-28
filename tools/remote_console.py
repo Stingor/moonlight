@@ -24,7 +24,9 @@ import threading
 from tables_panel import NO_WINDOW
 
 READ_CHUNK_BYTES = 4096
-REMOTE_ENV = "export PAGER=cat GIT_PAGER=cat SYSTEMD_PAGER=cat GIT_EDITOR=true TERM=dumb; "
+# COLUMNS : le diffstat de git ne raccourcit pas un chemin en « .../ ».
+REMOTE_COLUMNS = 200
+REMOTE_ENV = f"export PAGER=cat GIT_PAGER=cat SYSTEMD_PAGER=cat GIT_EDITOR=true TERM=dumb COLUMNS={REMOTE_COLUMNS}; "
 INTERRUPT = "\x03"
 # Séquences d'échappement d'un terminal : couleurs, effacements, titres.
 ANSI_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]|\x1b\][^\x07]*\x07|\x1b[()][A-Za-z0-9]|\x1b[=>]")

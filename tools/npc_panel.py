@@ -25,7 +25,8 @@ import threading
 import tkinter as tk
 from tkinter import messagebox, scrolledtext, ttk
 
-from ssh_panel import GIT_PUSH, NPC_CHECK, PULL_REBASE, RemoteCommand, npc_check_command
+from ssh_panel import (GIT_PUSH, NOT_CONNECTED_REPLY, NPC_CHECK, PULL_REBASE, RELOAD_FAILURE_MARKERS,
+                       RemoteCommand, npc_check_command)
 from tables_panel import DRAIN_MS, NO_WINDOW
 
 SETTINGS_SECTION = "atelier_npc"
@@ -44,11 +45,6 @@ STARTUP_LABELS = {"déclaré": "déclaré", "commenté": "commenté", "absent": 
 ROW_COLORS = {"erreur": "#e55", "avertissement": "#c90"}
 OUTPUT_COLORS = {"add": "#5c5", "del": "#e66", "hunk": "#6af", "head": "#c8f",
                  "ok": "#5c5", "fail": "#f55", "info": "#999", "out": "#ccc"}
-# Ce que l'atcommande écrit quand le chargement échoue ; la cause (ligne du
-# script en défaut) part dans la console du map-server.
-RELOAD_FAILURE_MARKERS = ("could not be loaded", "failed", "File not found")
-# Réponse de MoonlightAdmin quand le canal admin n'est pas ouvert.
-NOT_CONNECTED_REPLY = "ERR pas connecté"
 
 
 def decode(raw):
