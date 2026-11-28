@@ -103,7 +103,7 @@ Body:
     Make:
       - Item: Arrow
         Amount: 7
-  - Source: Scorpion's_Tail
+  - Source: Scorpions_Tail
     Make:
       - Item: Rusty_Arrow
         Amount: 3
@@ -423,7 +423,7 @@ Body:
         Amount: 700
       - Item: Steel_Arrow
         Amount: 50
-  - Source: Matyr's_Flea_Guard
+  - Source: Matyrs_Flea_Guard
     Make:
       - Item: Arrow_Of_Wind
         Amount: 150
@@ -457,11 +457,11 @@ Body:
     Make:
       - Item: Silence_Arrow
         Amount: 1000
-  - Source: Loki's_Whispers
+  - Source: Lokis_Whispers
     Make:
       - Item: Arrow_Of_Shadow
         Amount: 1000
-  - Source: Mother's_Nightmare
+  - Source: Mothers_Nightmare
     Make:
       - Item: Curse_Arrow
         Amount: 1000
@@ -485,7 +485,7 @@ Body:
         Amount: 200
       - Item: Incisive_Arrow
         Amount: 600
-  - Source: Lucifer's_Lament
+  - Source: Lucifers_Lament
     Make:
       - Item: Silence_Arrow
         Amount: 400
@@ -555,7 +555,7 @@ Body:
     Make:
       - Item: Steel_Arrow
         Amount: 100
-  - Source: Dragon's_Skin
+  - Source: Dragons_Skin
     Make:
       - Item: Curse_Arrow
         Amount: 50
@@ -567,7 +567,7 @@ Body:
     Make:
       - Item: Arrow
         Amount: 100
-  - Source: Poison_Toad's_Skin
+  - Source: Poison_Toads_Skin
     Make:
       - Item: Poison_Arrow
         Amount: 20

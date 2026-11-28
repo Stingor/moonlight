@@ -50,7 +50,7 @@ Body:
     HairColor: 76
     ClothColor: 56
     Weapon: Sinister_Rod
-    Shield: Valkyrja's_Shield
+    Shield: Valkyrjas_Shield
     HeadTop: Weissbier_Hat
     HeadMid: 3D_Glasses
     HeadLow: Flu_Mask
@@ -70,7 +70,7 @@ Body:
     HairColor: 6
     ClothColor: 50
     HeadTop: Blue_Drooping_Kitty
-    HeadMid: Ear_Of_Angel's_Wing
+    HeadMid: Ear_Of_Angels_Wing
     HeadLow: Well_Baked_Toast
   - Mob: MVP_BLISSEY
     Sprite: JOB_BABY_ARCH_BISHOP
