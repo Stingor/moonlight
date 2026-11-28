@@ -1582,16 +1582,57 @@ function WarpMenu {
 	return;
 }
 Hard_Mode:
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]"; // callsub ouvre une portée neuve
 	if( is_party_leader(getcharid(1)) == true && (getgroupid() >= 99 || getarg(0) != "^FF0000") ) {
-		clear;
-		mes .@npc_name$;
-		mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
-		setdialogsize(300,200);
-		return select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)" );
+		// Le rang du choix est le niveau de difficulté ; le 11e ouvre l'encadré.
+		while( true ) {
+			clear;
+			mes .@npc_name$;
+			mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
+			setdialogsize(300,200);
+			.@niveau = select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)", "^0000FFQue change la difficulté ?^000000" );
+			if( .@niveau != 11 )
+				return .@niveau;
+			callsub Hard_Info;
+		}
 	}
 	return 1;
 
+// Ce que fait la difficulté N, lu dans mobhm (func.npc) et dans les fins d'instance.
+Hard_Info:
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]"; // callsub ouvre une portée neuve
+	clear;
+	mes .@npc_name$;
+	mes "^0000FFDifficulté N : les monstres^000000";
+	mes "Facile (1) est l'instance d'origine. À partir de 2, chaque monstre de l'instance reçoit :";
+	mes "- Niveau x N";
+	mes "- PV x 3N (au moins 5 000 x N PV avant multiplication)";
+	mes "- ATK et MATK x 3N, plafonnées à 65 535";
+	mes "- DEF et MDEF + N";
+	mes "- Précision x N, esquive x N";
+	mes "- Critique + 30 x N";
+	mes "- Vitesse d'attaque et de déplacement x N/2";
+	next;
+	clear;
+	mes .@npc_name$;
+	mes "^0000FFDifficulté N : le comportement^000000";
+	mes "- Dès 2 : les monstres sont agressifs, s'entraident et changent de cible.";
+	mes "- Dès 3 : DEX 300.";
+	mes "- Dès 5 : insensibles au recul et aux altérations d'état.";
+	mes "- Dès 10 : les MVP apparaissent en taille géante.";
+	next;
+	clear;
+	mes .@npc_name$;
+	mes "^0000FFDifficulté N : les récompenses^000000";
+	mes "- Expérience de base des monstres x N.";
+	mes "- Fin d'instance : N millions de zeny, objets multipliés par N.";
+	mes "- Aux niveaux élevés, des objets en plus (Magic Card Album...).";
+	mes "^FF0000Le détail des récompenses dépend de chaque instance.^000000";
+	next;
+	return;
+
 Turbo_Mode:
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]"; // callsub ouvre une portée neuve
 	if( is_party_leader(getcharid(1)) == true && (getgroupid() >= 99 || getarg(0) != "^FF0000") ) {
 		clear;
 		mes .@npc_name$;
