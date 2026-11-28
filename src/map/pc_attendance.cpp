@@ -448,13 +448,13 @@ static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_se
 /// qui reçoit : ceux que donnent les events et les MVP.
 static void moonlight_attendance_credit_event_points( map_session_data& sd, uint16 points ){
 	if( pc_getcash( &sd, 0, points, LOG_TYPE_OTHER ) <= 0 ){
-		ShowError( "moonlight_attendance: %hu point(s) d'event non cr\xe9dit\xe9s au compte %u.\n", points, sd.status.account_id );
+		ShowError( "moonlight_attendance: %hu point(s) d'event non cr\xe9" "dit\xe9s au compte %u.\n", points, sd.status.account_id );
 		return;
 	}
 
 	char message[CHAT_SIZE_MAX];
 
-	safesnprintf( message, sizeof( message ), "Pr\xe9sence : %hu point(s) d'event cr\xe9dit\xe9s.", points );
+	safesnprintf( message, sizeof( message ), "Pr\xe9sence : %hu point(s) d'event cr\xe9" "dit\xe9s.", points );
 	clif_messagecolor( &sd, color_table[COLOR_LIGHT_GREEN], message, false, SELF );
 }
 
