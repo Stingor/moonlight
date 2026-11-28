@@ -7535,6 +7535,9 @@ enum e_moonlight_attendance_result : uint8 {
 };
 
 #define MOONLIGHT_ATTENDANCE_FLAG_MILESTONE 0x01
+// Le bloc ne porte pas d'item : `amount` points du Vote Shop, crédités au
+// compte Moonlight ; `itemId` vaut 0.
+#define MOONLIGHT_ATTENDANCE_FLAG_VOTE_POINTS 0x02
 
 struct PACKET_ZC_MOONLIGHT_ATTENDANCE_sub {
 	uint8  day;

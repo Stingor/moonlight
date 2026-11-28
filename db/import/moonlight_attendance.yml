@@ -5,14 +5,18 @@
 # table SQL moonlight_attendance_calendar pour le site, envoye au client dans
 # ZC_MOONLIGHT_ATTENDANCE (0x0F6F). @reloadattendancedb recharge et republie.
 #
-# BROUILLON du 2026-11-28 : a regler sur l'economie du serveur.
+# Serveur high rate : les jours ordinaires donnent une monnaie d'event, a la
+# quantite d'une trouvaille du cafard (moon/event/cafard.npc) ; les paliers
+# (7, 14, 21, 28) y ajoutent des points du Vote Shop.
 #
 ###########################################################################
 # - Day                     Rang de la recompense dans le cycle (1 a 28).
 #   Milestone               Jour-palier, mis en avant dans la fenetre. (Default: false)
+#   VotePoints              Points du Vote Shop credites au compte Moonlight. (Default: 0)
 #   Rewards:                Items du jour (5 au plus : une livraison RODEX en porte 5).
 #     - Item                Nom Aegis de l'item.
 #       Amount              Quantite. (Default: 1)
+# Un jour donne au moins un item ou des points de vote.
 ###########################################################################
 
 Header:
@@ -22,125 +26,131 @@ Header:
 Body:
   - Day: 1
     Rewards:
-      - Item: White_Slim_Potion
-        Amount: 20
+      - Item: Battle_Manual
+        Amount: 2
   - Day: 2
     Rewards:
-      - Item: Giant_Fly_Wing
-        Amount: 5
+      - Item: Honor_Proof
+        Amount: 30
   - Day: 3
     Rewards:
-      - Item: Kafra_Card
-        Amount: 5
+      - Item: Bloody_Coin
+        Amount: 30
   - Day: 4
     Rewards:
-      - Item: Blessing_10_Scroll
-        Amount: 5
+      - Item: Temporal_Crystal
+        Amount: 25
   - Day: 5
     Rewards:
-      - Item: Inc_Agi_10_Scroll
-        Amount: 5
+      - Item: Particles_Of_Energy
+        Amount: 100
   - Day: 6
     Rewards:
-      - Item: Seed_Of_Yggdrasil
-        Amount: 3
+      - Item: Bubble_Gum
+        Amount: 1
   - Day: 7
     Milestone: true
+    VotePoints: 2
     Rewards:
-      - Item: Battle_Manual
-        Amount: 2
-      - Item: Bubble_Gum
-        Amount: 1
+      - Item: Coagulated_Spell
+        Amount: 100
+      - Item: Bgrade_Coin
+        Amount: 4
   - Day: 8
     Rewards:
-      - Item: Str_Dish10_
-        Amount: 3
+      - Item: Tooth_Of_Jitterbug
+        Amount: 30
   - Day: 9
     Rewards:
-      - Item: Agi_Dish10_
-        Amount: 3
+      - Item: Swz_Honor_Token
+        Amount: 30
   - Day: 10
     Rewards:
-      - Item: Convex_Mirror
-        Amount: 1
+      - Item: Geffen_Coin_Magic_Tournament
+        Amount: 30
   - Day: 11
     Rewards:
-      - Item: Insurance
-        Amount: 2
+      - Item: Magical_Igni_Stone
+        Amount: 30
   - Day: 12
     Rewards:
-      - Item: Yggdrasilberry
-        Amount: 3
+      - Item: BarMealTicket
+        Amount: 20
   - Day: 13
     Rewards:
-      - Item: Megaphone_
-        Amount: 3
+      - Item: Job_Manual50
+        Amount: 2
   - Day: 14
     Milestone: true
+    VotePoints: 3
     Rewards:
-      - Item: Old_Blue_Box
-        Amount: 3
-      - Item: Elunium
-        Amount: 3
+      - Item: EP17_1_EVT02
+        Amount: 25
+      - Item: Agrade_Coin
+        Amount: 2
   - Day: 15
     Rewards:
-      - Item: White_Slim_Potion
-        Amount: 30
+      - Item: Ep18_Amethyst_Fragment
+        Amount: 50
   - Day: 16
     Rewards:
-      - Item: Int_Dish10_
-        Amount: 3
+      - Item: Ep19_Snow_Flower
+        Amount: 25
   - Day: 17
     Rewards:
-      - Item: Dex_Dish10_
-        Amount: 3
+      - Item: Ep20_Cat_Whiskers
+        Amount: 20
   - Day: 18
     Rewards:
-      - Item: Vit_Dish10_
-        Amount: 3
+      - Item: E_Abyss1
+        Amount: 20
   - Day: 19
     Rewards:
-      - Item: Luk_Dish10_
-        Amount: 3
+      - Item: Mine_As
+        Amount: 50
   - Day: 20
-    Rewards:
-      - Item: Insurance
-        Amount: 2
-  - Day: 21
-    Milestone: true
-    Rewards:
-      - Item: Old_Violet_Box
-        Amount: 1
-      - Item: Oridecon
-        Amount: 3
-  - Day: 22
-    Rewards:
-      - Item: Battle_Manual
-        Amount: 1
-  - Day: 23
-    Rewards:
-      - Item: Yggdrasilberry
-        Amount: 5
-  - Day: 24
-    Rewards:
-      - Item: Bubble_Gum
-        Amount: 1
-  - Day: 25
-    Rewards:
-      - Item: Giant_Fly_Wing
-        Amount: 10
-  - Day: 26
-    Rewards:
-      - Item: Convex_Mirror
-        Amount: 2
-  - Day: 27
     Rewards:
       - Item: HE_Bubble_Gum
         Amount: 1
+  - Day: 21
+    Milestone: true
+    VotePoints: 4
+    Rewards:
+      - Item: IllusionStone
+        Amount: 10
+      - Item: EP17_1_EVT39
+        Amount: 5
+  - Day: 22
+    Rewards:
+      - Item: Sin_Fragment
+        Amount: 20
+  - Day: 23
+    Rewards:
+      - Item: Fate_Fragment
+        Amount: 20
+  - Day: 24
+    Rewards:
+      - Item: Meteorite_Fragment
+        Amount: 50
+  - Day: 25
+    Rewards:
+      - Item: MD_Airboat_Tokken
+        Amount: 10
+  - Day: 26
+    Rewards:
+      - Item: MD_Geffen_Coin
+        Amount: 10
+  - Day: 27
+    Rewards:
+      - Item: Bio_Test_Fragment
+        Amount: 10
+      - Item: GH_Cursed_Crystal
+        Amount: 10
   - Day: 28
     Milestone: true
+    VotePoints: 6
     Rewards:
-      - Item: Old_Card_Album
+      - Item: Magic_Card_Album
         Amount: 1
-      - Item: Bloody_Dead_Branch
-        Amount: 1
+      - Item: Ein_DYNITE
+        Amount: 30
