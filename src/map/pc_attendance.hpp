@@ -47,8 +47,8 @@ struct s_moonlight_attendance_reward {
 struct s_moonlight_attendance_day {
 	uint16 day;
 	bool milestone;
-	/// Points du Vote Shop crédités au compte Moonlight ; 0 sans.
-	uint16 vote_points;
+	/// Points d'event (#KAFRAPOINTS) crédités au compte de jeu qui reçoit ; 0 sans.
+	uint16 event_points;
 	std::vector<s_moonlight_attendance_reward> rewards;
 };
 

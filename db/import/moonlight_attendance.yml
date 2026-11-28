@@ -7,16 +7,16 @@
 #
 # Serveur high rate : les jours ordinaires donnent une monnaie d'event, a la
 # quantite d'une trouvaille du cafard (moon/event/cafard.npc) ; les paliers
-# (7, 14, 21, 28) y ajoutent des points du Vote Shop.
+# (7, 14, 21, 28) y ajoutent des points d'event.
 #
 ###########################################################################
 # - Day                     Rang de la recompense dans le cycle (1 a 28).
 #   Milestone               Jour-palier, mis en avant dans la fenetre. (Default: false)
-#   VotePoints              Points du Vote Shop credites au compte Moonlight. (Default: 0)
+#   EventPoints             Points d'event (#KAFRAPOINTS) credites au compte qui recoit. (Default: 0)
 #   Rewards:                Items du jour (5 au plus : une livraison RODEX en porte 5).
 #     - Item                Nom Aegis de l'item.
 #       Amount              Quantite. (Default: 1)
-# Un jour donne au moins un item ou des points de vote.
+# Un jour donne au moins un item ou des points d'event.
 ###########################################################################
 
 Header:
@@ -50,7 +50,7 @@ Body:
         Amount: 1
   - Day: 7
     Milestone: true
-    VotePoints: 2
+    EventPoints: 2
     Rewards:
       - Item: Coagulated_Spell
         Amount: 100
@@ -82,7 +82,7 @@ Body:
         Amount: 2
   - Day: 14
     Milestone: true
-    VotePoints: 3
+    EventPoints: 3
     Rewards:
       - Item: EP17_1_EVT02
         Amount: 25
@@ -114,7 +114,7 @@ Body:
         Amount: 1
   - Day: 21
     Milestone: true
-    VotePoints: 4
+    EventPoints: 4
     Rewards:
       - Item: IllusionStone
         Amount: 10
@@ -148,7 +148,7 @@ Body:
         Amount: 10
   - Day: 28
     Milestone: true
-    VotePoints: 6
+    EventPoints: 6
     Rewards:
       - Item: Magic_Card_Album
         Amount: 1

@@ -56,7 +56,7 @@ uint64 MoonlightAttendanceDatabase::parseBodyNode( const ryml::NodeRef& node ){
 		entry = std::make_shared<s_moonlight_attendance_day>();
 		entry->day = day;
 		entry->milestone = false;
-		entry->vote_points = 0;
+		entry->event_points = 0;
 	}
 
 	if( this->nodeExists( node, "Milestone" ) ){
@@ -69,14 +69,14 @@ uint64 MoonlightAttendanceDatabase::parseBodyNode( const ryml::NodeRef& node ){
 		entry->milestone = milestone;
 	}
 
-	if( this->nodeExists( node, "VotePoints" ) ){
-		uint16 vote_points;
+	if( this->nodeExists( node, "EventPoints" ) ){
+		uint16 event_points;
 
-		if( !this->asUInt16( node, "VotePoints", vote_points ) ){
+		if( !this->asUInt16( node, "EventPoints", event_points ) ){
 			return 0;
 		}
 
-		entry->vote_points = vote_points;
+		entry->event_points = event_points;
 	}
 
 	if( this->nodeExists( node, "Rewards" ) ){
@@ -125,9 +125,9 @@ uint64 MoonlightAttendanceDatabase::parseBodyNode( const ryml::NodeRef& node ){
 		entry->rewards = std::move( rewards );
 	}
 
-	// Un jour donne au moins un item ou des points de vote.
-	if( entry->rewards.empty() && entry->vote_points == 0 ){
-		this->invalidWarning( node, "Le jour %hu ne donne ni item ni point de vote.\n", day );
+	// Un jour donne au moins un item ou des points d'event.
+	if( entry->rewards.empty() && entry->event_points == 0 ){
+		this->invalidWarning( node, "Le jour %hu ne donne ni item ni point d'event.\n", day );
 		return 0;
 	}
 
@@ -202,15 +202,15 @@ void MoonlightAttendanceDatabase::loadingFinished(){
 			continue;
 		}
 
-		// LES POINTS DE VOTE D'ABORD : un bloc sans item, que le client et le
+		// LES POINTS D'EVENT D'ABORD : un bloc sans item, que le client et le
 		// site reconnaissent à son drapeau et à son item nul.
-		if( entry->vote_points > 0 ){
+		if( entry->event_points > 0 ){
 			PACKET_ZC_MOONLIGHT_ATTENDANCE_sub sub = {};
 
 			sub.day = static_cast<uint8>( day );
-			sub.flags = MOONLIGHT_ATTENDANCE_FLAG_VOTE_POINTS | ( entry->milestone ? MOONLIGHT_ATTENDANCE_FLAG_MILESTONE : 0 );
+			sub.flags = MOONLIGHT_ATTENDANCE_FLAG_EVENT_POINTS | ( entry->milestone ? MOONLIGHT_ATTENDANCE_FLAG_MILESTONE : 0 );
 			sub.itemId = 0;
-			sub.amount = entry->vote_points;
+			sub.amount = entry->event_points;
 			moonlight_attendance_entries.push_back( sub );
 		}
 
@@ -444,20 +444,17 @@ static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_se
  * La livraison
  * ------------------------------------------------------------------------- */
 
-/// Crédite des points du Vote Shop au compte Moonlight, dans la table que la
-/// boutique de vote relit à chaque achat (`vote`, une ligne par user_id).
-static void moonlight_attendance_credit_vote_points( map_session_data& sd, uint16 points ){
-	if( Sql_Query( mmysql_handle,
-			"INSERT INTO `vote` (`user_id`, `vote`) VALUES ('%u', '%hu') ON DUPLICATE KEY UPDATE `vote` = `vote` + VALUES(`vote`)",
-			sd.status.user_id, points ) != SQL_SUCCESS ){
-		Sql_ShowDebug( mmysql_handle );
-		ShowError( "moonlight_attendance: %hu point(s) de vote non cr\xe9dit\xe9s au compte %u.\n", points, sd.status.user_id );
+/// Crédite des points d'event (#KAFRAPOINTS) au compte de jeu du personnage
+/// qui reçoit : ceux que donnent les events et les MVP.
+static void moonlight_attendance_credit_event_points( map_session_data& sd, uint16 points ){
+	if( pc_getcash( &sd, 0, points, LOG_TYPE_OTHER ) <= 0 ){
+		ShowError( "moonlight_attendance: %hu point(s) d'event non cr\xe9dit\xe9s au compte %u.\n", points, sd.status.account_id );
 		return;
 	}
 
 	char message[CHAT_SIZE_MAX];
 
-	safesnprintf( message, sizeof( message ), "Pr\xe9sence : %hu point(s) du Vote Shop cr\xe9dit\xe9s.", points );
+	safesnprintf( message, sizeof( message ), "Pr\xe9sence : %hu point(s) d'event cr\xe9dit\xe9s.", points );
 	clif_messagecolor( &sd, color_table[COLOR_LIGHT_GREEN], message, false, SELF );
 }
 
@@ -465,8 +462,8 @@ static void moonlight_attendance_credit_vote_points( map_session_data& sd, uint1
 /// qu'un item n'y entre plus (poids, cases, pile), lui et tous les suivants
 /// partent par RODEX. Vrai si un courrier est parti.
 static bool moonlight_attendance_deliver( map_session_data& sd, const s_moonlight_attendance_day& entry ){
-	if( entry.vote_points > 0 ){
-		moonlight_attendance_credit_vote_points( sd, entry.vote_points );
+	if( entry.event_points > 0 ){
+		moonlight_attendance_credit_event_points( sd, entry.event_points );
 	}
 
 	std::vector<s_moonlight_attendance_reward> to_mail;
