@@ -61,7 +61,12 @@ class TabHost:
         self.root = root
         self.settings = settings
         self.notebook = ttk.Notebook(root)
-        self.notebook.enable_traversal()  # Ctrl+Tab
+        # Ctrl+Tab, de n'importe quelle fenêtre : la page suivante, onglet ou
+        # détachée ; Ctrl+Maj+Tab, la précédente.
+        root.bind_all("<Control-Tab>", lambda e: self.cycle(e.widget, 1))
+        root.bind_all("<Control-Shift-Tab>", lambda e: self.cycle(e.widget, -1))
+        if root.tk.call("tk", "windowingsystem") == "x11":
+            root.bind_all("<Control-ISO_Left_Tab>", lambda e: self.cycle(e.widget, -1))
         self._pages = {}      # clé -> _Page, dans l'ordre des onglets
         self._visible = set()
         self._background = None
@@ -130,6 +135,26 @@ class TabHost:
     def hide_main(self):
         self.root.withdraw()
         self._refresh_visibility()
+
+    def cycle(self, widget, step):
+        """La page voisine de celle qui contient `widget`, dans l'ordre des
+        onglets ; elle passe devant et prend le focus."""
+        keys = self.keys()
+        current = self._page_of(widget)
+        if current is None:
+            selected = self.notebook.select()
+            current = next((k for k, p in self._pages.items() if str(p.frame) == selected), keys[0])
+        key = keys[(keys.index(current) + step) % len(keys)]
+        self.reveal(key)
+        self._pages[key].body.focus_force()
+        return "break"
+
+    def _page_of(self, widget):
+        frames = {str(p.frame): k for k, p in self._pages.items()}
+        path = str(widget)
+        while path and path not in frames:
+            path = path.rpartition(".")[0]
+        return frames.get(path)
 
     # ---- détacher, réattacher -----------------------------------------------
     def detach(self, key, x_root=None, y_root=None):

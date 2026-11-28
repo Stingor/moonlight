@@ -405,6 +405,8 @@ class AdminGUI:
         self.savelog_var.set(s.get_bool("console", "save_log"))
         self.alerts_var.set(s.get_bool("console", "alerts", True))
         self.reloads_open_var.set(s.get_bool("fenetre", "reloads_open"))
+        self.connection_open_var.set(s.get_bool("fenetre", "connexion_open", True))
+        self._show_connection_details()
         self._show_reloads()
 
     def _save_settings(self):
@@ -417,7 +419,8 @@ class AdminGUI:
             "fenetre": {"geometry": self.root.geometry(),
                         "topmost": self.topmost_var.get(),
                         "dark": self.dark_var.get(),
-                        "reloads_open": self.reloads_open_var.get()},
+                        "reloads_open": self.reloads_open_var.get(),
+                        "connexion_open": self.connection_open_var.get()},
             "filtres": {label: self._log_filter_vars[p].get() for p, label in LOG_FILTERS},
             "niveaux": {label: self._level_vars[label].get() for label, _ in LOG_LEVELS},
             "serveurs": {label: self._src_vars[src].get() for src, label in SERVER_SOURCES},
@@ -442,29 +445,42 @@ class AdminGUI:
 
     # ---- UI construction ----------------------------------------------------
     def _build_connection_bar(self):
-        bar = ttk.LabelFrame(self.console_body, text="Connexion")
-        bar.pack(fill="x", padx=8, pady=(8, 4))
+        # Repliable : réglée une fois, la connexion ne se retouche guère. La
+        # ligne de tête reste visible repliée : le résumé, l'état et le bouton.
+        box = ttk.Frame(self.console_body)
+        box.pack(fill="x", padx=8, pady=(8, 4))
+        head = ttk.Frame(box)
+        head.pack(fill="x")
+        self.connection_open_var = tk.BooleanVar(value=True)
+        self.connection_header = ttk.Label(head, cursor="hand2")
+        self.connection_header.pack(side="left")
+        self.connection_header.bind("<Button-1>", lambda _e: self._toggle_connection_details())
+        self.connect_btn = ttk.Button(head, text="Connecter", command=self._toggle_connect)
+        self.connect_btn.pack(side="right")
+        self.status_lbl = ttk.Label(head, text="deconnecte", foreground="#b00")
+        self.status_lbl.pack(side="right", padx=8)
 
+        bar = ttk.Frame(box, relief="groove", borderwidth=2, padding=2)
+        self.connection_details = bar
         ttk.Label(bar, text="Hote").grid(row=0, column=0, padx=4, pady=4, sticky="w")
         self.host_var = tk.StringVar(value=DEFAULT_HOST)
-        ttk.Entry(bar, textvariable=self.host_var, width=16).grid(row=0, column=1, padx=4)
+        ttk.Entry(bar, textvariable=self.host_var, width=16).grid(row=0, column=1, padx=4, sticky="w")
 
         ttk.Label(bar, text="Port").grid(row=0, column=2, padx=4, sticky="w")
         self.port_var = tk.StringVar(value=DEFAULT_PORT)
-        ttk.Entry(bar, textvariable=self.port_var, width=7).grid(row=0, column=3, padx=4)
+        ttk.Entry(bar, textvariable=self.port_var, width=7).grid(row=0, column=3, padx=4, sticky="w")
 
         ttk.Label(bar, text="Secret").grid(row=0, column=4, padx=4, sticky="w")
         self.secret_var = tk.StringVar(value=default_secret())
-        ttk.Entry(bar, textvariable=self.secret_var, width=18, show="*").grid(row=0, column=5, padx=4)
+        ttk.Entry(bar, textvariable=self.secret_var, width=18, show="*").grid(row=0, column=5, padx=4, sticky="w")
 
-        self.connect_btn = ttk.Button(bar, text="Connecter", command=self._toggle_connect)
-        self.connect_btn.grid(row=0, column=6, padx=8)
-
-        self.status_lbl = ttk.Label(bar, text="deconnecte", foreground="#b00")
-        self.status_lbl.grid(row=0, column=7, padx=4)
+        ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=0, padx=4, sticky="w")
+        self.name_var = tk.StringVar(value=DEFAULT_NAME)
+        ttk.Entry(bar, textvariable=self.name_var, width=20).grid(
+            row=1, column=1, columnspan=3, padx=4, pady=(0, 4), sticky="w")
 
         opts = ttk.Frame(bar)
-        opts.grid(row=1, column=0, columnspan=4, padx=4, pady=(0, 4), sticky="w")
+        opts.grid(row=2, column=0, columnspan=6, padx=4, pady=(0, 4), sticky="w")
         self.topmost_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(opts, text="Toujours au premier plan",
                         variable=self.topmost_var,
@@ -472,13 +488,27 @@ class AdminGUI:
         self.dark_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(opts, text="Theme sombre", variable=self.dark_var,
                         command=self._apply_theme).pack(side="left", padx=(10, 0))
-        ttk.Label(opts, text="Onglets : glisser hors de la fenêtre, double-clic ou clic droit pour détacher",
-                  foreground="#888").pack(side="left", padx=(10, 0))
+        ttk.Label(bar, text="Onglets : glisser hors de la fenêtre, double-clic ou clic droit pour détacher ; "
+                            "Ctrl+Tab passe à la page suivante",
+                  foreground="#888").grid(row=3, column=0, columnspan=6, padx=4, pady=(0, 4), sticky="w")
+        for var in (self.host_var, self.port_var, self.name_var):
+            var.trace_add("write", lambda *_: self._show_connection_details())
+        self._show_connection_details()
 
-        ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
-        self.name_var = tk.StringVar(value=DEFAULT_NAME)
-        ttk.Entry(bar, textvariable=self.name_var, width=20).grid(
-            row=1, column=5, columnspan=3, padx=4, pady=(0, 4), sticky="w")
+    def _toggle_connection_details(self):
+        self.connection_open_var.set(not self.connection_open_var.get())
+        self._show_connection_details()
+
+    def _show_connection_details(self):
+        is_open = self.connection_open_var.get()
+        arrow = "▾" if is_open else "▸"
+        summary = "" if is_open else (f"  {self.host_var.get().strip()}:{self.port_var.get().strip()}"
+                                      f"  ·  {self.name_var.get().strip()}")
+        self.connection_header.config(text=f"{arrow} Connexion{summary}")
+        if is_open:
+            self.connection_details.pack(fill="x")
+        else:
+            self.connection_details.pack_forget()
 
     def _build_actions(self):
         # Quick reload buttons, alphabetical and compact.
@@ -716,6 +746,14 @@ class AdminGUI:
             self.root.option_add("*TCombobox*Listbox.selectForeground", "#fff")
             style.configure("TLabelframe", background=d["bg"])
             style.configure("TLabelframe.Label", background=d["bg"], foreground=d["fg"])
+            # Onglets : « clam » les peint par un map (fond clair à l'onglet
+            # choisi), que « . » ne surcharge pas.
+            style.configure("TNotebook", background=d["bg"], bordercolor=d["border"])
+            style.configure("TNotebook.Tab", foreground=d["fg"], bordercolor=d["border"])
+            style.map("TNotebook.Tab",
+                      background=[("selected", d["bg"]), ("active", d["active"]), ("!selected", d["button"])],
+                      lightcolor=[("selected", d["bg"]), ("!selected", d["button"])],
+                      foreground=[("selected", "#fff"), ("!selected", "#bbb")])
             # Listes (Atelier NPC) : « clam » leur laisse un fond blanc.
             style.configure("Treeview", background=d["field"], fieldbackground=d["field"],
                             foreground=d["fg"], bordercolor=d["border"])
