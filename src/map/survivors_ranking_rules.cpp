@@ -420,6 +420,15 @@ constexpr s_survivors_arena_bound RULESET_12_ARENAS[] = {
 	  92 * ELITE_FACTOR, 18 * ELITE_FACTOR },
 };
 
+// ── LE RULESET 13 ────────────────────────────────────────────────────────────
+// Le Laboratoire accueille les Croisés du troisième étage (étape 3 du Croisé de
+// moonclient) : Randel dans les vagues de 13:00 et de 14:00, niveau 92 et 15
+// d'XP, et Paladin Randel parmi les candidats du créneau de 11:00, niveau 99 et
+// 45 d'XP. Ni l'un ni l'autre ne passe le plus fort de sa sorte : toutes les
+// bornes du ruleset 12 tiennent (ro::sim::RankingBoundsOf, épinglé par
+// survivors_ranked_test.cpp, n'a pas bougé).
+constexpr uint16 RULESET_13 = 13;
+
 // Le journal d'une partie : inconnu des versions d'avant le ruleset 11, exigé
 // depuis.
 constexpr bool JOURNAL_NOT_SENT = false;
@@ -483,6 +492,12 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
 	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT, JOURNAL_REQUIRED },
 	{ RULESET_12,
+	  RULESET_12_ARENAS, std::size(RULESET_12_ARENAS),
+	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
+	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
+	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT, JOURNAL_REQUIRED },
+	{ RULESET_13,
 	  RULESET_12_ARENAS, std::size(RULESET_12_ARENAS),
 	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
 	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
