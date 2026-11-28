@@ -1057,11 +1057,15 @@ OnStart:
 	end;
 OnMyMobDead:
 	// [Stingor] succes 128039 et 128043 : E2_FELOCK n'existe pas, toute victoire compte ;
-	// le compteur reprend celui de 128042 (50 Ferlock, tous modes) pour les victoires passees
+	// le compteur reprend celui de 128042 (50 Ferlock, tous modes) pour les victoires passees.
+	// achievementupdate ne juge jamais l'achevement : un compte plein s'acheve par achievementcomplete.
 	if (playerattached()) {
-		achievementupdate(128039, ACHIEVEINFO_COUNT1, 1);
-		.@fk = max(achievementinfo(128043, ACHIEVEINFO_COUNT1) + 1, achievementinfo(128042, ACHIEVEINFO_COUNT1));
-		achievementupdate(128043, ACHIEVEINFO_COUNT1, min(.@fk, 50));
+		achievementcomplete(128039);
+		.@fk = min(max(achievementinfo(128043, ACHIEVEINFO_COUNT1) + 1, achievementinfo(128042, ACHIEVEINFO_COUNT1)), 50);
+		if (.@fk >= 50)
+			achievementcomplete(128043);
+		else
+			achievementupdate(128043, ACHIEVEINFO_COUNT1, .@fk);
 	}
 	if (mobcount( 'map_air2$, instance_npcname("callb#air2") + "::OnMyMobDead" ) < 1) {
 		initnpctimer;
