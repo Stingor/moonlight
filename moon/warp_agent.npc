@@ -507,6 +507,29 @@ L_Instance:
 			warp_fct("yuno", 216, 342);
 		}
 		case INST_OLD_GLAST_HEIM_HARD: { // Old Glast Heim Hard : Another Hugin, glast_01
+			if( select( GetColor(12334)+"Acces direct^000000", "Se rendre à Another Hugin" ) == 1 ) {
+				.@md_name$ = "Old Glast Heim Hard";
+				.@questid1 = 12334; // Trace of Time Travel (Hard)
+				.@questid2 = 12336; // Corrupted Soul Hunt (Hard)
+				// Mêmes conditions qu'Another Hugin : niveau 160 et Time Conqueror (12321) achevée.
+				if( BaseLevel < 160 || isbegin_quest(12321) != 2 ) {
+					clear;
+					mes .@npc_name$;
+					mes "^0000ff" + .@md_name$ + "^000000 demande le niveau 160 et la fin d'Old Glast Heim (quête Time Conqueror).";
+					close;
+				}
+				// Le temps de recharge écoulé efface aussi la chasse et l'accès au trésor de la partie précédente.
+				if( checkquest(.@questid1,PLAYTIME) == 2 ) {
+					if( isbegin_quest(.@questid2) > 0 )
+						erasequest .@questid2;
+					if( isbegin_quest(12335) > 0 )
+						erasequest 12335; // Space Distortion (Hard)
+				}
+				callsub Party_Check,.@md_name$;
+				.@turbo = callsub(Turbo_Mode,GetColor(.@questid1));
+				callsub Process_Instance,.@md_name$,1,.@turbo,.@questid1,.@questid2;
+				break;
+			}
 			warp_fct("glast_01", 179, 280);
 		}
 		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault

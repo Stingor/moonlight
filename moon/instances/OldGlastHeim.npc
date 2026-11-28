@@ -390,7 +390,11 @@ OnEnable:
 	'npc_varmundt1$ = instance_npcname("Varmundt#1");
 	'npc_heinrich2$ = instance_npcname("Heinrich#2");
 	'npc_heinrich3$ = instance_npcname("Heinrich#3");
-	if( 'turbo ) setnpctimer 90000;
+	// En turbo, le saut passe OnTimer84500, qui renvoie Himelmez.
+	if( 'turbo ) {
+		disablenpc 'npc_himelmez1$;
+		setnpctimer 90000;
+	}
 	end;
 OnTimer1500:
 	npctalk "Heinrich: Who are you?", 'npc_heinrich2$;
@@ -688,6 +692,7 @@ OnMyMobDead:
 	npctalk "Altar boy Domun: Ok, I... I'll try.";
 	disablenpc instance_npcname("Altar boy Domun#1");
 	donpcevent instance_npcname("#ghmemorialmob02") + "::OnStart";
+	if( 'turbo ) end;
 	close;
 }
 
@@ -765,6 +770,7 @@ OnMyMobDead:
 	npctalk "Holgren the Destroyer: It's ok. You've already done enough. I can help myself. Good luck to you too.";
 	disablenpc instance_npcname("Holgren the Destroyer#1");
 	donpcevent instance_npcname("#ghmemorialmob03") + "::OnEnable";
+	if( 'turbo ) end;
 	close;
 }
 
@@ -896,7 +902,12 @@ OnTouch_:
 	initnpctimer;
 	'npc_himelmez2$ = instance_npcname("Himelmez#2");
 	'npc_heinrich4$ = instance_npcname("Heinrich#4");
-	if( 'turbo ) setnpctimer 34500;
+	// En turbo, le saut passe OnTimer28000 et OnTimer32000, qui renvoient Himelmez et Heinrich.
+	if( 'turbo ) {
+		disablenpc 'npc_himelmez2$;
+		disablenpc 'npc_heinrich4$;
+		setnpctimer 34500;
+	}
 	end;
 OnTimer3000:
 	npctalk "Himelmez: Guess you are either lucky or powerful to make it this far.", 'npc_himelmez2$;
@@ -936,6 +947,7 @@ OnTimer32000:
 	end;
 OnTimer35000:
 	mapannounce 'map_name$[0], "An echoing comes from deep inside of the knight's shrine.", bc_map,0xFFFFFF;
+	if( 'turbo ) setnpctimer 37500;
 	end;
 OnTimer38000:
 	donpcevent instance_npcname("#ghmemorialmob04") + "::OnStart";
@@ -1408,10 +1420,17 @@ OnTimer57000:
 	end;
 OnTimer60000:
 	specialeffect EF_BARRIER, AREA, 'npc_gerhalt$;
+	if( 'turbo ) setnpctimer 62500;
 	end;
 OnTimer63000:
 	disablenpc 'npc_himelmez$;
-	if( 'turbo ) setnpctimer 69000;
+	// En turbo, Heinrich et Varmundt partent avec elle ; seule reste la consigne des illusions.
+	if( 'turbo ) {
+		disablenpc 'npc_heinrich$;
+		disablenpc 'npc_varmundt$;
+		mapannounce 'map_name$[1], "Varmundt: Let me help this battle with my illusion. Just follow the illusion's orders.", bc_map,0xFFFF00;
+		setnpctimer 79500;
+	}
 	end;
 OnTimer65000:
 	npctalk "Gerhalt: You can make my body but you can't take my soul, Himelmez!", 'npc_gerhalt$;
@@ -1627,22 +1646,24 @@ OnTimer10000:
 				getitem 6608,1;// Coagulated_Spell
 			}
 		}
-		next;
-		mes "[Hugin]";
-		mes "Varmundt's time is stopped by me.";
-		mes "And your time will be distorted soon.";
-		specialeffect2 EF_BLIND;
-		soundeffect "_blind.wav",0;
-		next;
-		mes "[Hugin]";
-		mes "Maybe this poor time traveler will try to stop Glast Heim's tragedy from happening.";
-		next;
-		mes "[Hugin]";
-		mes "However, we will never overlook his behavior now and forever...";
-		next;
-		mes "[Hugin]";
-		mes "Now let me remove your memory. If you see me again it will be someone new.";
-		specialeffect2 EF_FREEZE;
+		if( !'turbo ) {
+			next;
+			mes "[Hugin]";
+			mes "Varmundt's time is stopped by me.";
+			mes "And your time will be distorted soon.";
+			specialeffect2 EF_BLIND;
+			soundeffect "_blind.wav",0;
+			next;
+			mes "[Hugin]";
+			mes "Maybe this poor time traveler will try to stop Glast Heim's tragedy from happening.";
+			next;
+			mes "[Hugin]";
+			mes "However, we will never overlook his behavior now and forever...";
+			next;
+			mes "[Hugin]";
+			mes "Now let me remove your memory. If you see me again it will be someone new.";
+			specialeffect2 EF_FREEZE;
+		}
 		close2;
 		warp 'map_name$[1],158,244;
 		end;
