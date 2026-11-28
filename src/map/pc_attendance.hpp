@@ -4,13 +4,7 @@
 #ifndef PC_ATTENDANCE_HPP
 #define PC_ATTENDANCE_HPP
 
-#include <memory>
-#include <string>
-#include <vector>
-
 #include <common/cbasetypes.hpp>
-#include <common/database.hpp>
-#include <common/mmo.hpp> // t_itemid
 
 class map_session_data;
 
@@ -27,51 +21,24 @@ class map_session_data;
  * personne ne se doublent pas une réclamation. Le JOUR est CURDATE() du serveur
  * de base, jamais l'horloge du map-server.
  *
- * Le calendrier se lit dans db/import/moonlight_attendance.yml, se publie dans
- * la table moonlight_attendance_calendar pour le site, et part au client dans
- * ZC_MOONLIGHT_ATTENDANCE (0x0F6F).
+ * Le calendrier est une ÉDITION mensuelle que le site tire et écrit en base
+ * (moonlight_attendance_edition, moonlight_attendance_calendar) ; le
+ * map-server ne fait que la lire, à chaque envoi d'état et à chaque livraison.
+ * Un cycle suit l'édition du jour où il s'ouvre jusqu'à sa fin. Le calendrier
+ * part au client dans ZC_MOONLIGHT_ATTENDANCE (0x0F6F).
  */
 
 /// Longueur d'un cycle, en jours de calendrier, et nombre de récompenses.
 #define MOONLIGHT_ATTENDANCE_CYCLE_DAYS 28
 /// Réclamations par le site permises dans un cycle.
 #define MOONLIGHT_ATTENDANCE_WEB_CHARGES 3
-/// Items d'un jour au plus : un courrier RODEX en porte autant.
-#define MOONLIGHT_ATTENDANCE_DAY_ITEMS_MAX MAIL_MAX_ITEM
 
-struct s_moonlight_attendance_reward {
-	t_itemid item_id;
-	uint16 amount;
-};
-
-struct s_moonlight_attendance_day {
-	uint16 day;
-	bool milestone;
-	/// Points d'event (#KAFRAPOINTS) crédités au compte de jeu qui reçoit ; 0 sans.
-	uint16 event_points;
-	std::vector<s_moonlight_attendance_reward> rewards;
-};
-
-class MoonlightAttendanceDatabase : public TypesafeYamlDatabase<uint16, s_moonlight_attendance_day> {
-public:
-	MoonlightAttendanceDatabase() : TypesafeYamlDatabase( "MOONLIGHT_ATTENDANCE_DB", 1 ){
-	}
-
-	const std::string getDefaultLocation() override;
-	uint64 parseBodyNode( const ryml::NodeRef& node ) override;
-	/// Refuse un calendrier incomplet (il reste vide : présence fermée), puis
-	/// le publie dans moonlight_attendance_calendar.
-	void loadingFinished() override;
-};
-
-extern MoonlightAttendanceDatabase moonlight_attendance_db;
-
-/// Vrai si `feature.attendance` est allumé ET le calendrier chargé.
+/// Vrai si `feature.attendance` est allumé ET une édition couvre aujourd'hui.
 bool moonlight_attendance_open();
 
 /// Envoie ZC_MOONLIGHT_ATTENDANCE : l'état du cycle du compte, `result`
-/// (e_moonlight_attendance_result) et le calendrier. `open` demande au client
-/// d'ouvrir la fenêtre.
+/// (e_moonlight_attendance_result) et le calendrier de son édition. `open`
+/// demande au client d'ouvrir la fenêtre.
 void moonlight_attendance_send( map_session_data& sd, bool open, uint8 result );
 
 /// La fenêtre est demandée (CZ_UI_OPEN, IN_UI_ATTENDANCE).
@@ -83,8 +50,5 @@ void moonlight_attendance_request_claim( map_session_data& sd );
 /// À l'entrée en jeu : livre les récompenses réclamées sur le site, puis ouvre
 /// la fenêtre si le jour n'est pas encore réclamé.
 void moonlight_attendance_login( map_session_data& sd );
-
-void do_init_moonlight_attendance( void );
-void do_final_moonlight_attendance( void );
 
 #endif /* PC_ATTENDANCE_HPP */

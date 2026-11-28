@@ -6,7 +6,10 @@
 #include <algorithm>
 #include <cstdlib> // strtoll
 #include <cstring>
-#include <utility>
+#include <limits>
+#include <map>
+#include <tuple>
+#include <vector>
 
 #include <common/showmsg.hpp>
 #include <common/socket.hpp>
@@ -24,231 +27,17 @@
 #include "pc.hpp"
 #include "pc_groups.hpp"
 
-MoonlightAttendanceDatabase moonlight_attendance_db;
+/// Blocs d'une édition au plus : ceux qui tiennent dans un paquet.
+static constexpr size_t MOONLIGHT_ATTENDANCE_ENTRIES_MAX =
+	( std::numeric_limits<int16>::max() - sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE ) ) / sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE_sub );
 
-/// Le calendrier tel qu'il part au client, trié par jour puis par rang.
-static std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub> moonlight_attendance_entries;
-
-/* ------------------------------------------------------------------------- *
- * Le calendrier
- * ------------------------------------------------------------------------- */
-
-const std::string MoonlightAttendanceDatabase::getDefaultLocation(){
-	return std::string( db_path ) + "/import/moonlight_attendance.yml";
-}
-
-uint64 MoonlightAttendanceDatabase::parseBodyNode( const ryml::NodeRef& node ){
-	uint16 day;
-
-	if( !this->asUInt16( node, "Day", day ) ){
-		return 0;
-	}
-
-	if( day < 1 || day > MOONLIGHT_ATTENDANCE_CYCLE_DAYS ){
-		this->invalidWarning( node["Day"], "Day %hu hors de 1..%d.\n", day, MOONLIGHT_ATTENDANCE_CYCLE_DAYS );
-		return 0;
-	}
-
-	std::shared_ptr<s_moonlight_attendance_day> entry = this->find( day );
-	bool exists = entry != nullptr;
-
-	if( !exists ){
-		entry = std::make_shared<s_moonlight_attendance_day>();
-		entry->day = day;
-		entry->milestone = false;
-		entry->event_points = 0;
-	}
-
-	if( this->nodeExists( node, "Milestone" ) ){
-		bool milestone;
-
-		if( !this->asBool( node, "Milestone", milestone ) ){
-			return 0;
-		}
-
-		entry->milestone = milestone;
-	}
-
-	if( this->nodeExists( node, "EventPoints" ) ){
-		uint16 event_points;
-
-		if( !this->asUInt16( node, "EventPoints", event_points ) ){
-			return 0;
-		}
-
-		entry->event_points = event_points;
-	}
-
-	if( this->nodeExists( node, "Rewards" ) ){
-		std::vector<s_moonlight_attendance_reward> rewards;
-
-		for( const auto& rewardNode : node["Rewards"] ){
-			std::string item_name;
-
-			if( !this->asString( rewardNode, "Item", item_name ) ){
-				return 0;
-			}
-
-			std::shared_ptr<item_data> item = item_db.search_aegisname( item_name.c_str() );
-
-			if( item == nullptr ){
-				this->invalidWarning( rewardNode["Item"], "Item %s inconnu : jour %hu refus\xe9.\n", item_name.c_str(), day );
-				return 0;
-			}
-
-			uint16 amount = 1;
-
-			if( this->nodeExists( rewardNode, "Amount" ) && !this->asUInt16( rewardNode, "Amount", amount ) ){
-				return 0;
-			}
-
-			if( amount < 1 || amount > MAX_AMOUNT_UINT16 ){
-				this->invalidWarning( rewardNode["Amount"], "Amount %hu hors de 1..%d : jour %hu refus\xe9.\n", amount, MAX_AMOUNT_UINT16, day );
-				return 0;
-			}
-
-			// Un item non empilable occupe une case par exemplaire, dans
-			// l'inventaire comme dans un courrier : il se donne à l'unité.
-			if( amount > 1 && !itemdb_isstackable2( item.get() ) ){
-				this->invalidWarning( rewardNode["Amount"], "%s ne s'empile pas : Amount doit valoir 1 (jour %hu refus\xe9).\n", item_name.c_str(), day );
-				return 0;
-			}
-
-			rewards.push_back( { item->nameid, amount } );
-		}
-
-		if( rewards.size() > MOONLIGHT_ATTENDANCE_DAY_ITEMS_MAX ){
-			this->invalidWarning( node["Rewards"], "Le jour %hu porte plus de %d items.\n", day, MOONLIGHT_ATTENDANCE_DAY_ITEMS_MAX );
-			return 0;
-		}
-
-		entry->rewards = std::move( rewards );
-	}
-
-	// Un jour donne au moins un item ou des points d'event.
-	if( entry->rewards.empty() && entry->event_points == 0 ){
-		this->invalidWarning( node, "Le jour %hu ne donne ni item ni point d'event.\n", day );
-		return 0;
-	}
-
-	if( !exists ){
-		this->put( day, entry );
-	}
-
-	return 1;
-}
-
-/// Réécrit moonlight_attendance_calendar depuis le calendrier chargé : le YAML
-/// fait foi, la table n'est que sa copie pour le site.
-static void moonlight_attendance_publish_calendar( void ){
-	if( mmysql_handle == nullptr ){
-		return; // le générateur n'a pas de base
-	}
-
-	if( Sql_QueryStr( mmysql_handle, "START TRANSACTION" ) != SQL_SUCCESS ){
-		Sql_ShowDebug( mmysql_handle );
-		return;
-	}
-
-	bool ok = Sql_QueryStr( mmysql_handle, "DELETE FROM `moonlight_attendance_calendar`" ) == SQL_SUCCESS;
-	uint16 slot = 0;
-	uint8 previous_day = 0;
-
-	for( size_t i = 0; ok && i < moonlight_attendance_entries.size(); i++ ){
-		const PACKET_ZC_MOONLIGHT_ATTENDANCE_sub& entry = moonlight_attendance_entries[i];
-
-		slot = entry.day == previous_day ? slot + 1 : 0;
-		previous_day = entry.day;
-
-		ok = Sql_Query( mmysql_handle,
-			"INSERT INTO `moonlight_attendance_calendar` (`day`, `slot`, `item_id`, `amount`, `milestone`) VALUES ('%u', '%u', '%u', '%u', '%u')",
-			entry.day, slot, entry.itemId, entry.amount, ( entry.flags & MOONLIGHT_ATTENDANCE_FLAG_MILESTONE ) ? 1 : 0 ) == SQL_SUCCESS;
-	}
-
-	if( !ok || Sql_QueryStr( mmysql_handle, "COMMIT" ) != SQL_SUCCESS ){
-		Sql_ShowDebug( mmysql_handle );
-		Sql_QueryStr( mmysql_handle, "ROLLBACK" );
-		ShowError( "moonlight_attendance: le calendrier n'a pas \xe9t\xe9 publi\xe9 en base.\n" );
-	}
-}
-
-void MoonlightAttendanceDatabase::loadingFinished(){
-	// Le cycle donne les jours dans l'ordre : un trou laisserait une
-	// réclamation sans récompense. Un calendrier incomplet ferme la présence.
-	if( !this->empty() ){
-		bool complete = true;
-
-		for( uint16 day = 1; day <= MOONLIGHT_ATTENDANCE_CYCLE_DAYS; day++ ){
-			if( !this->exists( day ) ){
-				ShowError( "moonlight_attendance: le jour %hu manque au calendrier.\n", day );
-				complete = false;
-			}
-		}
-
-		if( !complete ){
-			ShowError( "moonlight_attendance: calendrier refus\xe9, la pr\xe9sence reste ferm\xe9" "e.\n" );
-			this->clear();
-		}
-	}else{
-		ShowWarning( "moonlight_attendance: calendrier vide, la pr\xe9sence reste ferm\xe9" "e.\n" );
-	}
-
-	moonlight_attendance_entries.clear();
-
-	for( uint16 day = 1; day <= MOONLIGHT_ATTENDANCE_CYCLE_DAYS; day++ ){
-		std::shared_ptr<s_moonlight_attendance_day> entry = this->find( day );
-
-		if( entry == nullptr ){
-			continue;
-		}
-
-		// LES POINTS D'EVENT D'ABORD : un bloc sans item, que le client et le
-		// site reconnaissent à son drapeau et à son item nul.
-		if( entry->event_points > 0 ){
-			PACKET_ZC_MOONLIGHT_ATTENDANCE_sub sub = {};
-
-			sub.day = static_cast<uint8>( day );
-			sub.flags = MOONLIGHT_ATTENDANCE_FLAG_EVENT_POINTS | ( entry->milestone ? MOONLIGHT_ATTENDANCE_FLAG_MILESTONE : 0 );
-			sub.itemId = 0;
-			sub.amount = entry->event_points;
-			moonlight_attendance_entries.push_back( sub );
-		}
-
-		for( const s_moonlight_attendance_reward& reward : entry->rewards ){
-			PACKET_ZC_MOONLIGHT_ATTENDANCE_sub sub = {};
-
-			sub.day = static_cast<uint8>( day );
-			sub.flags = entry->milestone ? MOONLIGHT_ATTENDANCE_FLAG_MILESTONE : 0;
-			sub.itemId = reward.item_id;
-			sub.amount = reward.amount;
-			moonlight_attendance_entries.push_back( sub );
-		}
-	}
-
-	moonlight_attendance_publish_calendar();
-
-	TypesafeYamlDatabase::loadingFinished();
-}
-
-bool moonlight_attendance_open(){
-	return battle_config.feature_attendance && !moonlight_attendance_db.empty();
-}
+/// Exemplaires d'un item non empilable qu'un bloc donne au plus : il se donne
+/// à l'unité, une case chacun, et un inventaire n'en a pas plus.
+static constexpr uint32 MOONLIGHT_ATTENDANCE_UNSTACKABLE_MAX = MAX_INVENTORY;
 
 /* ------------------------------------------------------------------------- *
- * L'état d'un compte, en SQL
+ * Lecture des colonnes
  * ------------------------------------------------------------------------- */
-
-/// La ligne moonlight_attendance d'un compte, avec le jour de la base.
-/// Les dates sont en AAAAMMJJ ; 0 pour une date vide.
-struct s_moonlight_attendance_row {
-	uint32 today = 0;
-	uint32 cycle_start = 0;
-	uint32 claimed = 0;
-	uint32 last_claim = 0;
-	uint32 web_used = 0;
-	int64 cycle_age_days = -1; ///< DATEDIFF(today, cycle_start), -1 sans cycle
-	uint32 seconds_until_reset = 0;
-};
 
 /// Lit la colonne `col` de la ligne courante ; faux si elle est NULL.
 static bool moonlight_attendance_column( size_t col, int64& out ){
@@ -267,8 +56,156 @@ static uint32 moonlight_attendance_column_u32( size_t col ){
 
 	moonlight_attendance_column( col, value );
 
-	return static_cast<uint32>( std::max<int64>( value, 0 ) );
+	return static_cast<uint32>( std::clamp<int64>( value, 0, std::numeric_limits<uint32>::max() ) );
 }
+
+/* ------------------------------------------------------------------------- *
+ * Les éditions du calendrier
+ * ------------------------------------------------------------------------- */
+
+/// Le calendrier d'une édition tel qu'il part au client, trié par jour puis
+/// par rang. `complete` : chaque jour du cycle a au moins un bloc.
+struct s_moonlight_attendance_calendar {
+	uint32 edition_id = 0;
+	bool complete = false;
+	std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub> entries;
+};
+
+/// Exécute `query`, qui rend au plus une ligne d'une colonne : l'identifiant
+/// d'une édition. 0 s'il n'y en a pas.
+static uint32 moonlight_attendance_edition_query( const char* query ){
+	if( Sql_QueryStr( mmysql_handle, query ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+		return 0;
+	}
+
+	uint32 edition_id = 0;
+
+	if( Sql_NextRow( mmysql_handle ) == SQL_SUCCESS ){
+		edition_id = moonlight_attendance_column_u32( 0 );
+	}
+
+	Sql_FreeResult( mmysql_handle );
+	return edition_id;
+}
+
+/// L'édition du jour `date` (AAAAMMJJ) : celle du plus grand mois qui
+/// commence au plus tard ce jour-là. 0 s'il n'y en a pas.
+static uint32 moonlight_attendance_edition_on( uint32 date ){
+	if( date == 0 ){
+		return 0;
+	}
+
+	char query[256];
+
+	safesnprintf( query, sizeof( query ),
+		"SELECT `id` FROM `moonlight_attendance_edition` WHERE `month` <= STR_TO_DATE('%u', '%%Y%%m%%d') ORDER BY `month` DESC LIMIT 1",
+		date );
+
+	return moonlight_attendance_edition_query( query );
+}
+
+/// L'édition d'aujourd'hui, au jour de la base.
+static uint32 moonlight_attendance_edition_today(){
+	return moonlight_attendance_edition_query(
+		"SELECT `id` FROM `moonlight_attendance_edition` WHERE `month` <= CURDATE() ORDER BY `month` DESC LIMIT 1" );
+}
+
+/// Lit le calendrier de l'édition `edition_id`. Vrai s'il est complet ; une
+/// édition absente ou incomplète le dit au journal.
+static bool moonlight_attendance_load_calendar( uint32 edition_id, s_moonlight_attendance_calendar& calendar ){
+	calendar = {};
+	calendar.edition_id = edition_id;
+
+	if( edition_id == 0 ){
+		ShowError( "moonlight_attendance: aucune \xe9" "dition du calendrier ne couvre ce cycle, la pr\xe9sence reste ferm\xe9" "e.\n" );
+		return false;
+	}
+
+	if( Sql_Query( mmysql_handle,
+			"SELECT `day`, `slot`, `item_id`, `amount`, `milestone` FROM `moonlight_attendance_calendar` WHERE `edition_id` = '%u' ORDER BY `day`, `slot`",
+			edition_id ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+		return false;
+	}
+
+	uint32 days_mask = 0;
+
+	while( Sql_NextRow( mmysql_handle ) == SQL_SUCCESS ){
+		const uint32 day = moonlight_attendance_column_u32( 0 );
+		const uint32 item_id = moonlight_attendance_column_u32( 2 );
+		const uint32 amount = moonlight_attendance_column_u32( 3 );
+		const bool milestone = moonlight_attendance_column_u32( 4 ) != 0;
+
+		if( day < 1 || day > MOONLIGHT_ATTENDANCE_CYCLE_DAYS || amount < 1 || amount > std::numeric_limits<uint16>::max() ){
+			ShowError( "moonlight_attendance: \xe9" "dition %u, bloc (jour %u, rang %u) ignor\xe9 : jour hors de 1..%d ou quantit\xe9 %u invalide.\n",
+				edition_id, day, moonlight_attendance_column_u32( 1 ), MOONLIGHT_ATTENDANCE_CYCLE_DAYS, amount );
+			continue;
+		}
+
+		if( calendar.entries.size() >= MOONLIGHT_ATTENDANCE_ENTRIES_MAX ){
+			ShowError( "moonlight_attendance: \xe9" "dition %u, plus de %zu blocs : les suivants sont ignor\xe9s.\n", edition_id, MOONLIGHT_ATTENDANCE_ENTRIES_MAX );
+			break;
+		}
+
+		PACKET_ZC_MOONLIGHT_ATTENDANCE_sub sub = {};
+
+		sub.day = static_cast<uint8>( day );
+		sub.flags = ( milestone ? MOONLIGHT_ATTENDANCE_FLAG_MILESTONE : 0 ) | ( item_id == 0 ? MOONLIGHT_ATTENDANCE_FLAG_EVENT_POINTS : 0 );
+		sub.itemId = item_id;
+		sub.amount = static_cast<uint16>( amount );
+		calendar.entries.push_back( sub );
+		days_mask |= 1u << ( day - 1 );
+	}
+
+	Sql_FreeResult( mmysql_handle );
+
+	// Le cycle donne les jours dans l'ordre : un trou laisserait une
+	// réclamation sans récompense. Une édition incomplète ferme la présence.
+	for( uint16 day = 1; day <= MOONLIGHT_ATTENDANCE_CYCLE_DAYS; day++ ){
+		if( ( days_mask & ( 1u << ( day - 1 ) ) ) == 0 ){
+			ShowError( "moonlight_attendance: le jour %hu manque \xe0 l'\xe9" "dition %u, la pr\xe9sence reste ferm\xe9" "e pour ceux qui la suivent.\n", day, edition_id );
+			return false;
+		}
+	}
+
+	calendar.complete = true;
+	return true;
+}
+
+/// Les blocs du jour `day` d'un calendrier.
+static std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub> moonlight_attendance_day_entries( const s_moonlight_attendance_calendar& calendar, uint16 day ){
+	std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub> blocks;
+
+	for( const PACKET_ZC_MOONLIGHT_ATTENDANCE_sub& entry : calendar.entries ){
+		if( entry.day == day ){
+			blocks.push_back( entry );
+		}
+	}
+
+	return blocks;
+}
+
+bool moonlight_attendance_open(){
+	return battle_config.feature_attendance && mmysql_handle != nullptr && moonlight_attendance_edition_today() != 0;
+}
+
+/* ------------------------------------------------------------------------- *
+ * L'état d'un compte, en SQL
+ * ------------------------------------------------------------------------- */
+
+/// La ligne moonlight_attendance d'un compte, avec le jour de la base.
+/// Les dates sont en AAAAMMJJ ; 0 pour une date vide.
+struct s_moonlight_attendance_row {
+	uint32 today = 0;
+	uint32 cycle_start = 0;
+	uint32 claimed = 0;
+	uint32 last_claim = 0;
+	uint32 web_used = 0;
+	uint32 edition_id = 0; ///< 0 : pas encore posée
+	int64 cycle_age_days = -1; ///< DATEDIFF(today, cycle_start), -1 sans cycle
+	uint32 seconds_until_reset = 0;
+};
 
 /// La règle : un cycle est à ouvrir s'il n'y en a pas, si sa fenêtre est
 /// passée ou si ses récompenses sont toutes prises.
@@ -281,7 +218,7 @@ static bool moonlight_attendance_cycle_to_open( const s_moonlight_attendance_row
 static bool moonlight_attendance_read_state( uint32 user_id, s_moonlight_attendance_row& row ){
 	if( Sql_Query( mmysql_handle,
 			"SELECT CURDATE()+0, TIMESTAMPDIFF(SECOND, NOW(), CURDATE() + INTERVAL 1 DAY), "
-			"`a`.`cycle_start`+0, `a`.`claimed`, `a`.`last_claim`+0, `a`.`web_used`, DATEDIFF(CURDATE(), `a`.`cycle_start`) "
+			"`a`.`cycle_start`+0, `a`.`claimed`, `a`.`last_claim`+0, `a`.`web_used`, DATEDIFF(CURDATE(), `a`.`cycle_start`), `a`.`edition_id` "
 			"FROM (SELECT 1) AS `d` LEFT JOIN `moonlight_attendance` AS `a` ON `a`.`user_id` = '%u'",
 			user_id ) != SQL_SUCCESS ){
 		Sql_ShowDebug( mmysql_handle );
@@ -300,6 +237,7 @@ static bool moonlight_attendance_read_state( uint32 user_id, s_moonlight_attenda
 	row.claimed = moonlight_attendance_column_u32( 3 );
 	row.last_claim = moonlight_attendance_column_u32( 4 );
 	row.web_used = moonlight_attendance_column_u32( 5 );
+	row.edition_id = moonlight_attendance_column_u32( 7 );
 
 	int64 age = -1;
 
@@ -309,6 +247,26 @@ static bool moonlight_attendance_read_state( uint32 user_id, s_moonlight_attenda
 
 	Sql_FreeResult( mmysql_handle );
 	return true;
+}
+
+/// L'édition du cycle en cours du compte. Un cycle qui n'en porte pas encore
+/// reçoit celle de son premier jour, écrite pour qu'elle ne bouge plus.
+static uint32 moonlight_attendance_cycle_edition( uint32 user_id, const s_moonlight_attendance_row& row ){
+	if( row.edition_id != 0 ){
+		return row.edition_id;
+	}
+
+	const uint32 edition_id = moonlight_attendance_edition_on( row.cycle_start );
+
+	// Conditionnel : une réclamation concurrente qui ouvre un autre cycle,
+	// ou qui a déjà posé l'édition, garde la sienne.
+	if( edition_id != 0 && Sql_Query( mmysql_handle,
+			"UPDATE `moonlight_attendance` SET `edition_id` = '%u' WHERE `user_id` = '%u' AND `edition_id` IS NULL AND `cycle_start` = STR_TO_DATE('%u', '%%Y%%m%%d')",
+			edition_id, user_id, row.cycle_start ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+	}
+
+	return edition_id;
 }
 
 /// Les récompenses du cycle `cycle_start` réclamées par le site : bit d-1.
@@ -337,13 +295,15 @@ static uint32 moonlight_attendance_web_mask( uint32 user_id, uint32 cycle_start 
 enum e_moonlight_attendance_claim : uint8 {
 	MOONLIGHT_ATTENDANCE_CLAIM_DONE,
 	MOONLIGHT_ATTENDANCE_CLAIM_ALREADY,
+	MOONLIGHT_ATTENDANCE_CLAIM_CLOSED, ///< l'édition du cycle manque ou est incomplète
 	MOONLIGHT_ATTENDANCE_CLAIM_ERROR,
 };
 
 /// Réclame le jour pour le compte, par le jeu, en une transaction. En cas de
-/// succès, `day` est le rang de la récompense obtenue et `log_id` la ligne du
-/// journal, déjà marquée livrée à ce personnage.
-static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_session_data& sd, uint16& day, uint32& log_id ){
+/// succès, `day` est le rang de la récompense obtenue, `log_id` la ligne du
+/// journal, déjà marquée livrée à ce personnage, et `calendar` l'édition du
+/// cycle, complète.
+static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_session_data& sd, uint16& day, uint32& log_id, s_moonlight_attendance_calendar& calendar ){
 	const uint32 user_id = sd.status.user_id;
 
 	// La ligne se crée hors transaction : sous FOR UPDATE, un INSERT IGNORE
@@ -369,7 +329,7 @@ static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_se
 	};
 
 	if( Sql_Query( mmysql_handle,
-			"SELECT CURDATE()+0, `cycle_start`+0, `claimed`, `last_claim`+0, `web_used`, DATEDIFF(CURDATE(), `cycle_start`) "
+			"SELECT CURDATE()+0, `cycle_start`+0, `claimed`, `last_claim`+0, `web_used`, DATEDIFF(CURDATE(), `cycle_start`), `edition_id` "
 			"FROM `moonlight_attendance` WHERE `user_id` = '%u' FOR UPDATE",
 			user_id ) != SQL_SUCCESS ){
 		return rollback( MOONLIGHT_ATTENDANCE_CLAIM_ERROR );
@@ -387,6 +347,7 @@ static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_se
 	row.claimed = moonlight_attendance_column_u32( 2 );
 	row.last_claim = moonlight_attendance_column_u32( 3 );
 	row.web_used = moonlight_attendance_column_u32( 4 );
+	row.edition_id = moonlight_attendance_column_u32( 6 );
 
 	int64 age = -1;
 
@@ -406,26 +367,35 @@ static e_moonlight_attendance_claim moonlight_attendance_claim_sql( const map_se
 		return rollback( MOONLIGHT_ATTENDANCE_CLAIM_ALREADY );
 	}
 
+	// Le jour lu sous le verrou fait foi jusqu'au bout : un minuit qui tombe
+	// entre deux requêtes ne coupe pas la réclamation en deux jours, ni ne
+	// change l'édition du cycle qui s'ouvre.
 	if( to_open ){
 		row.cycle_start = row.today;
 		row.claimed = 0;
 		row.web_used = 0;
+		row.edition_id = moonlight_attendance_edition_on( row.today );
+	}else if( row.edition_id == 0 ){
+		row.edition_id = moonlight_attendance_edition_on( row.cycle_start );
+	}
+
+	// Rien ne se réclame qui ne pourrait se livrer.
+	if( !moonlight_attendance_load_calendar( row.edition_id, calendar ) ){
+		return rollback( MOONLIGHT_ATTENDANCE_CLAIM_CLOSED );
 	}
 
 	row.claimed += 1;
 
-	// Le jour lu sous le verrou fait foi jusqu'au bout : un minuit qui tombe
-	// entre deux requêtes ne coupe pas la réclamation en deux jours.
 	if( Sql_Query( mmysql_handle,
-			"UPDATE `moonlight_attendance` SET `cycle_start` = '%u', `claimed` = '%u', `last_claim` = '%u', `web_used` = '%u' WHERE `user_id` = '%u'",
-			row.cycle_start, row.claimed, row.today, row.web_used, user_id ) != SQL_SUCCESS ){
+			"UPDATE `moonlight_attendance` SET `cycle_start` = '%u', `claimed` = '%u', `last_claim` = '%u', `web_used` = '%u', `edition_id` = '%u' WHERE `user_id` = '%u'",
+			row.cycle_start, row.claimed, row.today, row.web_used, row.edition_id, user_id ) != SQL_SUCCESS ){
 		return rollback( MOONLIGHT_ATTENDANCE_CLAIM_ERROR );
 	}
 
 	if( Sql_Query( mmysql_handle,
-			"INSERT INTO `moonlight_attendance_log` (`user_id`, `cycle_start`, `day`, `claimed_on`, `source`, `delivered_at`, `char_id`) "
-			"VALUES ('%u', '%u', '%u', '%u', 'game', NOW(), '%u')",
-			user_id, row.cycle_start, row.claimed, row.today, sd.status.char_id ) != SQL_SUCCESS ){
+			"INSERT INTO `moonlight_attendance_log` (`user_id`, `cycle_start`, `edition_id`, `day`, `claimed_on`, `source`, `delivered_at`, `char_id`) "
+			"VALUES ('%u', '%u', '%u', '%u', '%u', 'game', NOW(), '%u')",
+			user_id, row.cycle_start, row.edition_id, row.claimed, row.today, sd.status.char_id ) != SQL_SUCCESS ){
 		return rollback( MOONLIGHT_ATTENDANCE_CLAIM_ERROR );
 	}
 
@@ -458,29 +428,100 @@ static void moonlight_attendance_credit_event_points( map_session_data& sd, uint
 	clif_messagecolor( &sd, color_table[COLOR_LIGHT_GREEN], message, false, SELF );
 }
 
-/// Donne les items du jour : dans l'inventaire tant qu'ils y entrent ; dès
-/// qu'un item n'y entre plus (poids, cases, pile), lui et tous les suivants
-/// partent par RODEX. Vrai si un courrier est parti.
-static bool moonlight_attendance_deliver( map_session_data& sd, const s_moonlight_attendance_day& entry ){
-	if( entry.event_points > 0 ){
-		moonlight_attendance_credit_event_points( sd, entry.event_points );
+/// Un lot à remettre : un item et sa quantité, qui tient en une case.
+struct s_moonlight_attendance_parcel {
+	t_itemid item_id;
+	uint32 amount;
+};
+
+/// Les lots des blocs d'items d'un jour. Un item inconnu est écarté ; un item
+/// non empilable se donne à l'unité, autant de fois que la quantité le dit.
+static std::vector<s_moonlight_attendance_parcel> moonlight_attendance_parcels( const std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub>& blocks ){
+	std::vector<s_moonlight_attendance_parcel> parcels;
+
+	for( const PACKET_ZC_MOONLIGHT_ATTENDANCE_sub& block : blocks ){
+		if( block.flags & MOONLIGHT_ATTENDANCE_FLAG_EVENT_POINTS ){
+			continue;
+		}
+
+		std::shared_ptr<item_data> item = item_db.find( block.itemId );
+
+		if( item == nullptr ){
+			ShowError( "moonlight_attendance: item %u inconnu (jour %u) : il n'est pas livr\xe9.\n", block.itemId, block.day );
+			continue;
+		}
+
+		if( itemdb_isstackable2( item.get() ) ){
+			parcels.push_back( { item->nameid, block.amount } );
+			continue;
+		}
+
+		uint32 copies = block.amount;
+
+		if( copies > MOONLIGHT_ATTENDANCE_UNSTACKABLE_MAX ){
+			ShowError( "moonlight_attendance: item %u non empilable, quantit\xe9 %u ramen\xe9" "e \xe0 %u (jour %u).\n",
+				block.itemId, copies, MOONLIGHT_ATTENDANCE_UNSTACKABLE_MAX, block.day );
+			copies = MOONLIGHT_ATTENDANCE_UNSTACKABLE_MAX;
+		}
+
+		for( uint32 i = 0; i < copies; i++ ){
+			parcels.push_back( { item->nameid, 1 } );
+		}
 	}
 
-	std::vector<s_moonlight_attendance_reward> to_mail;
+	return parcels;
+}
 
-	for( const s_moonlight_attendance_reward& reward : entry.rewards ){
+/// Envoie `parcels` par RODEX, MAIL_MAX_ITEM lots par courrier.
+static void moonlight_attendance_mail( map_session_data& sd, uint16 day, const std::vector<s_moonlight_attendance_parcel>& parcels ){
+	for( size_t first = 0; first < parcels.size(); first += MAIL_MAX_ITEM ){
+		mail_message msg = {};
+
+		msg.dest_id = sd.status.char_id;
+		safestrncpy( msg.send_name, msg_txt( &sd, 788 ), NAME_LENGTH );
+		safesnprintf( msg.title, MAIL_TITLE_LENGTH, msg_txt( &sd, 789 ), day );
+		safesnprintf( msg.body, MAIL_BODY_LENGTH, msg_txt( &sd, 790 ), day );
+
+		for( size_t i = 0; i < MAIL_MAX_ITEM && first + i < parcels.size(); i++ ){
+			msg.item[i].nameid = parcels[first + i].item_id;
+			msg.item[i].amount = static_cast<decltype( msg.item[i].amount )>( parcels[first + i].amount );
+			msg.item[i].identify = 1;
+		}
+
+		msg.status = MAIL_NEW;
+		msg.type = MAIL_INBOX_NORMAL;
+		msg.timestamp = time( nullptr );
+
+		intif_Mail_send( 0, &msg );
+	}
+}
+
+/// Donne les blocs du jour `day` : les points d'event au compte, les items
+/// dans l'inventaire tant qu'ils y entrent ; dès qu'un lot n'y entre plus
+/// (poids, cases, pile), lui et tous les suivants partent par RODEX, en autant
+/// de courriers qu'il en faut. Vrai si un courrier est parti.
+static bool moonlight_attendance_deliver( map_session_data& sd, uint16 day, const std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub>& blocks ){
+	for( const PACKET_ZC_MOONLIGHT_ATTENDANCE_sub& block : blocks ){
+		if( block.flags & MOONLIGHT_ATTENDANCE_FLAG_EVENT_POINTS ){
+			moonlight_attendance_credit_event_points( sd, block.amount );
+		}
+	}
+
+	std::vector<s_moonlight_attendance_parcel> to_mail;
+
+	for( const s_moonlight_attendance_parcel& parcel : moonlight_attendance_parcels( blocks ) ){
 		if( !to_mail.empty() ){
-			to_mail.push_back( reward );
+			to_mail.push_back( parcel );
 			continue;
 		}
 
 		struct item it = {};
 
-		it.nameid = reward.item_id;
+		it.nameid = parcel.item_id;
 		it.identify = 1;
 
-		if( pc_additem( &sd, &it, reward.amount, LOG_TYPE_OTHER ) != ADDITEM_SUCCESS ){
-			to_mail.push_back( reward );
+		if( pc_additem( &sd, &it, parcel.amount, LOG_TYPE_OTHER ) != ADDITEM_SUCCESS ){
+			to_mail.push_back( parcel );
 		}
 	}
 
@@ -488,24 +529,7 @@ static bool moonlight_attendance_deliver( map_session_data& sd, const s_moonligh
 		return false;
 	}
 
-	mail_message msg = {};
-
-	msg.dest_id = sd.status.char_id;
-	safestrncpy( msg.send_name, msg_txt( &sd, 788 ), NAME_LENGTH );
-	safesnprintf( msg.title, MAIL_TITLE_LENGTH, msg_txt( &sd, 789 ), entry.day );
-	safesnprintf( msg.body, MAIL_BODY_LENGTH, msg_txt( &sd, 790 ), entry.day );
-
-	for( size_t i = 0; i < to_mail.size() && i < MAIL_MAX_ITEM; i++ ){
-		msg.item[i].nameid = to_mail[i].item_id;
-		msg.item[i].amount = to_mail[i].amount;
-		msg.item[i].identify = 1;
-	}
-
-	msg.status = MAIL_NEW;
-	msg.type = MAIL_INBOX_NORMAL;
-	msg.timestamp = time( nullptr );
-
-	intif_Mail_send( 0, &msg );
+	moonlight_attendance_mail( sd, day, to_mail );
 	return true;
 }
 
@@ -527,39 +551,55 @@ static void moonlight_attendance_say_delivered( map_session_data& sd, uint16 day
 	clif_messagecolor( &sd, color_table[COLOR_LIGHT_GREEN], message, false, SELF );
 }
 
-/// Livre les récompenses réclamées sur le site qui attendent le compte. Chaque
-/// ligne se prend par un UPDATE conditionnel : une seule session la gagne.
+/// Livre les récompenses réclamées sur le site qui attendent le compte, chacune
+/// selon l'édition de sa réclamation. Chaque ligne se prend par un UPDATE
+/// conditionnel : une seule session la gagne.
 static void moonlight_attendance_deliver_web_pending( map_session_data& sd ){
 	if( Sql_Query( mmysql_handle,
-			"SELECT `id`, `day` FROM `moonlight_attendance_log` WHERE `user_id` = '%u' AND `source` = 'web' AND `delivered_at` IS NULL ORDER BY `id`",
+			"SELECT `id`, `day`, `edition_id`, `cycle_start`+0 FROM `moonlight_attendance_log` "
+			"WHERE `user_id` = '%u' AND `source` = 'web' AND `delivered_at` IS NULL ORDER BY `id`",
 			sd.status.user_id ) != SQL_SUCCESS ){
 		Sql_ShowDebug( mmysql_handle );
 		return;
 	}
 
-	std::vector<std::pair<uint32, uint16>> pending; // id, day
+	std::vector<std::tuple<uint32, uint16, uint32, uint32>> pending; // id, day, edition_id, cycle_start
 
 	while( Sql_NextRow( mmysql_handle ) == SQL_SUCCESS ){
-		pending.emplace_back( moonlight_attendance_column_u32( 0 ), static_cast<uint16>( moonlight_attendance_column_u32( 1 ) ) );
+		pending.emplace_back( moonlight_attendance_column_u32( 0 ), static_cast<uint16>( moonlight_attendance_column_u32( 1 ) ),
+			moonlight_attendance_column_u32( 2 ), moonlight_attendance_column_u32( 3 ) );
 	}
 
 	Sql_FreeResult( mmysql_handle );
 
+	std::map<uint32, s_moonlight_attendance_calendar> calendars; // par édition
 	bool delivered = false;
 
-	for( const auto& [log_id, day] : pending ){
-		std::shared_ptr<s_moonlight_attendance_day> entry = moonlight_attendance_db.find( day );
+	for( auto [log_id, day, edition_id, cycle_start] : pending ){
+		if( edition_id == 0 ){
+			edition_id = moonlight_attendance_edition_on( cycle_start );
+		}
 
-		// Sans le jour au calendrier, la ligne reste en attente : elle se
-		// livrera quand le calendrier sera de nouveau complet.
-		if( entry == nullptr ){
-			ShowWarning( "moonlight_attendance: r\xe9" "compense web %u (jour %hu) en attente : jour absent du calendrier.\n", log_id, day );
+		auto found = calendars.find( edition_id );
+
+		if( found == calendars.end() ){
+			found = calendars.emplace( edition_id, s_moonlight_attendance_calendar{} ).first;
+			moonlight_attendance_load_calendar( edition_id, found->second );
+		}
+
+		// Une réclamation se livre dès que son jour a des blocs, même si son
+		// édition est incomplète : elle est due. Sans eux, elle reste en
+		// attente jusqu'à ce que l'édition les ait.
+		const std::vector<PACKET_ZC_MOONLIGHT_ATTENDANCE_sub> blocks = moonlight_attendance_day_entries( found->second, day );
+
+		if( blocks.empty() ){
+			ShowWarning( "moonlight_attendance: r\xe9" "compense web %u (jour %hu, \xe9" "dition %u) en attente : jour absent du calendrier.\n", log_id, day, edition_id );
 			continue;
 		}
 
 		if( Sql_Query( mmysql_handle,
-				"UPDATE `moonlight_attendance_log` SET `delivered_at` = NOW(), `char_id` = '%u' WHERE `id` = '%u' AND `delivered_at` IS NULL",
-				sd.status.char_id, log_id ) != SQL_SUCCESS ){
+				"UPDATE `moonlight_attendance_log` SET `delivered_at` = NOW(), `char_id` = '%u', `edition_id` = '%u' WHERE `id` = '%u' AND `delivered_at` IS NULL",
+				sd.status.char_id, edition_id, log_id ) != SQL_SUCCESS ){
 			Sql_ShowDebug( mmysql_handle );
 			continue;
 		}
@@ -568,7 +608,7 @@ static void moonlight_attendance_deliver_web_pending( map_session_data& sd ){
 			continue; // une autre session l'a prise
 		}
 
-		const bool by_mail = moonlight_attendance_deliver( sd, *entry );
+		const bool by_mail = moonlight_attendance_deliver( sd, day, blocks );
 
 		if( by_mail ){
 			moonlight_attendance_mark_by_mail( log_id );
@@ -592,7 +632,41 @@ void moonlight_attendance_send( map_session_data& sd, bool open, uint8 result ){
 		return;
 	}
 
-	const size_t entries_length = moonlight_attendance_entries.size() * sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE_sub );
+	uint8 claimed_days = 0;
+	uint8 claimed_today = 0;
+	uint8 days_left = MOONLIGHT_ATTENDANCE_CYCLE_DAYS;
+	uint8 web_charges_left = MOONLIGHT_ATTENDANCE_WEB_CHARGES;
+	uint32 web_claimed_mask = 0;
+	uint32 seconds_until_reset = 0;
+	uint32 cycle_start = 0;
+	s_moonlight_attendance_calendar calendar;
+	s_moonlight_attendance_row row;
+
+	if( result != MOONLIGHT_ATTENDANCE_CLOSED && sd.status.user_id != 0 && moonlight_attendance_read_state( sd.status.user_id, row ) ){
+		claimed_today = row.last_claim != 0 && row.last_claim == row.today;
+		seconds_until_reset = row.seconds_until_reset;
+
+		// Le cycle dont le jour vient d'être réclamé reste affiché, même plein :
+		// le suivant ne s'ouvre qu'à la prochaine réclamation. Un cycle à
+		// ouvrir montre l'édition du jour, celle qu'il prendra.
+		const bool shows_cycle = !moonlight_attendance_cycle_to_open( row ) || claimed_today;
+		const uint32 edition_id = shows_cycle ? moonlight_attendance_cycle_edition( sd.status.user_id, row ) : moonlight_attendance_edition_today();
+
+		if( !moonlight_attendance_load_calendar( edition_id, calendar ) ){
+			result = MOONLIGHT_ATTENDANCE_CLOSED;
+			calendar.entries.clear();
+			claimed_today = 0;
+			seconds_until_reset = 0;
+		}else if( shows_cycle ){
+			claimed_days = static_cast<uint8>( std::min<uint32>( row.claimed, MOONLIGHT_ATTENDANCE_CYCLE_DAYS ) );
+			days_left = static_cast<uint8>( std::clamp<int64>( MOONLIGHT_ATTENDANCE_CYCLE_DAYS - row.cycle_age_days, 0, MOONLIGHT_ATTENDANCE_CYCLE_DAYS ) );
+			web_charges_left = static_cast<uint8>( MOONLIGHT_ATTENDANCE_WEB_CHARGES - std::min<uint32>( row.web_used, MOONLIGHT_ATTENDANCE_WEB_CHARGES ) );
+			web_claimed_mask = moonlight_attendance_web_mask( sd.status.user_id, row.cycle_start );
+			cycle_start = row.cycle_start;
+		}
+	}
+
+	const size_t entries_length = calendar.entries.size() * sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE_sub );
 	const size_t length = sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE ) + entries_length;
 
 	WFIFOHEAD( sd.fd, length );
@@ -605,29 +679,17 @@ void moonlight_attendance_send( map_session_data& sd, bool open, uint8 result ){
 	p.open = open ? 1 : 0;
 	p.result = result;
 	p.cycleLength = MOONLIGHT_ATTENDANCE_CYCLE_DAYS;
-	p.daysLeft = MOONLIGHT_ATTENDANCE_CYCLE_DAYS;
-	p.webChargesLeft = MOONLIGHT_ATTENDANCE_WEB_CHARGES;
+	p.claimedDays = claimed_days;
+	p.claimedToday = claimed_today;
+	p.daysLeft = days_left;
+	p.webChargesLeft = web_charges_left;
 	p.webChargesMax = MOONLIGHT_ATTENDANCE_WEB_CHARGES;
-
-	s_moonlight_attendance_row row;
-
-	if( result != MOONLIGHT_ATTENDANCE_CLOSED && sd.status.user_id != 0 && moonlight_attendance_read_state( sd.status.user_id, row ) ){
-		p.claimedToday = row.last_claim != 0 && row.last_claim == row.today;
-		p.secondsUntilReset = row.seconds_until_reset;
-
-		// Le cycle dont le jour vient d'être réclamé reste affiché, même plein :
-		// le suivant ne s'ouvre qu'à la prochaine réclamation.
-		if( !moonlight_attendance_cycle_to_open( row ) || p.claimedToday ){
-			p.claimedDays = static_cast<uint8>( std::min<uint32>( row.claimed, MOONLIGHT_ATTENDANCE_CYCLE_DAYS ) );
-			p.daysLeft = static_cast<uint8>( std::clamp<int64>( MOONLIGHT_ATTENDANCE_CYCLE_DAYS - row.cycle_age_days, 0, MOONLIGHT_ATTENDANCE_CYCLE_DAYS ) );
-			p.webChargesLeft = static_cast<uint8>( MOONLIGHT_ATTENDANCE_WEB_CHARGES - std::min<uint32>( row.web_used, MOONLIGHT_ATTENDANCE_WEB_CHARGES ) );
-			p.webClaimedMask = moonlight_attendance_web_mask( sd.status.user_id, row.cycle_start );
-			p.cycleStart = row.cycle_start;
-		}
-	}
+	p.webClaimedMask = web_claimed_mask;
+	p.secondsUntilReset = seconds_until_reset;
+	p.cycleStart = cycle_start;
 
 	if( entries_length > 0 ){
-		memcpy( WFIFOP( sd.fd, sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE ) ), moonlight_attendance_entries.data(), entries_length );
+		memcpy( WFIFOP( sd.fd, sizeof( PACKET_ZC_MOONLIGHT_ATTENDANCE ) ), calendar.entries.data(), entries_length );
 	}
 
 	WFIFOSET( sd.fd, length );
@@ -640,7 +702,7 @@ static bool moonlight_attendance_allowed( map_session_data& sd ){
 		return false;
 	}
 
-	return moonlight_attendance_open() && sd.status.user_id != 0;
+	return sd.status.user_id != 0 && moonlight_attendance_open();
 }
 
 void moonlight_attendance_request_state( map_session_data& sd ){
@@ -655,10 +717,14 @@ void moonlight_attendance_request_claim( map_session_data& sd ){
 
 	uint16 day = 0;
 	uint32 log_id = 0;
+	s_moonlight_attendance_calendar calendar;
 
-	switch( moonlight_attendance_claim_sql( sd, day, log_id ) ){
+	switch( moonlight_attendance_claim_sql( sd, day, log_id, calendar ) ){
 		case MOONLIGHT_ATTENDANCE_CLAIM_ALREADY:
 			moonlight_attendance_send( sd, false, MOONLIGHT_ATTENDANCE_ALREADY_CLAIMED );
+			return;
+		case MOONLIGHT_ATTENDANCE_CLAIM_CLOSED:
+			moonlight_attendance_send( sd, false, MOONLIGHT_ATTENDANCE_CLOSED );
 			return;
 		case MOONLIGHT_ATTENDANCE_CLAIM_ERROR:
 			clif_messagecolor( &sd, color_table[COLOR_RED], "La pr\xe9sence est momentan\xe9ment indisponible.", false, SELF );
@@ -668,22 +734,15 @@ void moonlight_attendance_request_claim( map_session_data& sd ){
 			break;
 	}
 
-	std::shared_ptr<s_moonlight_attendance_day> entry = moonlight_attendance_db.find( day );
-	bool by_mail = false;
+	// L'édition est complète : le jour réclamé a au moins un bloc.
+	const bool by_mail = moonlight_attendance_deliver( sd, day, moonlight_attendance_day_entries( calendar, day ) );
 
-	if( entry != nullptr ){
-		by_mail = moonlight_attendance_deliver( sd, *entry );
-
-		if( by_mail ){
-			moonlight_attendance_mark_by_mail( log_id );
-		}
-
-		chrif_save( &sd, CSAVE_INVENTORY );
-		moonlight_attendance_say_delivered( sd, day, false, by_mail );
-	}else{
-		ShowError( "moonlight_attendance: jour %hu r\xe9" "clam\xe9 par le compte %u, absent du calendrier.\n", day, sd.status.user_id );
+	if( by_mail ){
+		moonlight_attendance_mark_by_mail( log_id );
 	}
 
+	chrif_save( &sd, CSAVE_INVENTORY );
+	moonlight_attendance_say_delivered( sd, day, false, by_mail );
 	moonlight_attendance_send( sd, false, by_mail ? MOONLIGHT_ATTENDANCE_CLAIMED_BY_MAIL : MOONLIGHT_ATTENDANCE_CLAIMED );
 }
 
@@ -705,13 +764,4 @@ void moonlight_attendance_login( map_session_data& sd ){
 	if( moonlight_attendance_read_state( sd.status.user_id, row ) && row.last_claim != row.today ){
 		moonlight_attendance_send( sd, true, MOONLIGHT_ATTENDANCE_STATE );
 	}
-}
-
-void do_init_moonlight_attendance( void ){
-	moonlight_attendance_db.load();
-}
-
-void do_final_moonlight_attendance( void ){
-	moonlight_attendance_db.clear();
-	moonlight_attendance_entries.clear();
 }

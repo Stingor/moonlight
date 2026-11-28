@@ -51,7 +51,6 @@
 #include "npc.hpp"
 #include "party.hpp"
 #include "pc.hpp"
-#include "pc_attendance.hpp"
 #include "pc_groups.hpp"
 #include "pet.hpp"
 #include "quest.hpp"
@@ -4842,16 +4841,6 @@ ACMD_FUNC(reloadachievementdb){
 	return 0;
 }
 
-ACMD_FUNC(reloadattendancedb){
-	nullpo_retr(-1, sd);
-
-	// [Stingor] Le calendrier de la présence : rechargé, puis republié en base.
-	moonlight_attendance_db.reload();
-	clif_displaymessage(fd, msg_txt(sd, 795)); // Attendance database has been reloaded.
-
-	return 0;
-}
-
 ACMD_FUNC(reloadbarterdb){
 	nullpo_retr(-1, sd);
 
@@ -4877,7 +4866,6 @@ ACMD_FUNC( reload ){
 	} types[] = {
 		{ "achievementdb", atcommand_reloadachievementdb },
 		{ "atcommand", atcommand_reloadatcommand },
-		{ "attendancedb", atcommand_reloadattendancedb },
 		{ "barterdb", atcommand_reloadbarterdb },
 		{ "battleconf", atcommand_reloadbattleconf },
 		{ "cashdb", atcommand_reloadcashdb },
@@ -12161,7 +12149,6 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(reloadmsgconf),
 		ACMD_DEF(reloadinstancedb),
 		ACMD_DEF(reloadachievementdb),
-		ACMD_DEF(reloadattendancedb),
 		ACMD_DEF(reloadbarterdb),
 		ACMD_DEF(reloadlogconf),
 		ACMD_DEF(partysharelvl),

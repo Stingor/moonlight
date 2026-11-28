@@ -1167,9 +1167,6 @@ Body:
   - Command: reloadvoicedb
     Help: |
       Reload voice server database files.
-  - Command: reloadattendancedb
-    Help: |
-      Reload attendance database.
   - Command: reloadbarterdb
     Help: |
       Reload the barter database.

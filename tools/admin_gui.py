@@ -100,7 +100,7 @@ SERVER_SOURCES = [("map", "Map"), ("char", "Char"), ("login", "Login")]
 # One-click reload targets -> "RELOAD <target>" -> "@reload<target>".
 # Rendered alphabetically as compact buttons (see _build_actions).
 RELOAD_TARGETS = [
-    "achievementdb", "atcommand", "attendancedb", "barterdb",
+    "achievementdb", "atcommand", "barterdb",
     "battleconf", "instancedb", "itemdb", "mobdb",
     "msgconf", "pcdb", "questdb", "script",
     "skilldb", "statusdb",

@@ -56,7 +56,6 @@
 #include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp" // party_search()
-#include "pc_attendance.hpp"
 #include "pc_groups.hpp"
 #include "pet.hpp" // pet_unlocktarget()
 #include "quest.hpp"
@@ -16853,7 +16852,6 @@ void do_final_pc(void) {
 	ers_destroy(num_reg_ers);
 	ers_destroy(str_reg_ers);
 
-	do_final_moonlight_attendance();
 	reputation_db.clear();
 #ifdef MAP_GENERATOR
 	reputationgroup_db.clear();
@@ -16876,7 +16874,6 @@ void do_init_pc(void) {
 
 	pc_readdb();
 	pc_read_motd(); // Read MOTD [Valaris]
-	do_init_moonlight_attendance();
 	reputation_db.load();
 #ifdef MAP_GENERATOR
 	reputationgroup_db.load();
