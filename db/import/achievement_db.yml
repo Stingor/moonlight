@@ -3219,6 +3219,38 @@ Body:
     Group: Adventure
     Name: Grand Alchemist
     Score: 50
+  - Id: 910072
+    Group: Adventure
+    Name: Poids de la foi
+    Score: 20
+  - Id: 910073
+    Group: Adventure
+    Name: Lumiere premiere
+    Score: 20
+  - Id: 910074
+    Group: Adventure
+    Name: Rempart volant
+    Score: 20
+  - Id: 910075
+    Group: Adventure
+    Name: Chant de bataille
+    Score: 20
+  - Id: 910076
+    Group: Adventure
+    Name: Garde inebranlable
+    Score: 20
+  - Id: 910077
+    Group: Adventure
+    Name: Oeil pour oeil
+    Score: 20
+  - Id: 910078
+    Group: Adventure
+    Name: Martyr
+    Score: 20
+  - Id: 910079
+    Group: Adventure
+    Name: Grand Paladin
+    Score: 50
 # Succes Taming maison (2026-11-19) : un par familier capturable sans succes officiel,
 # reunis en six series sur le modele de 230100-230147.
   - Id: 900100
