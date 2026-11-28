@@ -6,6 +6,7 @@
 #include "style_layers.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cinttypes>
 #include <cstring>
 #include <map>
@@ -955,23 +956,58 @@ bool accessory_shown(map_session_data& sd, uint8 layer, uint32 key) {
 	return layer == MOONCLIENT_STYLE_LAYER_CART && cart_key_shown(sd, key);
 }
 
+// Un emplacement MONTRÉ : ses deux équipements, l'apparence affichée, et celle
+// qu'un `setlook` y a posée (le transmog du styliste), zéro sans.
+struct s_shown {
+	equip_index normal;
+	equip_index costume;
+	int32 view;
+	int32 transmog;
+};
+
+std::array<s_shown, SHOWN_ITEMS_MAX> shown_slots(const map_session_data& sd) {
+	return { {
+		{ EQI_HEAD_TOP, EQI_COSTUME_HEAD_TOP, sd.status.head_top, sd.setlook_head_top },
+		{ EQI_HEAD_MID, EQI_COSTUME_HEAD_MID, sd.status.head_mid, sd.setlook_head_mid },
+		{ EQI_HEAD_LOW, EQI_COSTUME_HEAD_LOW, sd.status.head_bottom, sd.setlook_head_bottom },
+		{ EQI_GARMENT, EQI_COSTUME_GARMENT, sd.status.robe, sd.setlook_robe },
+	} };
+}
+
 // L'exemplaire qu'un joueur AFFICHE à un emplacement, ou -1. Le costume l'emporte,
-// sauf sur une carte sans costume ou s'il masque les siens ; et l'objet doit
-// porter l'apparence montrée, qu'un script peut avoir remplacée.
-int32 shown_index(const map_session_data& sd, equip_index normal, equip_index costume, int32 shown_view) {
-	if (shown_view == 0)
+// sauf sur une carte sans costume ou s'il masque les siens. L'objet porte
+// l'apparence montrée ; sous un transmog, c'est celui que l'apparence posée
+// recouvre, qui la porte alors à sa place.
+int32 shown_index(const map_session_data& sd, const s_shown& s) {
+	if (s.view == 0)
 		return -1;
 	const bool costumes = !map_getmapflag(sd.m, MF_NOCOSTUME) && !sd.status.disable_showcostumes;
-	for (const equip_index eqi : { costume, normal }) {
-		if (eqi == costume && !costumes)
+	int32 covered = -1;
+	for (const equip_index eqi : { s.costume, s.normal }) {
+		if (eqi == s.costume && !costumes)
 			continue;
 		const int16 idx = sd.equip_index[eqi];
 		if (idx < 0 || sd.inventory_data[idx] == nullptr)
 			continue;
-		if (static_cast<int32>(sd.inventory_data[idx]->look) == shown_view)
+		if (static_cast<int32>(sd.inventory_data[idx]->look) == s.view)
 			return idx;
+		if (covered < 0)
+			covered = idx;
 	}
-	return -1;
+	return s.transmog != 0 && s.transmog == s.view ? covered : -1;
+}
+
+// 🔴 UNE TEINTURE D'EXEMPLAIRE EST FAITE POUR UN SPRITE : sa clé rangée dit lequel.
+// Le numéro de l'objet désigne son apparence propre ; une autre valeur, l'apparence
+// d'un transmog. Sous une autre apparence, elle DORT : elle peindrait les rampes
+// d'un autre sprite.
+uint32 dye_key_for(t_itemid nameid, uint32 own_look, int32 shown_view) {
+	return static_cast<uint32>(shown_view) == own_look ? static_cast<uint32>(nameid) : static_cast<uint32>(shown_view);
+}
+
+bool dye_fits(const s_item_dye& dye, t_itemid nameid, uint32 own_look, int32 shown_view) {
+	const uint32 key = view_of(dye.entry.data()).key;
+	return key == static_cast<uint32>(nameid) ? static_cast<uint32>(shown_view) == own_look : key == static_cast<uint32>(shown_view);
 }
 
 // Le bloc d'un joueur : sa tête, sa peau, et ses exemplaires affichés.
@@ -993,16 +1029,9 @@ bytes compose_block(map_session_data& owner) {
 		block.insert(block.end(), e.begin(), e.end());
 		++count;
 	}
-	struct s_shown { equip_index normal; equip_index costume; int32 view; };
-	const s_shown shown[SHOWN_ITEMS_MAX] = {
-		{ EQI_HEAD_TOP, EQI_COSTUME_HEAD_TOP, owner.status.head_top },
-		{ EQI_HEAD_MID, EQI_COSTUME_HEAD_MID, owner.status.head_mid },
-		{ EQI_HEAD_LOW, EQI_COSTUME_HEAD_LOW, owner.status.head_bottom },
-		{ EQI_GARMENT, EQI_COSTUME_GARMENT, owner.status.robe },
-	};
 	std::unordered_set<int32> seen;
-	for (const s_shown& s : shown) {
-		const int32 idx = shown_index(owner, s.normal, s.costume, s.view);
+	for (const s_shown& s : shown_slots(owner)) {
+		const int32 idx = shown_index(owner, s);
 		// Un objet qui couvre deux emplacements ne s'affiche qu'une fois.
 		if (idx < 0 || !seen.insert(idx).second)
 			continue;
@@ -1011,7 +1040,7 @@ bytes compose_block(map_session_data& owner) {
 			continue;
 		const std::optional<s_item_dye>& dye = item_dye(it.unique_id);
 		// 🔴 L'IDENTITÉ SE RECOUPE : un `unique_id` réemployé ne repeint pas un autre objet.
-		if (!dye || dye->nameid != it.nameid)
+		if (!dye || dye->nameid != it.nameid || !dye_fits(*dye, it.nameid, owner.inventory_data[idx]->look, s.view))
 			continue;
 		bytes e = dye->entry;
 		// La teinture voyage sous l'apparence AFFICHÉE.
@@ -1503,10 +1532,24 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		for (const s_item_change& other : items)
 			if (other.idx == idx)
 				return MOONCLIENT_STYLE_KEY;
+		// L'apparence sur laquelle le joueur a réglé : celle que l'exemplaire
+		// affiche, transmog compris ; la sienne s'il ne se montre pas.
+		const uint32 own_look = sd.inventory_data[idx]->look;
+		int32 shown_view = static_cast<int32>(own_look);
+		for (const s_shown& s : shown_slots(sd))
+			if (shown_index(sd, s) == idx) {
+				shown_view = s.view;
+				break;
+			}
+		// Un transmog dont l'apparence porte le numéro même de l'objet se lirait
+		// comme son apparence propre : il ne se teint pas.
+		if (static_cast<uint32>(shown_view) != own_look && static_cast<uint32>(shown_view) == static_cast<uint32>(it.nameid))
+			return MOONCLIENT_STYLE_KEY;
 		s_item_change change{ idx, it.unique_id, it.nameid, std::nullopt };
 		if (has_content(e.view)) {
 			bytes entry(e.p, e.p + e.view.size);
 			entry[1] = slot->layer;
+			write_u32(entry.data() + 2, dye_key_for(it.nameid, own_look, shown_view));
 			// Seul le drapeau de queue se range : il dit comment relire l'entrée.
 			entry[7] = e.view.flags & MOONCLIENT_STYLE_LAYER_FLAG_TAIL;
 			change.entry = std::move(entry);
