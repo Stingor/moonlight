@@ -3,6 +3,9 @@
 -- Pour une base qui a deja les editions ; puis le bonus de Noel 2026.
 --   mysql rathena < upgrade_moonlight_attendance_bonus.sql
 --
+-- Le fichier est en latin-1 : la connexion doit le lire comme tel, sinon le
+-- nom de Noel arrive en base avec un point d'interrogation.
+SET NAMES latin1;
 
 --
 -- Les BONUS DE DATE (Noel, fetes...) : une reclamation faite ce jour-la, en jeu
