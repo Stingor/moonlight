@@ -2869,13 +2869,58 @@ OnInit:
 		naviregisterwarp(strnpcinfo(1), .@navm$[.@i], .@navx[.@i], .@navy[.@i], 204);
 	}
 
+	// @warp, @go et @save ouvrent les menus du Warp Agent de Gonryun. Ce sont
+	// des commandes liees et non des motifs de chat : la ligne tapee ne part
+	// ni dans le chat de la zone ni vers Discord.
 	if( strnpcinfo(3) == "warp_agent" ) {
-		defpattern 1, "([^:]+):.*\\s@warp.*", "L_WarpaCmd";
-		defpattern 1, "([^:]+):.*\\s@go.*", "L_VillesCmd";
-		defpattern 1, "([^:]+):.*\\s@save.*", "L_SaveCmd";
-		activatepset 1;
+		bindatcmd "warp", strnpcinfo(3) + "::OnWarpaCmd", 0, 99;
+		bindatcmd "go", strnpcinfo(3) + "::OnGoCmd", 0, 99;
+		bindatcmd "save", strnpcinfo(3) + "::OnSaveCmd", 0, 99;
 	}
 	end;
+
+// Le staff qui possede la vraie commande la garde : elle lui est rendue telle
+// quelle (groupes de conf/import/groups.yml : go et warp des le Guard, save
+// des l'Event Manager). Un joueur doit se tenir a portee de vue de l'agent de
+// Gonryun, comme lorsque l'agent ecoutait le chat.
+OnWarpaCmd:
+	.@niveau_requis = 40;
+	if (getgmlevel() >= .@niveau_requis) {
+		atcommand "@warp " + implode(.@atcmd_parameters$, " ");
+		end;
+	}
+	callsub S_AgentAPortee;
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	goto L_WarpaCmd;
+OnGoCmd:
+	.@niveau_requis = 40;
+	if (getgmlevel() >= .@niveau_requis) {
+		atcommand "@go " + implode(.@atcmd_parameters$, " ");
+		end;
+	}
+	callsub S_AgentAPortee;
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	goto L_VillesCmd;
+OnSaveCmd:
+	.@niveau_requis = 80;
+	if (getgmlevel() >= .@niveau_requis) {
+		atcommand "@save";
+		end;
+	}
+	callsub S_AgentAPortee;
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	goto L_SaveCmd;
+
+// Termine le script, message a l'appui, si le joueur est hors de vue de l'agent.
+S_AgentAPortee:
+	.@portee = getbattleflag("area_size");
+	getmapxy(.@pc_map$, .@pc_x, .@pc_y, BL_PC);
+	getmapxy(.@npc_map$, .@npc_x, .@npc_y, BL_NPC);
+	if (.@pc_map$ != .@npc_map$ || distance(.@pc_x, .@pc_y, .@npc_x, .@npc_y) > .@portee) {
+		dispbottom "Approche-toi du Warp Agent de Gonryun pour utiliser cette commande.";
+		end;
+	}
+	return;
 }
 
 alberta,50,247,3	duplicate(warp_agent)	Warp Agent::warpa_alberta	4_F_01
