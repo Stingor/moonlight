@@ -391,7 +391,7 @@ L_Instance:
 					14586, // INST_HALF_MOON_IN_THE_DAYLIGHT
 					7211,  // INST_MISTWOOD_MAZE
 					12375, // INST_HEART_HUNTER_WAR_BASE_1 (Base maintenance)
-					18025, // INST_HEY_SWEETY
+					18023, // INST_HEY_SWEETY (Hey! Sweetie - Waiting)
 					12498, // INST_HIDDEN_FLOWER_GARDEN
 					12331, // INST_HORROR_TOY_FACTORY
 					12588, // INST_IMMORTAL (normal ; le difficile a 12589)
