@@ -71,13 +71,17 @@ static std::string admin_field( const char* text ){
 /// PLAYERS: every online character, hidden GMs included, one line each.
 /// Fields, in order: char_id, account_id, name, base_level, job_level, job
 /// name, group_id, map, x, y, party name, guild name, vending (0/1),
-/// autotrade (0/1), idle seconds. A field may be empty, never absent.
+/// autotrade (0/1), idle seconds, source map. The source map is the map an
+/// instance map was copied from ("0979#000040" names nothing to a reader),
+/// empty outside an instance. A field may be empty, never absent.
 static void admin_players( int32 fd ){
 	int32 count = 0;
 	s_mapiterator* iter = mapit_getallusers();
 	for( map_session_data* pl_sd = (TBL_PC*)mapit_first( iter ); mapit_exists( iter ); pl_sd = (TBL_PC*)mapit_next( iter ) ){
 		struct party_data* party = party_search( pl_sd->status.party_id );
 		const auto& guild = pl_sd->guild;
+		const map_data* mapdata = map_getmapdata( pl_sd->m );
+		const map_data* source = ( mapdata != nullptr && mapdata->instance_id > 0 ) ? map_getmapdata( mapdata->instance_src_map ) : nullptr;
 		const std::string fields[] = {
 			std::to_string( pl_sd->status.char_id ),
 			std::to_string( pl_sd->status.account_id ),
@@ -94,6 +98,7 @@ static void admin_players( int32 fd ){
 			pl_sd->state.vending ? "1" : "0",
 			pl_sd->state.autotrade ? "1" : "0",
 			std::to_string( static_cast<int64>( last_tick - pl_sd->idletime ) ),
+			admin_field( source != nullptr ? source->name : "" ),
 		};
 		std::string line = ": ";
 		for( size_t i = 0; i < ARRAYLENGTH( fields ); ++i ){

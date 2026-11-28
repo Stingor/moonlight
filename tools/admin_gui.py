@@ -329,7 +329,8 @@ class AdminGUI:
                               on_alert=lambda text, urgent: self._alert("journaux", text, urgent))
         self.npc = NpcWindow(root, h, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
         self.players = PlayersWindow(root, h, self.settings, self.send_quiet,
-                                     lambda cmd: self._send_async("ATCMD " + cmd))
+                                     lambda cmd: self._send_async("ATCMD " + cmd),
+                                     lambda: self.tables.vars["repo"].get().strip())
         self.maintenance = MaintenanceWindow(root, h, self.settings, self.ssh, self.send_admin,
                                              lambda text, urgent: self._alert("maintenance", text, urgent))
         panels = {"ssh": self.ssh, "logs": self.logs, "npc": self.npc, "players": self.players,
