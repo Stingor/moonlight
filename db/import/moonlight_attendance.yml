@@ -80,8 +80,8 @@ Body:
     Rewards:
       - Item: Old_Blue_Box
         Amount: 3
-      - Item: Enriched_Elunium
-        Amount: 1
+      - Item: Elunium
+        Amount: 3
   - Day: 15
     Rewards:
       - Item: White_Slim_Potion
@@ -111,8 +111,8 @@ Body:
     Rewards:
       - Item: Old_Violet_Box
         Amount: 1
-      - Item: Enriched_Oridecon
-        Amount: 1
+      - Item: Oridecon
+        Amount: 3
   - Day: 22
     Rewards:
       - Item: Battle_Manual
