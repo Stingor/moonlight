@@ -119,7 +119,7 @@ Body:
       # without this basic permissions regular players could not trade or party
       can_trade: true
       can_party: true
-      attendance: false
+      attendance: true
   - Id: 40
     Name: Guard
     Inherit:

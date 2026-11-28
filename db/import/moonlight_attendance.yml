@@ -1,0 +1,146 @@
+# Presence Moonlight [Stingor] -- ADR 0156 de moonclient.
+#
+# Le calendrier d'un cycle glissant de 28 jours : la Ne reclamation du cycle
+# donne le jour N. Charge par le map-server (pc_attendance.cpp), publie dans la
+# table SQL moonlight_attendance_calendar pour le site, envoye au client dans
+# ZC_MOONLIGHT_ATTENDANCE (0x0F6F). @reloadattendancedb recharge et republie.
+#
+# BROUILLON du 2026-11-28 : a regler sur l'economie du serveur.
+#
+###########################################################################
+# - Day                     Rang de la recompense dans le cycle (1 a 28).
+#   Milestone               Jour-palier, mis en avant dans la fenetre. (Default: false)
+#   Rewards:                Items du jour (5 au plus : une livraison RODEX en porte 5).
+#     - Item                Nom Aegis de l'item.
+#       Amount              Quantite. (Default: 1)
+###########################################################################
+
+Header:
+  Type: MOONLIGHT_ATTENDANCE_DB
+  Version: 1
+
+Body:
+  - Day: 1
+    Rewards:
+      - Item: White_Slim_Potion
+        Amount: 20
+  - Day: 2
+    Rewards:
+      - Item: Giant_Fly_Wing
+        Amount: 5
+  - Day: 3
+    Rewards:
+      - Item: Kafra_Card
+        Amount: 5
+  - Day: 4
+    Rewards:
+      - Item: Blessing_10_Scroll
+        Amount: 5
+  - Day: 5
+    Rewards:
+      - Item: Inc_Agi_10_Scroll
+        Amount: 5
+  - Day: 6
+    Rewards:
+      - Item: Seed_Of_Yggdrasil
+        Amount: 3
+  - Day: 7
+    Milestone: true
+    Rewards:
+      - Item: Battle_Manual
+        Amount: 2
+      - Item: Bubble_Gum
+        Amount: 1
+  - Day: 8
+    Rewards:
+      - Item: Str_Dish10_
+        Amount: 3
+  - Day: 9
+    Rewards:
+      - Item: Agi_Dish10_
+        Amount: 3
+  - Day: 10
+    Rewards:
+      - Item: Convex_Mirror
+        Amount: 1
+  - Day: 11
+    Rewards:
+      - Item: Insurance
+        Amount: 2
+  - Day: 12
+    Rewards:
+      - Item: Yggdrasilberry
+        Amount: 3
+  - Day: 13
+    Rewards:
+      - Item: Megaphone_
+        Amount: 3
+  - Day: 14
+    Milestone: true
+    Rewards:
+      - Item: Old_Blue_Box
+        Amount: 3
+      - Item: Enriched_Elunium
+        Amount: 1
+  - Day: 15
+    Rewards:
+      - Item: White_Slim_Potion
+        Amount: 30
+  - Day: 16
+    Rewards:
+      - Item: Int_Dish10_
+        Amount: 3
+  - Day: 17
+    Rewards:
+      - Item: Dex_Dish10_
+        Amount: 3
+  - Day: 18
+    Rewards:
+      - Item: Vit_Dish10_
+        Amount: 3
+  - Day: 19
+    Rewards:
+      - Item: Luk_Dish10_
+        Amount: 3
+  - Day: 20
+    Rewards:
+      - Item: Insurance
+        Amount: 2
+  - Day: 21
+    Milestone: true
+    Rewards:
+      - Item: Old_Violet_Box
+        Amount: 1
+      - Item: Enriched_Oridecon
+        Amount: 1
+  - Day: 22
+    Rewards:
+      - Item: Battle_Manual
+        Amount: 1
+  - Day: 23
+    Rewards:
+      - Item: Yggdrasilberry
+        Amount: 5
+  - Day: 24
+    Rewards:
+      - Item: Bubble_Gum
+        Amount: 1
+  - Day: 25
+    Rewards:
+      - Item: Giant_Fly_Wing
+        Amount: 10
+  - Day: 26
+    Rewards:
+      - Item: Convex_Mirror
+        Amount: 2
+  - Day: 27
+    Rewards:
+      - Item: HE_Bubble_Gum
+        Amount: 1
+  - Day: 28
+    Milestone: true
+    Rewards:
+      - Item: Old_Card_Album
+        Amount: 1
+      - Item: Bloody_Dead_Branch
+        Amount: 1

@@ -598,7 +598,7 @@ feature.petautofeed: on
 feature.pet_autofeed_rate: 89
 feature.homunculus_autofeed: on
 feature.homunculus_autofeed_rate: 30
-feature.attendance: off
+feature.attendance: on
 feature.privateairship: off
 feature.barter: on
 feature.barter_extended: on

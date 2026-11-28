@@ -7509,6 +7509,58 @@ struct PACKET_ZC_MOONLIGHT_STAFF_TRACE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAFF_TRACE, 0x0f6e);
 
+// [Stingor] ZC : LA PRÉSENCE de moonclient (ADR 0156 de moonclient). Répond au
+// CZ_UI_OPEN natif de type IN_UI_ATTENDANCE et au 0x0AEF natif, et part à la
+// connexion, fenêtre à ouvrir, quand le jour n'est pas réclamé. Remplace
+// ZC_UI_OPEN 7 et 0x0AF0, qui ne partent plus.
+//
+// Layout: [packetType:2][packetLength:2][open:1][result:1][cycleLength:1]
+//         [claimedDays:1][claimedToday:1][daysLeft:1][webChargesLeft:1]
+//         [webChargesMax:1][webClaimedMask:4][secondsUntilReset:4]
+//         [cycleStart:4], puis entries[] de 8 octets.
+//   open          : 1 la fenêtre s'ouvre, 0 elle se met à jour si elle l'est.
+//   result        : e_moonlight_attendance_result.
+//   daysLeft      : jours de calendrier restant dans la fenêtre du cycle,
+//                   aujourd'hui compris ; cycleLength pour un cycle à ouvrir.
+//   webClaimedMask: bit d-1, la récompense d a été réclamée par le site.
+//   cycleStart    : AAAAMMJJ, 0 sans cycle ouvert.
+//   entries       : le calendrier, un bloc par item ; un jour à plusieurs
+//                   items a plusieurs blocs. flags bit 0 : jour-palier.
+enum e_moonlight_attendance_result : uint8 {
+	MOONLIGHT_ATTENDANCE_STATE = 0,
+	MOONLIGHT_ATTENDANCE_CLAIMED = 1,
+	MOONLIGHT_ATTENDANCE_ALREADY_CLAIMED = 2,
+	MOONLIGHT_ATTENDANCE_CLOSED = 3,
+	MOONLIGHT_ATTENDANCE_CLAIMED_BY_MAIL = 4,
+};
+
+#define MOONLIGHT_ATTENDANCE_FLAG_MILESTONE 0x01
+
+struct PACKET_ZC_MOONLIGHT_ATTENDANCE_sub {
+	uint8  day;
+	uint8  flags;
+	uint32 itemId;
+	uint16 amount;
+} __attribute__((packed));
+
+struct PACKET_ZC_MOONLIGHT_ATTENDANCE {
+	int16  packetType;
+	int16  packetLength;
+	uint8  open;
+	uint8  result;
+	uint8  cycleLength;
+	uint8  claimedDays;
+	uint8  claimedToday;
+	uint8  daysLeft;
+	uint8  webChargesLeft;
+	uint8  webChargesMax;
+	uint32 webClaimedMask;
+	uint32 secondsUntilReset;
+	uint32 cycleStart;
+	struct PACKET_ZC_MOONLIGHT_ATTENDANCE_sub entries[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ATTENDANCE, 0x0f6f);
+
 
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
@@ -9022,7 +9074,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre se lit
-// dans ce fichier (0x0F6E à ce jour).
+// dans ce fichier (0x0F70 à ce jour).
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

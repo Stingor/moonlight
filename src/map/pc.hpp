@@ -63,8 +63,6 @@ class MapGuild;
 #define JOBCHANGE4TH_VAR "jobchange_level_4th"
 #define TKMISSIONID_VAR "TK_MISSION_ID"
 #define TKMISSIONCOUNT_VAR "TK_MISSION_COUNT"
-#define ATTENDANCE_DATE_VAR "#AttendanceDate"
-#define ATTENDANCE_COUNT_VAR "#AttendanceCounter"
 #define PLAYERTEST_VAR "playertest" // [Stingor] @playertest : mode « cadence joueur » persistant
 #define ACHIEVEMENTLEVEL "AchievementLevel"
 
@@ -1530,29 +1528,6 @@ enum e_mado_type : uint16 {
     )
 #endif
 
-struct s_attendance_reward {
-	t_itemid item_id;
-	uint16 amount;
-};
-
-struct s_attendance_period {
-	uint32 start;
-	uint32 end;
-	std::map<uint32, std::shared_ptr<struct s_attendance_reward>> rewards;
-};
-
-class AttendanceDatabase : public TypesafeYamlDatabase<uint32, s_attendance_period> {
-public:
-	AttendanceDatabase() : TypesafeYamlDatabase("ATTENDANCE_DB", 1) {
-
-	}
-
-	const std::string getDefaultLocation() override;
-	uint64 parseBodyNode(const ryml::NodeRef& node) override;
-};
-
-extern AttendanceDatabase attendance_db;
-
 struct s_reputation{
 	int64 id;
 	std::string name;
@@ -2047,10 +2022,6 @@ bool pc_job_can_entermap(enum e_job jobid, int32 m, int32 group_lv);
 #if defined(RENEWAL_DROP) || defined(RENEWAL_EXP)
 uint16 pc_level_penalty_mod( map_session_data* sd, e_penalty_type type, std::shared_ptr<s_mob_db> mob, mob_data* md = nullptr );
 #endif
-
-bool pc_attendance_enabled();
-int32 pc_attendance_counter( map_session_data* sd );
-void pc_attendance_claim_reward( map_session_data* sd );
 
 void pc_jail(map_session_data &sd, int32 duration = INT_MAX);
 

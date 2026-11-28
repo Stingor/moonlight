@@ -278,6 +278,9 @@
     <ClInclude Include="cheat_watch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pc_attendance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="survivors_ranking_rules.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -431,6 +434,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="storage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pc_attendance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="survivors_coop.cpp">

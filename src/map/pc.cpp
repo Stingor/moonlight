@@ -56,6 +56,7 @@
 #include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp" // party_search()
+#include "pc_attendance.hpp"
 #include "pc_groups.hpp"
 #include "pet.hpp" // pet_unlocktarget()
 #include "quest.hpp"
@@ -78,7 +79,6 @@ CaptchaDatabase captcha_db;
 const char *macro_allowed_answer_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
 int32 pc_split_atoui(char* str, uint32* val, char sep, int32 max);
-static inline bool pc_attendance_rewarded_today( map_session_data* sd );
 
 #define PVP_CALCRANK_INTERVAL 1000	// PVP calculation interval
 
@@ -98,185 +98,6 @@ int32 pc_expiration_tid = INVALID_TIMER;
 struct fame_list smith_fame_list[MAX_FAME_LIST];
 struct fame_list chemist_fame_list[MAX_FAME_LIST];
 struct fame_list taekwon_fame_list[MAX_FAME_LIST];
-
-const std::string AttendanceDatabase::getDefaultLocation(){
-	return std::string(db_path) + "/attendance.yml";
-}
-
-/**
- * Reads and parses an entry from the attendance_db.
- * @param node: YAML node containing the entry.
- * @return count of successfully parsed rows
- */
-uint64 AttendanceDatabase::parseBodyNode(const ryml::NodeRef& node){
-	uint32 start;
-
-	if( !this->asUInt32( node, "Start", start ) ){
-		return 0;
-	}
-
-	std::shared_ptr<s_attendance_period> attendance_period = this->find( start );
-	bool exists = attendance_period != nullptr;
-
-	if( !exists ){
-		if( !this->nodeExists( node, "End" ) ){
-			this->invalidWarning( node, "Node \"End\" is missing.\n" );
-			return 0;
-		}
-
-		if( !this->nodeExists( node, "Rewards" ) ){
-			this->invalidWarning( node, "Node \"Rewards\" is missing.\n" );
-			return 0;
-		}
-
-		attendance_period = std::make_shared<s_attendance_period>();
-
-		attendance_period->start = start;
-	}
-
-	// If it does not exist yet, we need to check it for sure
-	bool requiresCollisionDetection = !exists;
-
-	if( this->nodeExists( node, "End" ) ){
-		uint32 end;
-
-		if( !this->asUInt32( node, "End", end ) ){
-			return 0;
-		}
-
-		// If the period is outdated already, we do not even bother parsing
-		if( end < date_get( DT_YYYYMMDD ) ){
-			this->invalidWarning( node, "Node \"End\" date %u has already passed, skipping.\n", end );
-			return 0;
-		}
-
-		if( !exists || attendance_period->end != end ){
-			requiresCollisionDetection = true;
-			attendance_period->end = end;
-		}
-	}
-
-	// Collision detection
-	if( requiresCollisionDetection ){
-		bool collision = false;
-
-		for( std::pair<const uint32,std::shared_ptr<s_attendance_period>>& pair : *this ){
-			std::shared_ptr<s_attendance_period> period = pair.second;
-
-			if( exists && period->start == attendance_period->start ){
-				// Dont compare to yourself
-				continue;
-			}
-
-			// Check if start is inside another period
-			if( period->start <= attendance_period->start && start <= period->end ){
-				this->invalidWarning( node, "Node \"Start\" period %u intersects with period %u-%u, skipping.\n", attendance_period->start, period->start, period->end );
-				collision = true;
-				break;
-			}
-
-			// Check if end is inside another period
-			if( period->start <= attendance_period->end && attendance_period->end <= period->end ){
-				this->invalidWarning( node, "Node \"End\" period %u intersects with period %u-%u.\n", attendance_period->start, period->start, period->end );
-				collision = true;
-				break;
-			}
-		}
-
-		if( collision ){
-			return 0;
-		}
-	}
-
-	if( this->nodeExists( node, "Rewards" ) ){
-		const auto& rewardsNode = node["Rewards"];
-
-		for( const auto& rewardNode : rewardsNode ){
-			uint32 day;
-
-			if( !this->asUInt32( rewardNode, "Day", day ) ){
-				continue;
-			}
-
-			day -= 1;
-
-			std::shared_ptr<s_attendance_reward> reward = util::map_find( attendance_period->rewards, day );
-			bool reward_exists = reward != nullptr;
-
-			if( !reward_exists ){
-				if( !this->nodeExists( rewardNode, "ItemId" ) ){
-					this->invalidWarning( rewardNode, "Node \"ItemId\" is missing.\n" );
-					return 0;
-				}
-
-				reward = std::make_shared<s_attendance_reward>();
-			}
-
-			if( this->nodeExists( rewardNode, "ItemId" ) ){
-				t_itemid item_id;
-
-				if( !this->asUInt32( rewardNode, "ItemId", item_id ) ){
-					continue;
-				}
-
-				if( !item_db.exists( item_id ) ){
-					ShowError( "pc_attendance_load: Unknown item ID %u for day %d.\n", item_id, day + 1 );
-					continue;
-				}
-
-				reward->item_id = item_id;
-			}
-
-			if( this->nodeExists( rewardNode, "Amount" ) ){
-				uint16 amount;
-
-				if( !this->asUInt16( rewardNode, "Amount", amount ) ){
-					continue;
-				}
-
-				if( amount == 0 ){
-					ShowWarning( "pc_attendance_load: Invalid reward count %hu for day %d. Defaulting to 1...\n", amount, day + 1 );
-					amount = 1;
-				}else if( amount > MAX_AMOUNT_UINT16 ){
-					ShowError( "pc_attendance_load: Reward count %hu above maximum %hu for day %d. Defaulting to %hu...\n", amount, MAX_AMOUNT_UINT16, day + 1, MAX_AMOUNT_UINT16 );
-					amount = MAX_AMOUNT_UINT16;
-				}
-
-				reward->amount = amount;
-			}else{
-				if( !reward_exists ){
-					reward->amount = 1;
-				}
-			}
-
-			if( !reward_exists ){
-				attendance_period->rewards[day] = reward;
-			}
-		}
-
-		bool missing_day = false;
-
-		for( int32 day = 0; day < attendance_period->rewards.size(); day++ ){
-			if( attendance_period->rewards.find( day ) == attendance_period->rewards.end() ){
-				ShowError( "pc_attendance_load: Reward for day %d is missing.\n", day + 1 );
-				missing_day = true;
-				break;
-			}
-		}
-
-		if( missing_day ){
-			return 0;
-		}
-	}
-
-	if( !exists ){
-		this->put( start, attendance_period );
-	}
-
-	return 1;
-}
-
-AttendanceDatabase attendance_db;
 
 const std::string ReputationDatabase::getDefaultLocation(){
 	return std::string( db_path ) + "/reputation.yml";
@@ -15601,10 +15422,6 @@ void pc_scdata_received(map_session_data *sd) {
 
 	clif_weight_limit( sd );
 
-	if( pc_has_permission( sd, PC_PERM_ATTENDANCE ) && pc_attendance_enabled() && !pc_attendance_rewarded_today( sd ) && pc_attendance_counter(sd) < 200 ){
-		clif_ui_open( *sd, OUT_UI_ATTENDANCE, pc_attendance_counter( sd ) );
-	}
-
 	sd->state.pc_loaded = true;
 
 	if (sd->state.connect_new == 0 && sd->fd) { // Character already loaded map! Gotta trigger LoadEndAck manually.
@@ -16601,116 +16418,6 @@ void pc_set_costume_view(map_session_data *sd) {
 	style_layers_look_changed(*sd);
 }
 
-std::shared_ptr<s_attendance_period> pc_attendance_period(){
-	uint32 date = date_get(DT_YYYYMMDD);
-
-	for( std::pair<const uint32,std::shared_ptr<s_attendance_period>>& pair : attendance_db ){
-		std::shared_ptr<s_attendance_period> period = pair.second;
-
-		if( period->start <= date && period->end >= date ){
-			return period;
-		}
-	}
-
-	return nullptr;
-}
-
-bool pc_attendance_enabled(){
-	// Check if the attendance feature is disabled
-	if( !battle_config.feature_attendance ){
-		return false;
-	}
-
-	// Check if there is a running attendance period
-	return pc_attendance_period() != nullptr;
-}
-
-static inline bool pc_attendance_rewarded_today( map_session_data* sd ){
-	return pc_readreg2( sd, ATTENDANCE_DATE_VAR ) >= date_get(DT_YYYYMMDD);
-}
-
-int32 pc_attendance_counter( map_session_data* sd ){
-	std::shared_ptr<s_attendance_period> period = pc_attendance_period();
-
-	// No running attendance period
-	if( period == nullptr ){
-		return 0;
-	}
-
-	// Get the counter for the current period
-	int32 counter = static_cast<int32>(pc_readreg2( sd, ATTENDANCE_COUNT_VAR ));
-
-	// Check if we have a remaining counter from a previous period
-	if( counter > 0 && pc_readreg2( sd, ATTENDANCE_DATE_VAR ) < period->start ){
-		// Reset the counter to zero
-		pc_setreg2( sd, ATTENDANCE_COUNT_VAR, 0 );
-
-		return 0;
-	}
-
-	return 10 * counter + ( ( pc_attendance_rewarded_today(sd) ) ? 1 : 0 );
-}
-
-void pc_attendance_claim_reward( map_session_data* sd ){
-	// If the user's group does not have the permission
-	if( !pc_has_permission( sd, PC_PERM_ATTENDANCE ) ){
-		return;
-	}
-
-	// Check if the attendance feature is disabled
-	if( !pc_attendance_enabled() ){
-		return;
-	}
-
-	// Check if the user already got his reward today
-	if( pc_attendance_rewarded_today( sd ) ){
-		return;
-	}
-
-	int32 attendance_counter = static_cast<int32>(pc_readreg2( sd, ATTENDANCE_COUNT_VAR ));
-
-	attendance_counter += 1;
-
-	std::shared_ptr<s_attendance_period> period = pc_attendance_period();
-
-	if( period == nullptr ){
-		return;
-	}
-
-	if( period->rewards.size() < attendance_counter ){
-		return;
-	}
-
-	pc_setreg2( sd, ATTENDANCE_DATE_VAR, date_get(DT_YYYYMMDD) );
-	pc_setreg2( sd, ATTENDANCE_COUNT_VAR, attendance_counter );
-
-	if( save_settings&CHARSAVE_ATTENDANCE )
-		chrif_save(sd, CSAVE_NORMAL);
-
-	std::shared_ptr<s_attendance_reward> reward = period->rewards[attendance_counter - 1];
-
-	struct mail_message msg;
-
-	memset( &msg, 0, sizeof( struct mail_message ) );
-
-	msg.dest_id = sd->status.char_id;
-	safestrncpy( msg.send_name, msg_txt( sd, 788 ), NAME_LENGTH );
-	safesnprintf( msg.title, MAIL_TITLE_LENGTH, msg_txt( sd, 789 ), attendance_counter );
-	safesnprintf( msg.body, MAIL_BODY_LENGTH, msg_txt( sd, 790 ), attendance_counter );
-
-	msg.item[0].nameid = reward->item_id;
-	msg.item[0].amount = reward->amount;
-	msg.item[0].identify = 1;
-
-	msg.status = MAIL_NEW;
-	msg.type = MAIL_INBOX_NORMAL;
-	msg.timestamp = time(nullptr);
-
-	intif_Mail_send(0, &msg);
-
-	clif_attendence_response( sd, attendance_counter );
-}
-
 /**
  * Send a player to jail and determine the location to send in jail.
  * @param sd: Player data
@@ -17146,7 +16853,7 @@ void do_final_pc(void) {
 	ers_destroy(num_reg_ers);
 	ers_destroy(str_reg_ers);
 
-	attendance_db.clear();
+	do_final_moonlight_attendance();
 	reputation_db.clear();
 #ifdef MAP_GENERATOR
 	reputationgroup_db.clear();
@@ -17169,7 +16876,7 @@ void do_init_pc(void) {
 
 	pc_readdb();
 	pc_read_motd(); // Read MOTD [Valaris]
-	attendance_db.load();
+	do_init_moonlight_attendance();
 	reputation_db.load();
 #ifdef MAP_GENERATOR
 	reputationgroup_db.load();

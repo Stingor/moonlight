@@ -241,6 +241,7 @@
     <ClInclude Include="party.hpp" />
     <ClInclude Include="path.hpp" />
     <ClInclude Include="pc.hpp" />
+    <ClInclude Include="pc_attendance.hpp" />
     <ClInclude Include="pc_groups.hpp" />
     <ClInclude Include="pet.hpp" />
     <ClInclude Include="quest.hpp" />
@@ -1549,6 +1550,7 @@
     <ClCompile Include="party.cpp" />
     <ClCompile Include="path.cpp" />
     <ClCompile Include="pc.cpp" />
+    <ClCompile Include="pc_attendance.cpp" />
     <ClCompile Include="pc_groups.cpp" />
     <ClCompile Include="pet.cpp" />
     <ClCompile Include="quest.cpp" />

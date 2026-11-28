@@ -60,6 +60,7 @@
 #include "npc.hpp"
 #include "party.hpp"
 #include "pc.hpp"
+#include "pc_attendance.hpp"
 #include "pc_groups.hpp"
 #include "pet.hpp"
 #include "quest.hpp"
@@ -19201,6 +19202,14 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 		add_timer(gettick() + battle_config.spectator_session_ttl * 1000,
 			spectator_session_ttl_timer, sd->id, (intptr_t)sd->login_id1);
 
+	// [Stingor] La présence, à la première entrée en jeu de la session : les
+	// récompenses réclamées sur le site se livrent, puis la fenêtre s'ouvre si
+	// le jour n'est pas réclamé. Ici, carte chargée, plutôt qu'à la réception
+	// des statuts : le chat qui dit où est la récompense a une fenêtre où
+	// s'afficher.
+	if (sd->state.connect_new && !sd->state.spectator && !sd->state.autotrade)
+		moonlight_attendance_login(*sd);
+
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
 	if (sd->sc.option & OPTION_WINGS ) // [Stingor]
@@ -30682,13 +30691,8 @@ void clif_ui_open( map_session_data& sd, enum out_ui_type ui_type, int32 data ){
 void clif_parse_open_ui( int32 fd, map_session_data* sd ){
 	switch( RFIFOB(fd,2) ){
 		case IN_UI_ATTENDANCE:
-			if( !pc_has_permission( sd, PC_PERM_ATTENDANCE ) ){
-				clif_messagecolor( sd, color_table[COLOR_RED], msg_txt( sd, 791 ), false, SELF ); // You are not allowed to use the attendance system.
-			}else if( pc_attendance_enabled() ){
-				clif_ui_open( *sd, OUT_UI_ATTENDANCE, pc_attendance_counter( sd ) );
-			}else{
-				clif_msg_color( *sd, MSI_CHECK_ATTENDANCE_NOT_EVENT, color_table[COLOR_RED] );
-			}
+			// [Stingor] La présence de moonclient répond par ZC_MOONLIGHT_ATTENDANCE.
+			moonlight_attendance_request_state( *sd );
 			break;
 #if PACKETVER >= 20160316
 		case IN_UI_MACRO_REGISTER:
@@ -30701,24 +30705,12 @@ void clif_parse_open_ui( int32 fd, map_session_data* sd ){
 	}
 }
 
-/// Response for attedance request
-/// 0AF0 <unknown>.L <data>.L
-void clif_attendence_response( const map_session_data* sd, int32 data ){
-	nullpo_retv(sd);
-
-	int32 fd = sd->fd;
-
-	WFIFOHEAD(fd,packet_len(0xAF0));
-	WFIFOW(fd,0) = 0xAF0;
-	WFIFOL(fd,2) = 0;
-	WFIFOL(fd,6) = data;
-	WFIFOSET(fd,packet_len(0xAF0));
-}
-
 /// Request from the client to retrieve today's attendance reward
 /// 0AEF
+/// [Stingor] Réclame le jour du cycle de présence, puis répond par
+/// ZC_MOONLIGHT_ATTENDANCE.
 void clif_parse_attendance_request( int32 fd, map_session_data* sd ){
-	pc_attendance_claim_reward(sd);
+	moonlight_attendance_request_claim( *sd );
 }
 
 /// Send out the percentage of weight that causes it to be displayed in red.

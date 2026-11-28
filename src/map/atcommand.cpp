@@ -51,6 +51,7 @@
 #include "npc.hpp"
 #include "party.hpp"
 #include "pc.hpp"
+#include "pc_attendance.hpp"
 #include "pc_groups.hpp"
 #include "pet.hpp"
 #include "quest.hpp"
@@ -4844,7 +4845,8 @@ ACMD_FUNC(reloadachievementdb){
 ACMD_FUNC(reloadattendancedb){
 	nullpo_retr(-1, sd);
 
-	attendance_db.reload();
+	// [Stingor] Le calendrier de la présence : rechargé, puis republié en base.
+	moonlight_attendance_db.reload();
 	clif_displaymessage(fd, msg_txt(sd, 795)); // Attendance database has been reloaded.
 
 	return 0;
