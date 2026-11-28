@@ -112,6 +112,29 @@ static uint32 moonlight_attendance_edition_today(){
 		"SELECT `id` FROM `moonlight_attendance_edition` WHERE `month` <= CURDATE() ORDER BY `month` DESC LIMIT 1" );
 }
 
+/// La prochaine édition, celle du plus petit mois qui commence après
+/// aujourd'hui ; `opens_on` reçoit son premier jour (AAAAMMJJ). 0 s'il n'y en a
+/// pas.
+static uint32 moonlight_attendance_edition_next( uint32& opens_on ){
+	opens_on = 0;
+
+	if( Sql_QueryStr( mmysql_handle,
+			"SELECT `id`, `month` + 0 FROM `moonlight_attendance_edition` WHERE `month` > CURDATE() ORDER BY `month` ASC LIMIT 1" ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+		return 0;
+	}
+
+	uint32 edition_id = 0;
+
+	if( Sql_NextRow( mmysql_handle ) == SQL_SUCCESS ){
+		edition_id = moonlight_attendance_column_u32( 0 );
+		opens_on = moonlight_attendance_column_u32( 1 );
+	}
+
+	Sql_FreeResult( mmysql_handle );
+	return edition_id;
+}
+
 /// Lit le calendrier de l'édition `edition_id`. Vrai s'il est complet ; une
 /// édition absente ou incomplète le dit au journal.
 static bool moonlight_attendance_load_calendar( uint32 edition_id, s_moonlight_attendance_calendar& calendar ){
@@ -818,6 +841,22 @@ void moonlight_attendance_send( map_session_data& sd, bool open, uint8 result ){
 
 		if( result != MOONLIGHT_ATTENDANCE_CLOSED ){
 			bonus = moonlight_attendance_load_bonus( row.today );
+		}
+	}
+
+	// FERMÉE FAUTE D'ÉDITION POUR AUJOURD'HUI (avant l'ouverture) : la
+	// prochaine édition part en aperçu, et cycleStart porte le jour où elle
+	// ouvre. Le résultat reste CLOSED : rien ne se réclame d'ici là.
+	if( result == MOONLIGHT_ATTENDANCE_CLOSED && calendar.entries.empty() && mmysql_handle != nullptr &&
+			battle_config.feature_attendance && pc_has_permission( &sd, PC_PERM_ATTENDANCE ) &&
+			moonlight_attendance_edition_today() == 0 ){
+		uint32 opens_on = 0;
+		const uint32 next_id = moonlight_attendance_edition_next( opens_on );
+
+		if( next_id != 0 && moonlight_attendance_load_calendar( next_id, calendar ) ){
+			cycle_start = opens_on;
+		}else{
+			calendar.entries.clear();
 		}
 	}
 

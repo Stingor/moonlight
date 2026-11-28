@@ -7530,6 +7530,8 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAFF_TRACE, 0x0f6e);
 //   webPendingCount: toutes les récompenses du site qui attendent, cycles
 //                   passés compris (255 au plus).
 //   cycleStart    : AAAAMMJJ, 0 sans cycle ouvert.
+//                   Présence fermée avant son ouverture : le jour où elle
+//                   ouvre, et entries porte l'édition à venir, en aperçu.
 //   entries       : le calendrier, un bloc par item ; un jour à plusieurs
 //                   items a plusieurs blocs. flags bit 0 : jour-palier.
 //                   En tête, les blocs du bonus de date d'aujourd'hui, s'il y
